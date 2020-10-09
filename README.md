@@ -13,6 +13,13 @@ Reverses the input file
 
 Input 1: The video file to be reversed
 
+## difference.sh
+Performs a difference composite between the two input files. WARNING: This only works on files that are the same size
+
+Input 1: The first input file
+
+Input 2: The second input file
+
 ## tile.sh
 Based off the QCTools filter "Filmstrip". Tiles the input file, rows and columns can be defined
 
