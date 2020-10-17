@@ -13,10 +13,10 @@ keepTemp="${3:0}"    # Whether to keep the temp file, boolean [default: 0]
 
 # Alter/replace FFmpeg command to desired specification
 printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
-echo ffmpeg -i "'$1'" -c copy -bsf noise=$2 -y "'${1%%.*}_corruptor.mov'" && ffmpeg -i "'$1'" -c:v prores -profile:v 3 -y "'${1%%.*}_corruptor.mov'"
+echo ffmpeg -i "'$1'" -c copy -bsf noise=$2 -y "'${1%%.*}_corruptor.mov'" && ffmpeg -i "'${1%%.*}_corruptor.mov'" -c:v prores -profile:v 3 -y "'${1%%.*}_corruptor.mov'"
 printf "********END FFMPEG COMMANDS********\n\n " >&2
 
-ffmpeg -i "$1" -c copy -bsf noise=$2 -y "${1%%.*}_corruptor_temp.mov" && ffmpeg -i "$1" -c:v prores -profile:v 3 -y "${1%%.*}_corruptor.mov"
+ffmpeg -i "$1" -c copy -bsf noise=$2 -y "${1%%.*}_corruptor_temp.mov" && ffmpeg -i "${1%%.*}_corruptor_temp.mov" -c:v prores -profile:v 3 -y "${1%%.*}_corruptor.mov"
 
 if [[ "$keepTemp" != 1 ]]; then
    rm "${1%%.*}_corruptor_temp.mov"
