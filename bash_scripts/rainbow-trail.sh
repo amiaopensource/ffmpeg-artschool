@@ -68,4 +68,4 @@ function rainbowFilter()
 }
 
 # Alter/replace FFmpeg command to desired specification
-ffmpeg -i "$1" -vf "$(rainbowFilter "${@:2}")" -crf 10 "${1}_rainbow.mkv"
+ffmpeg -i "$1" -vf "$(rainbowFilter "${@:2}")" -crf 10 "${1%%.*}_rainbow.mkv"

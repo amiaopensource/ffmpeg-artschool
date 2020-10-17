@@ -14,4 +14,4 @@
 # phoenix, pinlight, reflect, screen, softlight, subtract, vividlight, xor
 
 
-ffmpeg -i "$1" -i "$2" -c:v prores -profile:v 3 -filter_complex '[1:v][0:v]scale2ref[ckout][vid];[vid][ckout]blend=all_mode='$3' [out]' -map '[out]' "${1}_blend_${3}.mov"
+ffmpeg -i "$1" -i "$2" -c:v prores -profile:v 3 -filter_complex '[1:v][0:v]scale2ref[ckout][vid];[vid][ckout]blend=all_mode='$3' [out]' -map '[out]' "${1%%.*}_blend_${3}.mov"

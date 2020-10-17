@@ -156,4 +156,4 @@ tblend=all_mode=difference128"
 fi
 
 
-ffmpeg -i "$1" -c:v prores -profile:v 3 -vf $vf "${1}_tblend_glitch.mov"
+ffmpeg -i "$1" -c:v prores -profile:v 3 -vf $vf "${1%%.*}_tblend_glitch.mov"

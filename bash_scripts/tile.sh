@@ -40,7 +40,7 @@
 # Alter/replace FFmpeg command to desired specification
 
 printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
-echo ffmpeg -i "'$1'" -c:v prores -profile:v 3 -filter_complex $filter_complex "'${1}_tile.mov'"
+echo ffmpeg -i "'$1'" -c:v prores -profile:v 3 -filter_complex $filter_complex "'${1%%.*}_tile.mov'"
 printf "********END FFMPEG COMMANDS********\n\n " >&2
 
-ffmpeg -hide_banner -i "$1" -c:v prores -profile:v 3 -filter_complex $filter_complex "${1}_tile.mov"
+ffmpeg -hide_banner -i "$1" -c:v prores -profile:v 3 -filter_complex $filter_complex "${1%%.*}_tile.mov"

@@ -34,7 +34,7 @@
 # Alter/replace FFmpeg command to desired specification
 
 printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
-echo ffmpeg -i "'$1'" -c:v prores -profile:v 3 -filter_complex $vf "'${1}_rotate.mov'"
+echo ffmpeg -i "'$1'" -c:v prores -profile:v 3 -filter_complex $vf "'${1%%.*}_rotate.mov'"
 printf "********END FFMPEG COMMANDS********\n\n " >&2
 
-ffmpeg -hide_banner -i "$1" -c:v prores -profile:v 3 -vf $vf "${1}_rotate.mov"
+ffmpeg -hide_banner -i "$1" -c:v prores -profile:v 3 -vf $vf "${1%%.*}_rotate.mov"

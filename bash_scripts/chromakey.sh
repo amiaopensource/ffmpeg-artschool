@@ -51,6 +51,6 @@ function chromakeyFilter()
 
 # Alter/replace FFmpeg command to desired specification
 
-echo ffmpeg -i "'$2'" -i "'$1'" -c:v prores -profile:v 3 -filter_complex "$(chromakeyFilter "${@:3}")" -map '[v]' "'${1}_chromakey.mov'"
+echo ffmpeg -i "'$2'" -i "'$1'" -c:v prores -profile:v 3 -filter_complex "$(chromakeyFilter "${@:3}")" -map '[v]' "'${1%%.*}_chromakey.mov'"
 
-ffmpeg -i "$2" -i "$1" -c:v prores -profile:v 3 -filter_complex "$(chromakeyFilter "${@:3}")" -map '[v]' "${1}_chromakey.mov"
+ffmpeg -i "$2" -i "$1" -c:v prores -profile:v 3 -filter_complex "$(chromakeyFilter "${@:3}")" -map '[v]' "${1%%.*}_chromakey.mov"

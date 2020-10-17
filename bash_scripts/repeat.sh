@@ -21,4 +21,4 @@ do
   fi
 done
 
-ffmpeg -f concat -safe 0 -i /tmp/catlist.txt -c copy "${1}_looped_x${2}.${extension}"
+ffmpeg -f concat -safe 0 -i /tmp/catlist.txt -c copy "${1%%.*}_looped_x${2}.${extension}"
