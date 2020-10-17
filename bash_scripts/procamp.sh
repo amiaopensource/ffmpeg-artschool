@@ -35,7 +35,7 @@ elif [[ "$user_luma" -lt "1" ]]; then
    luma_temp=$(echo "scale=4; $user_luma*$scaler" | bc)
    luma=$(echo "$luma_temp + 1" | bc)
 elif [[ "$user_luma" -ge "1" ]]; then
-   scaler=0.0234375
+   scaler=0.015625
    luma_temp=$(echo "scale=4; $user_luma*$scaler" | bc)
    luma=$(echo "$luma_temp + 1" | bc)
 fi
