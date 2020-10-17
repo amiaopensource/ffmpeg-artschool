@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Combine two files using a chromakey effects
+# Reverses the input file
 
 # Parameters:
 # $1: Input File

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Combine two files using a chromakey effects
+# blends two files together with an arbitrary blend mode
 
 # Parameters:
 # $1: Input File 1

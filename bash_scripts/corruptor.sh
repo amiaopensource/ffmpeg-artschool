@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Combine two files using a chromakey effects
+# Corrupts a file using Bitstream Filter Noise
 
 # Parameters:
 # $1: File 1 (the overaly file, or the file that will be keyed)

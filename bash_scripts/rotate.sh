@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Combine two files using a chromakey effects
+# Rotates the input file with options to resize the output
 
 # Parameters:
 # $1: Input File

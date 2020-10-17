@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Combine two files using a chromakey effects
+# Combine two files using a lumakey effect
 
 # Parameters:
 # $1: File 1 (the overaly file, or the file that will be keyed)

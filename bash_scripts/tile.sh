@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Combine two files using a chromakey effects
+# tiles the input file, similar to QCTools Film Strip effect
 
 # Parameters:
 # $1: Input File
