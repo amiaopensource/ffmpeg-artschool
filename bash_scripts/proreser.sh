@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Combine two files using a chromakey effects
+# Conforms any input file into a prores file with option to resize
 
 # Parameters:
 # $1: Input File

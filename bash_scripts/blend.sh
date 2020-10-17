@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Combine two files using a chromakey effects
+# blends two files together with an arbitrary blend mode
 
 # Parameters:
 # $1: Input File 1
@@ -14,4 +14,4 @@
 # phoenix, pinlight, reflect, screen, softlight, subtract, vividlight, xor
 
 
-ffmpeg -i "$1" -i "$2" -c:v prores -profile:v 3 -filter_complex '[1:v][0:v]scale2ref[ckout][vid];[vid][ckout]blend=all_mode='$3' [out]' -map '[out]' "${1%%.*}_blend_${3}.mov"
+ffmpeg -i "$1" -i "$2" -c:v prores -profile:v 3 -filter_complex '[1:v]format=yuv422p10le[v1];[0:v]format=yuv422p10le[v0];[v1][v0]scale2ref[v1][v0];[v0][v1]blend=all_mode='$3' [out]' -map '[out]' "${1%%.*}_blend_${3}.mov"

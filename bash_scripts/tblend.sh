@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Combine two files using a chromakey effects
+# applies the tblend filter with arbitrary blend mode
 
 # Parameters:
 # $1: Input File 1

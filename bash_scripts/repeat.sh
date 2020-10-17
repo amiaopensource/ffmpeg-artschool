@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Combine two files using a chromakey effects
+# Repeats/Loops the input file as many times as requested
 
 # Parameters:
 # $1: Input File

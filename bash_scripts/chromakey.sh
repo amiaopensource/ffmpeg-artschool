@@ -14,7 +14,7 @@
 function chromakeyFilter()
 {
   local key="${1:-00FF00}"    # Colorkey colour - default vaue is 0000FF or green
-  local colorSim="${2:-0.6}"    # Colorkey similarity level - default value is 0.6
+  local colorSim="${2:-0.3}"    # Colorkey similarity level - default value is 0.6
   local colorBlend="${3:-0.1}"  # Colorkey blending level - default value is 0.1
 
    # Update color variable according to user input
@@ -43,7 +43,7 @@ function chromakeyFilter()
   fi
 
   # Build filter string
-  filter_complex="[1:v]colorkey=0x$key:$colorSim:$colorBlend[1v];[0:v][1v]overlay[v]"
+  filter_complex="[0:v][1:v]scale2ref[v0][v1];[v1]format=yuv422p10le,colorkey=0x$key:$colorSim:$colorBlend[1v];[v0][1v]overlay,format=yuv422p10le[v]"
 
   # Return full filter string, with necessary prefix and suffix filterchains
   printf '%s%s%s' $filter_complex
