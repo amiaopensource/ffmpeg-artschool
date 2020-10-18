@@ -14,7 +14,7 @@
 function chromakeyFilter()
 {
   local key="${1:-00FF00}"    # Colorkey colour - default vaue is 0000FF or green
-  local colorSim="${2:-0.3}"    # Colorkey similarity level - default value is 0.3
+  local colorSim="${2:-0.2}"    # Colorkey similarity level - default value is 0.3
   local colorBlend="${3:-0.1}"  # Colorkey blending level - default value is 0.1
 
    # Update color variable according to user input
