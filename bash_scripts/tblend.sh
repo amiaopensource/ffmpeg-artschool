@@ -13,4 +13,4 @@
 # phoenix, pinlight, reflect, screen, softlight, subtract, vividlight, xor
 
 
-ffmpeg -i "$1" -c:v prores -profile:v 3 -filter_complex "format=rgba,tblend=all_mode='$2',format=yuv422p10le" "${1%%.*}_tblend_${2}.mov"
+ffmpeg -i "$1" -c:v prores -profile:v 3 -filter_complex "format=gbrp10le,tblend=all_mode='$2',format=yuv422p10le" "${1%%.*}_tblend_${2}.mov"
