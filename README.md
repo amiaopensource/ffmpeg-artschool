@@ -1,6 +1,9 @@
 # ffmpeg-artschool
 FFmpeg Artschool: An AMIA Workshop
 
+## [Getting Started](https://docs.google.com/document/d/1brJmXVegG8qL4ZlpjlaavSgRC1CO6GX9xE2MyzS96RE/edit?ts=5f89dfbb#heading=h.vqpjxeit91cl)
+
+
 ## repeat.sh
 Repeats the input file an arbitrary number of times
 
