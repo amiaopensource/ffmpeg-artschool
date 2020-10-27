@@ -15,7 +15,7 @@ sound="ocean.mp3"
 ffmpeg -y \
 -i "${sound}" \
 -i "${bgmov}" \
--filter_complex "
+-c:v prores -profile:v 3 -filter_complex "
 color=0x808080:s=720x480,format=rgb24,loop=-1:size=2[base];
 [0:a]
 showcqt=s=720x480:basefreq=73.41:endfreq=1567.98
@@ -26,5 +26,5 @@ showcqt=s=720x480:basefreq=73.41:endfreq=1567.98
 
 [1:v]scale=720x480,format=rgb24,setsar=1[bgv];
 
-[bgv][vcqt1][vcqt2]displace=edge=blank,format=yuv420p[v]
-" -map '[v]' -map '0:a' -shortest "${pref}.mp4"
+[bgv][vcqt1][vcqt2]displace=edge=blank,format=yuv420p10le[v]
+" -map '[v]' -map '0:a' -shortest "${pref}.mov"
