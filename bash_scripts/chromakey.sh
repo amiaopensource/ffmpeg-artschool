@@ -26,31 +26,31 @@ EOF
 
 function chromakeyFilter()
 {
-  local key="${2:-00FF00}"    # Colorkey colour - default vaue is 0000FF or green
-  local colorSim="${3:-0.2}"    # Colorkey similarity level - default value is 0.3
-  local colorBlend="${4:-0.1}"  # Colorkey blending level - default value is 0.1
+  local key="${1:-00FF00}"    # Colorkey colour - default vaue is 0000FF or green
+  local colorSim="${2:-0.2}"    # Colorkey similarity level - default value is 0.2
+  local colorBlend="${3:-0.1}"  # Colorkey blending level - default value is 0.1
 
    # Update color variable according to user input
    # This makes the matching case insensitive
-  if [[ $2 =~ ^[0-9A-F]{6}$ ]]
+  if [[ $1 =~ ^[0-9A-F]{6}$ ]]
   then
-    key=$2
-  elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$2")  = "blue" ]]
+    key=$1
+elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "blue" ]]
   then
     key="0000FF"
-  elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$2")  = "green" ]]
+elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "green" ]]
   then
     key="00FF00"
-  elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$2")  = "red" ]]
+elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "red" ]]
   then
     key="FF0000"
-  elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$2")  = "purple" ]]
+elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "purple" ]]
   then
     key="0000FF"
-  elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$2")  = "orange" ]]
+elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "orange" ]]
   then
     key="ff9900"
-  elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$2")  = "yellow" ]]
+elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "yellow" ]]
   then
     key="FFFF00"
   fi
@@ -70,7 +70,7 @@ while getopts "hps" OPT ; do
       printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
       printf "ffmpeg -i '$3' -i '$2' -c:v prores -filter_complex $(chromakeyFilter ${@:4}) -map '[v]' -f matroska - | ffplay - \n" >&2
       printf "********END FFPLAY COMMANDS********\n\n " >&2
-      ffmpeg -i "$3" -i "$2" -c:v prores -filter_complex "$(chromakeyFilter "${@:3}")" -map '[v]' -f matroska - | ffplay -
+      ffmpeg -i "$3" -i "$2" -c:v prores -filter_complex "$(chromakeyFilter "${@:4}")" -map '[v]' -f matroska - | ffplay -
         ;;
       s)
         printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
