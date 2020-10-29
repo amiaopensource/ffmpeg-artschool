@@ -54,13 +54,13 @@ while getopts "ps" OPT ; do
         printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
         printf "echo ffplay '$2' -vf $(filter_complex)" >&2
         printf "********END FFPLAY COMMANDS********\n\n " >&2
-        ffplay "$2" -vf $(filter_complex)
+        ffplay "${2}" -vf $(filter_complex)
         ;;
       s)
         printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
-        echo ffmpeg -i "'$2'"  -c:v prores -profile:v 3 -filter_complex $(filter_complex) "'${2%%.*}_bitplane.mov'"
+        printf "ffmpeg -hide_banner -i '$2'  -c:v prores -profile:v 3 -filter_complex $(filter_complex) '${2%%.*}_bitplane.mov'" >&2
         printf "********END FFMPEG COMMANDS********\n\n " >&2
-        ffmpeg -hide_banner -i "$2"  -c:v prores -profile:v 3 -vf $(filter_complex) "${2%%.*}_bitplane.mov"
+        ffmpeg -hide_banner -i "${2}"  -c:v prores -profile:v 3 -vf $(filter_complex) "${2%%.*}_bitplane.mov"
         ;;
     esac
   done

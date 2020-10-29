@@ -10,11 +10,35 @@
 # $4: Chroma / Saturation
 # $5: Hue
 
+_usage(){
+cat <<EOF
+$(basename "${0}")
+  Usage
+   $(basename "${0}") [OPTIONS] INPUT_FILE_1 LUMA BLACK CHROMA HUE
+  Options
+   -h  display this help
+   -p  previews in FFplay
+   -s  saves to file with FFmpeg
 
-  user_luma="${2:-0}"    # luma - default vaue is 0
-  user_black="${3:-0}"    # black - default vaue is 0
-  user_chroma="${4:-0}"    # chroma - default vaue is 0
-  user_hue="${5:-0}"    # hue - default vaue is 0
+  Notes
+  Parameters:
+   INPUT_FILE_1 The file that will have levels adjusted
+   LUMA Adjusts the Luma/Contrast
+   BLACK Adjusts the Black/Brightness
+   CHROMA Adjusts the Chroma/Saturation
+   HUE Adjusts the Hue/Color
+
+  Outcome
+   Adjust video levels similar to the way an analog procamp (processing amplifier) would.
+   All levels are on a scale from -128 to 128
+   dependencies: ffmpeg 4.3 or later
+EOF
+}
+
+  user_luma="${3:-0}"    # luma - default vaue is 0
+  user_black="${4:-0}"    # black - default vaue is 0
+  user_chroma="${5:-0}"    # chroma - default vaue is 0
+  user_hue="${6:-0}"    # hue - default vaue is 0
 
 
 # This part scales the luma input into what lutyuv expects.
@@ -100,9 +124,25 @@ else
    hue=$(echo "scale=4; $user_hue*$scaler" | bc)
 fi
 
+filter_complex="lutyuv=y=(val+${black})*${luma}:u=val:v=val,hue=h=${hue}:s=${chroma}"
 
-printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
-echo ffmpeg -i "'$1'" -c:v prores -profile:v 3 -filter_complex "lutyuv=y=(val+${black})*${luma}:u=val:v=val,hue=h=${hue}:s=${chroma}" "'${1%%.*}_procamp.mov'"
-printf "********END FFMPEG COMMANDS********\n\n " >&2
+while getopts "hps" OPT ; do
+    case "${OPT}" in
+      h) _usage ; exit 0
+        ;;
+      p)
 
-ffmpeg -hide_banner -i "$1" -c:v prores -profile:v 3 -filter_complex "lutyuv=y=(val+${black})*${luma}:u=val:v=val,hue=h=${hue}:s=${chroma}" "${1%%.*}_procamp.mov"
+         printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
+         printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -filter_complex $filter_complex -f matroska - | ffplay - \n" >&2
+         printf "********END FFPLAY COMMANDS********\n\n " >&2
+         ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -filter_complex $filter_complex -f matroska - | ffplay -
+         ;;
+      s)
+         printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
+         printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -filter_complex $filter_complex '${2%%.*}_procamp.mov' \n" >&2
+         printf "********END FFMPEG COMMANDS********\n\n " >&2
+         ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -filter_complex $filter_complex "${2%%.*}_procamp.mov"
+         ;;
+      *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
+    esac
+  done

@@ -19,7 +19,7 @@ $(basename "${0}")
   Colorkey blend value [default: 0.1]
 
   Outcome
-   will play or save file with user-selected or random bitplane values
+   Combine two files using a chromakey effects
    dependencies: ffmpeg 4.3 or later
 EOF
 }
@@ -68,15 +68,15 @@ while getopts "hps" OPT ; do
         ;;
       p)
       printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
-      printf "ffmpeg -i '$3' -i '$2' -c:v prores -filter_complex $(filter_complex ${@:4}) -map '[v]' -f matroska - | ffplay - \n" >&2
+      printf "ffmpeg -hide_banner -i '$3' -i '$2' -c:v prores -filter_complex $(filter_complex ${@:4}) -map '[v]' -f matroska - | ffplay - \n" >&2
       printf "********END FFPLAY COMMANDS********\n\n " >&2
-      ffmpeg -i "$3" -i "$2" -c:v prores -filter_complex "$(filter_complex "${@:4}")" -map '[v]' -f matroska - | ffplay -
+      ffmpeg -hide_banner -i "${3}" -i "${2}" -c:v prores -filter_complex "$(filter_complex "${@:4}")" -map '[v]' -f matroska - | ffplay -
         ;;
       s)
         printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
-        printf "ffmpeg -i '$3' -i '$2' -c:v prores -filter_complex $(filter_complex ${@:4}) -map '[v]' -f matroska - | ffplay - \n" >&2
+        printf "ffmpeg -hide_banner -i '$3' -i '$2' -c:v prores -filter_complex $(filter_complex ${@:4}) -map '[v]' -f matroska - | ffplay - \n" >&2
         printf "********END FFMPEG COMMANDS********\n\n " >&2
-        ffmpeg -hide_banner -i "$3" -i "$2" -c:v prores -profile:v 3 -filter_complex "$(filter_complex "${@:4}")" -map '[v]' "${2%%.*}_chromakey.mov"
+        ffmpeg -hide_banner -i "${3}" -i "${2}" -c:v prores -profile:v 3 -filter_complex "$(filter_complex "${@:4}")" -map '[v]' "${2%%.*}_chromakey.mov"
         ;;
       *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
     esac

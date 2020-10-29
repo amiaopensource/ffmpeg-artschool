@@ -3,9 +3,9 @@
 # Combine two files using a lumakey effect
 
 # Parameters:
-# $1: File 1 (the overaly file, or the file that will be keyed)
+# $1: File 1 the file that will have echo added to it
 # $2: Echo rate
-# $3: Length of tails. 1 is just one tail, number increases exponentially as it goes.
+# $3: Length of trails. 1 is just one trails, number increases exponentially as it goes.
 # $4: Echo Modes (chooese 1 thru 5)
 
 # Explanation of blend modes
@@ -18,10 +18,43 @@
 # 7: Xor mode, very cool strobing effect
 # 8: Difference mode, slightly less intense than xor but similar
 
+_usage(){
+cat <<EOF
+$(basename "${0}")
+  Usage
+   $(basename "${0}") [OPTIONS] INPUT_FILE ECHO_RATE TRAIL_LENGTH ECHO_MODE
+  Options
+   -h  display this help
+   -p  previews in FFplay
+   -s  saves to file with FFmpeg
 
-echoRate="${2:-0.2}"          # Echo rate
-trails="${3:-2}"              # Number of trails
-blendMode="${4:-1}"           # Echo Mode
+  Notes
+  Parameters:
+   INPUT_FILE The file that will have echo added to it
+   ECHO_RATE Echo rate in seconds. default is 0.2
+   TRAIL_LENGTH Length of trails. 1 is just one trails, number increases exponentially as it goes.
+   ECHO_MODE Echo Modes (choose 1 thru 8)
+
+  Echo modes:
+   1: Normal mode, nice and balanced with evenly blending trails, but gets out of hand with a higher tail length.
+   2: Screen mode, Works well with high contrast stuff but gets out of hand very quickly
+   3: Phoenix mode, cool psychedelic effect
+   4: Softlight mode, trails dissapapte very quickly, a subtle effect.
+   5: Average mode, Similar to normal with slightly different colors.
+   6: Heat mode, image is harshly affects.
+   7: Xor mode, very cool strobing effect
+   8: Difference mode, slightly less intense than xor but similar
+
+  Outcome
+   Adds echo trails to a video file
+   dependencies: ffmpeg 4.3 or later
+EOF
+}
+
+
+echoRate="${3:-0.2}"          # Echo rate
+trails="${4:-2}"              # Number of trails
+blendMode="${5:-1}"           # Echo Mode
 echofeedback=""
 ptsDelay="0"
 
@@ -72,9 +105,24 @@ for (( i=1;i<${trails};i++ ))
 
 echofilter="split[dry][toEcho];[toEcho]setpts=PTS+($echoRate/TB)[wet];${echofeedback}[wet]format=${formatMode}[wet];[dry]format=${formatMode}[dry];[wet][dry]$blendString[outRGB];[outRGB]format=yuv422p10le[out]"
 
-# Alter/replace FFmpeg command to desired specification
-printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
-echo ffmpeg -i "'$1'" -c:v prores -profile:v 3 -filter_complex $echofilter -map '[out]' "'${1%%.*}_echo.mov'"
-printf "********END FFMPEG COMMANDS********\n\n " >&2
 
-ffmpeg -i "$1" -c:v prores -profile:v 3 -filter_complex $echofilter -map '[out]' "${1%%.*}_echo.mov"
+while getopts "hps" OPT ; do
+    case "${OPT}" in
+      h) _usage ; exit 0
+        ;;
+      p)
+
+         printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
+         printf "ffmpeg -hide_banner-i '$2' -c:v prores -profile:v 3 -filter_complex $echofilter -map '[out]' -f matroska - | ffplay - \n" >&2
+         printf "********END FFPLAY COMMANDS********\n\n " >&2
+         ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -filter_complex $echofilter -map '[out]' -f matroska - | ffplay -
+         ;;
+      s)
+         printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
+         printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -filter_complex $echofilter -map '[out]' '${2%%.*}_echo.mov' \n" >&2
+         printf "********END FFMPEG COMMANDS********\n\n " >&2
+         ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -filter_complex $echofilter -map '[out]' "${2%%.*}_echo.mov"
+         ;;
+      *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
+    esac
+  done

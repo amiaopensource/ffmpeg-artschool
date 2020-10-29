@@ -22,6 +22,32 @@
 
 # source: http://oioiiooixiii.blogspot.com
 
+_usage(){
+cat <<EOF
+$(basename "${0}")
+  Usage
+   $(basename "${0}") [OPTIONS] INPUT_FILE_1 KEY_COLOR KEY_SIM KEY_BLEND COLOR_ITER COLOR_DELAY ALPHA_EXTRACT
+  Options
+   -h  display this help
+   -p  previews in FFplay
+   -s  saves to file with FFmpeg
+
+  Notes
+  Parameters:
+  INPUT_FILE_1 Filename
+  KEY_COLOR Colorkey value [default: 0000FF] Either a hex value, or one of the following: green, blue, red, purple, orange, yellow
+  KEY_SIM Colorkey similarity value [default: 0.3]
+  KEY_BLEND Colorkey blend value [default: 0.1]
+  COLOR_ITER Number of colour iterations [default: 7]
+  COLOR_DELAY Delay between colours [default: 0.1]
+  ALPHA_EXTRACT Alpha plane extraction [default: true]
+
+  Outcome
+   Generate rainbow-trail video effect with FFmpeg.
+   dependencies: ffmpeg 4.3 or later
+EOF
+}
+
 function rainbowFilter()
 {
    local iterations="${4:-7}"    # Number of colour layers
@@ -32,6 +58,30 @@ function rainbowFilter()
    local colorBlend="${3:-0.1}"  # Colorkey blending level
    local filtergraph=""          # Used to store for-loop generated filterchains
                                  # Sets the state of the extractplanes filter
+   if [[ $1 =~ ^[0-9A-F]{6}$ ]]
+   then
+     key=$1
+ elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "blue" ]]
+   then
+     key="0000FF"
+ elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "green" ]]
+   then
+     key="00FF00"
+ elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "red" ]]
+   then
+     key="FF0000"
+ elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "purple" ]]
+   then
+     key="0000FF"
+ elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "orange" ]]
+   then
+     key="ff9900"
+ elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "yellow" ]]
+   then
+     key="FFFF00"
+   fi
+
+
    [[ "$6" == "false" ]] \
    && local extractFilter="null" || local extractFilter="extractplanes=a"
 
@@ -64,8 +114,26 @@ function rainbowFilter()
                     split[original][bottom];
                     [bottom]colorchannelmixer=0:0:0:0:0:0:0:0:0:0:0:0[bottom];"\
                    "${filtergraph}"\
-                   "[bottom][original]overlay"
+                   "[bottom][original]overlay,format=yuv422p10le"
 }
 
-# Alter/replace FFmpeg command to desired specification
-ffmpeg -i "$1" -vf "$(rainbowFilter "${@:2}")" -crf 10 "${1%%.*}_rainbow.mkv"
+while getopts "hps" OPT ; do
+    case "${OPT}" in
+      h) _usage ; exit 0
+        ;;
+      p)
+
+         printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
+         printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -vf $(rainbowFilter "${@:3}") -f nut - | ffplay - \n" >&2
+         printf "********END FFPLAY COMMANDS********\n\n " >&2
+         ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -vf "$(rainbowFilter "${@:3}")" -f nut - | ffplay -
+         ;;
+      s)
+         printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
+         printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -vf $(rainbowFilter "${@:3}") '${2%%.*}_rainbowTrails.mov' \n" >&2
+         printf "********END FFMPEG COMMANDS********\n\n " >&2
+         ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -vf "$(rainbowFilter "${@:3}")" "${2%%.*}_rainbowTrails.mov"
+         ;;
+      *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
+    esac
+  done
