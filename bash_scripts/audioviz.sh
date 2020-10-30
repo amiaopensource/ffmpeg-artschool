@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# creates audio visualization overlay by blending video and audio using dispalce and showcqt
+# creates audio visualization overlay by blending video and audio using displace and showcqt
 
 # Parameters:
 # $1: Input File 1, audio
