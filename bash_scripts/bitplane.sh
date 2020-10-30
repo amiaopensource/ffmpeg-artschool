@@ -20,7 +20,6 @@ $(basename "${0}")
 
   Notes
 
-
   Outcome
    Manipulate Y, U, and V bitplanes to make colorful creations
    dependencies: ffmpeg 4.3 or later
@@ -47,6 +46,8 @@ function filter_complex()
    printf '%s%s%s' $vf
 
 }
+
+vf=$vf"format=yuv420p10le|yuv422p10le|yuv444p10le|yuv440p10le,lutyuv=y=if(eq($Y\,-1)\,512\,if(eq($Y\,0)\,val\,bitand(val\,pow(2\,10-$Y))*pow(2\,$Y))):u=if(eq($U\,-1)\,512\,if(eq($U\,0)\,val\,bitand(val\,pow(2\,10-$U))*pow(2\,$U))):v=if(eq($V\,-1)\,512\,if(eq($V\,0)\,val\,bitand(val\,pow(2\,10-$V))*pow(2\,$V))),format=yuv422p10le"
 
 while getopts "ps" OPT ; do
     case "${OPT}" in

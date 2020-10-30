@@ -25,9 +25,6 @@ $(basename "${0}")
 EOF
 }
 
-# Build filter string
-filter_string="format=rgba,eq=brightness=0.40:saturation=8,pseudocolor='if(between(val,ymax,amax),lerp(ymin,ymax,(val-ymax)/(amax-ymax)),-1):if(between(val,ymax,amax),lerp(umax,umin,(val-ymax)/(amax-ymax)),-1):if(between(val,ymax,amax),lerp(vmin,vmax,(val-ymax)/(amax-ymax)),-1):-1',format=yuv422p10le"
-
 
 while getopts "hps" OPT ; do
     case "${OPT}" in
@@ -49,6 +46,7 @@ while getopts "hps" OPT ; do
       *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
     esac
   done
+
 
 # gen's original code below the line here
 

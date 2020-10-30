@@ -6,6 +6,7 @@
 # $1: Input File
 # $2: Quality: 0 = more compressed smaller file, 1 = less compressed bigger file
 
+
 _usage(){
 cat <<EOF
 $(basename "${0}")
@@ -61,3 +62,4 @@ while getopts "hs" OPT ; do
       *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
     esac
   done
+
