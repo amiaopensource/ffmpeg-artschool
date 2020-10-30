@@ -9,9 +9,32 @@
 # $4: Output resolution
 
 
-  width="${2:-4}"    # width - default vaue is 4
-  height="${3:-4}"    # height - default value is 4
-  outResolution="${4:-none}"  #output resolution. It's "none" if not defined
+_usage(){
+cat <<EOF
+$(basename "${0}")
+  Usage
+   $(basename "${0}") [OPTIONS] INPUT_FILE_1 COLUMNS ROWS OUTPUT_RESOLUTION
+  Options
+   -h  display this help
+   -p  previews in FFplay
+   -s  saves to file with FFmpeg
+
+  Notes
+  Parameters:
+  INPUT_FILE_1 Input File
+  COLUMNS how many columns will be in the output tile (MUST BE A MULTIPLE OF 2)
+  ROWS how many Rows will be in the output tile (MUST BE A MULTIPLE OF 2)
+  OUTPUT_RESOLUTION conforms the output to the defined resolution, must use format WxH
+
+  Outcome
+   Tiles the input file, similar to QCTools Film Strip effect
+   dependencies: ffmpeg 4.3 or later
+EOF
+}
+
+  width="${3:-4}"    # width - default vaue is 4
+  height="${4:-4}"    # height - default value is 4
+  outResolution="${5:-none}"  #output resolution. It's "none" if not defined
 
   # Build filter string
   if [ "$outResolution" == none ]; then
@@ -39,8 +62,23 @@
 
 # Alter/replace FFmpeg command to desired specification
 
-printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
-echo ffmpeg -i "'$1'" -c:v prores -profile:v 3 -filter_complex $filter_complex "'${1%%.*}_tile.mov'"
-printf "********END FFMPEG COMMANDS********\n\n " >&2
+while getopts "hps" OPT ; do
+    case "${OPT}" in
+      h) _usage ; exit 0
+        ;;
+      p)
 
-ffmpeg -hide_banner -i "$1" -c:v prores -profile:v 3 -filter_complex $filter_complex "${1%%.*}_tile.mov"
+         printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
+         printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -vf $filter_complex -f matroska - | ffplay - \n" >&2
+         printf "********END FFPLAY COMMANDS********\n\n " >&2
+         ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -vf $filter_complex -f matroska - | ffplay -
+         ;;
+      s)
+         printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
+         printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -vf $filter_complex '${2%%.*}_tile${3}.mov' \n" >&2
+         printf "********END FFMPEG COMMANDS********\n\n " >&2
+         ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -vf $filter_complex "${2%%.*}_tile${3}.mov"
+         ;;
+      *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
+    esac
+  done
