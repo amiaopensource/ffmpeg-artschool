@@ -50,12 +50,12 @@ while getopts "hs" OPT ; do
         ;;
       s)
          printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
-         printf "ffmpeg -hide_banner -f concat -safe 0 -i /tmp/catlist.txt -c copy '${2%%.*}_looped_x${3}.${extension}' \n" >&2
+         printf "ffmpeg -hide_banner -f concat -safe 0 -i /tmp/catlist.txt -c copy '${2%.*}_looped_x${3}.${extension}' \n" >&2
          printf "********END FFMPEG COMMANDS********\n\n " >&2
-         ffmpeg -hide_banner -f concat -safe 0 -i /tmp/catlist.txt -c copy  "${2%%.*}_looped_x${3}.${extension}"
+         ffmpeg -hide_banner -f concat -safe 0 -i /tmp/catlist.txt -c copy  "${2%.*}_looped_x${3}.${extension}"
          ;;
       *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
     esac
   done
 
-ffmpeg -f concat -safe 0 -i /tmp/catlist.txt -c copy "${2%%.*}_looped_x${3}.${extension}"
+ffmpeg -f concat -safe 0 -i /tmp/catlist.txt -c copy "${2%.*}_looped_x${3}.${extension}"

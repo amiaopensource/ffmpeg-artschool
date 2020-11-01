@@ -18,8 +18,6 @@ $(basename "${0}")
    -s  saves to file with FFmpeg
 
   Notes
-  PLAY MODE IS DISABLED FOR THIS SCRIPT
-
   Parameters:
   INPUT_FILE_1 Input File
   ROTATION Rotation amount in degrees. Must be 90, 180, or 270
@@ -70,9 +68,9 @@ while getopts "hps" OPT ; do
          ;;
       s)
          printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
-         printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -filter_complex $vf '${2%%.*}_rotate.mov' \n" >&2
+         printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -filter_complex $vf '${2%.*}_rotate.mov' \n" >&2
          printf "********END FFMPEG COMMANDS********\n\n " >&2
-         ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -filter_complex $vf "${2%%.*}_rotate.mov"
+         ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -filter_complex $vf "${2%.*}_rotate.mov"
          ;;
       *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
     esac

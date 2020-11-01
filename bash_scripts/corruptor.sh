@@ -45,14 +45,14 @@ while getopts "hps" OPT ; do
          ;;
       s)
          printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
-         printf "ffmpeg -hide_banner -i '$2' -c copy -bsf noise=$corruption -y '${2%%.*}_corruptor_temp.mov' && ffmpeg -i '${2%%.*}_corruptor_temp.mov' -c:v prores -profile:v 3 -y '${2%%.*}_corruptor.mov' \n" >&2
+         printf "ffmpeg -hide_banner -i '$2' -c copy -bsf noise=$corruption -y '${2%.*}_corruptor_temp.mov' && ffmpeg -i '${2%.*}_corruptor_temp.mov' -c:v prores -profile:v 3 -y '${2%.*}_corruptor.mov' \n" >&2
          printf "********END FFMPEG COMMANDS********\n\n " >&2
-         ffmpeg -hide_banner -i "${2}" -c copy -bsf noise=$corruption -y "${2%%.*}_corruptor_temp.mov" && ffmpeg -i "${2%%.*}_corruptor_temp.mov" -c:v prores -profile:v 3 -y "${2%%.*}_corruptor.mov"
+         ffmpeg -hide_banner -i "${2}" -c copy -bsf noise=$corruption -y "${2%.*}_corruptor_temp.mov" && ffmpeg -i "${2%.*}_corruptor_temp.mov" -c:v prores -profile:v 3 -y "${2%.*}_corruptor.mov"
          ;;
       *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
     esac
   done
 
 if [[ "$keepTemp" != 1 ]]; then
-   rm "${2%%.*}_corruptor_temp.mov"
+   rm "${2%.*}_corruptor_temp.mov"
 fi

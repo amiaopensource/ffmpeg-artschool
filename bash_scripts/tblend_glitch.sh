@@ -18,8 +18,6 @@ $(basename "${0}")
    -s  saves to file with FFmpeg
 
   Notes
-  PLAY MODE IS DISABLED FOR THIS SCRIPT
-
   Parameters:
   INPUT_FILE_1 Input File
   BLEND_MODE Choose a number between 1 and 4
@@ -193,9 +191,9 @@ while getopts "hps" OPT ; do
          ;;
       s)
          printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
-         printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -vf $vf '${2%%.*}_tblend_glitch.mov' \n" >&2
+         printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -vf $vf '${2%.*}_tblend_glitch.mov' \n" >&2
          printf "********END FFMPEG COMMANDS********\n\n " >&2
-         ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -vf $vf "${2%%.*}_tblend_glitch.mov"
+         ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -vf $vf "${2%.*}_tblend_glitch.mov"
          ;;
       *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
     esac

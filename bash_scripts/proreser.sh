@@ -68,9 +68,9 @@ while getopts "hps" OPT ; do
          ;;
       s)
          printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
-         printf "ffmpeg -hide_banner -i '$2' $conversionString '${2%%.*}_prores.mov' \n" >&2
+         printf "ffmpeg -hide_banner -i '$2' $conversionString '${2%.*}_prores.mov' \n" >&2
          printf "********END FFMPEG COMMANDS********\n\n " >&2
-         ffmpeg -hide_banner -i "${2}" $conversionString "${2%%.*}_prores.mov"
+         ffmpeg -hide_banner -i "${2}" $conversionString "${2%.*}_prores.mov"
          ;;
       *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
     esac

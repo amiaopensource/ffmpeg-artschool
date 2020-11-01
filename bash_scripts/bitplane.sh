@@ -58,9 +58,9 @@ while getopts "hps" OPT ; do
         printf "\n********END FFPLAY COMMANDS********\n\n " >&2
         ;;
       s)
-        ffmpeg -hide_banner -i "${2}"  -c:v prores -profile:v 3 -vf $(filter_complex) "${2%%.*}_bitplane.mov"
+        ffmpeg -hide_banner -i "${2}"  -c:v prores -profile:v 3 -vf $(filter_complex) "${2%.*}_bitplane.mov"
         printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
-        printf "ffmpeg -hide_banner -i '$2'  -c:v prores -profile:v 3 -filter_complex '$(filter_complex)' '${2%%.*}_bitplane.mov'" >&2
+        printf "ffmpeg -hide_banner -i '$2'  -c:v prores -profile:v 3 -filter_complex '$(filter_complex)' '${2%.*}_bitplane.mov'" >&2
         printf "\n********END FFMPEG COMMANDS********\n\n " >&2
         ;;
       *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
