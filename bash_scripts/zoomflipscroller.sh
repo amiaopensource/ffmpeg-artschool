@@ -8,6 +8,26 @@
 # $2: Input File
 # $3: Line to zoom
 
+_usage(){
+cat <<EOF
+$(basename "${0}")
+  Usage
+   $(basename "${0}") [OPTIONS] INPUT_FILE_1 LINE
+  Options
+   -h  display this help
+   -p  previews in FFplay
+   -s  saves to file with FFmpeg
+
+  Notes
+  Parameters:
+  INPUT_FILE_1 Input File
+  LINE Selects which line to zoom and scroll
+
+  Outcome
+   Zoom in on a single line of video, flip and scroll vertically
+   dependencies: ffmpeg 4.3 or later
+EOF
+}
 
 low=1
 high=350
@@ -21,17 +41,17 @@ vf=$vf"format=rgb24,crop=iw:1:0:$line,scale=iw:4:flags=neighbor,tile=layout=1x12
 while getopts "ps" OPT ; do
     case "${OPT}" in
       p)
-         ffplay "$2" -vf $vf
+         ffplay "${2}" -vf $vf
          printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
-         echo "Line Selected:" $line
-         echo ffplay "$2" -vf $vf
+         printf "ffplay '$2' -vf $vf \n" >&2
+         printf "Line Selected: $line \n" >&2
          printf "********END FFPLAY COMMANDS********\n\n " >&2
         ;;
       s)
-         ffmpeg -hide_banner -i "$2" -c:v prores -profile:v 3 -vf $vf "${2}_zoomscroll.mov"
+         ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -vf $vf "${2}_zoomscroll.mov"
          printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
-         echo ffmpeg -i "'$2'" -c:v prores -profile:v 3 -filter_complex $vf "'${2}_zoomscroll.mov'"
-         echo "Line Selected:" $line
+         printf "ffmpeg -i '$2' -c:v prores -profile:v 3 -filter_complex $vf '${2}_zoomscroll.mov' \n" >&2
+         printf "Line Selected: $line \n" >&2
          printf "********END FFMPEG COMMANDS********\n\n " >&2
         ;;
     esac
