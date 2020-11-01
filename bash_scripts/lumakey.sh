@@ -46,17 +46,16 @@ while getopts "hps" OPT ; do
       h) _usage ; exit 0
         ;;
       p)
-
+         ffmpeg -hide_banner -i "${3}" -i "${2}" -c:v prores -profile:v 3 -filter_complex $filter_complex -map '[v]' -f matroska - | ffplay -
          printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
          printf "ffmpeg -hide_banner -i '$3' -i '$2' -c:v prores -profile:v 3 -filter_complex $filter_complex -map '[v]' -f matroska - | ffplay - \n" >&2
          printf "********END FFPLAY COMMANDS********\n\n " >&2
-         ffmpeg -hide_banner -i "${3}" -i "${2}" -c:v prores -profile:v 3 -filter_complex $filter_complex -map '[v]' -f matroska - | ffplay -
          ;;
       s)
+         ffmpeg -hide_banner -i "${3}" -i "${2}" -c:v prores -profile:v 3 -filter_complex $filter_complex -map '[v]' "${2%.*}_lumakey.mov"
          printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
          printf "ffmpeg -hide_banner -i '$3' -i '$2' -c:v prores -profile:v 3 -filter_complex $filter_complex -map '[v]' '${2%.*}_lumakey.mov' \n" >&2
          printf "********END FFMPEG COMMANDS********\n\n " >&2
-         ffmpeg -hide_banner -i "${3}" -i "${2}" -c:v prores -profile:v 3 -filter_complex $filter_complex -map '[v]' "${2%.*}_lumakey.mov"
          ;;
       *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
     esac

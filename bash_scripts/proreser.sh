@@ -60,17 +60,16 @@ while getopts "hps" OPT ; do
       h) _usage ; exit 0
         ;;
       p)
-
+         ffmpeg -hide_banner -i "${2}" $conversionString -f matroska - | ffplay -
          printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
          printf "ffmpeg -hide_banner -i '$2' $conversionString -f matroska - | ffplay - \n" >&2
          printf "********END FFPLAY COMMANDS********\n\n " >&2
-         ffmpeg -hide_banner -i "${2}" $conversionString -f matroska - | ffplay -
          ;;
       s)
+         ffmpeg -hide_banner -i "${2}" $conversionString "${2%.*}_prores.mov"
          printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
          printf "ffmpeg -hide_banner -i '$2' $conversionString '${2%.*}_prores.mov' \n" >&2
          printf "********END FFMPEG COMMANDS********\n\n " >&2
-         ffmpeg -hide_banner -i "${2}" $conversionString "${2%.*}_prores.mov"
          ;;
       *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
     esac

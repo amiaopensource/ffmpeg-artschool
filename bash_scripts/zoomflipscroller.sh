@@ -21,18 +21,18 @@ vf=$vf"format=rgb24,crop=iw:1:0:$line,scale=iw:4:flags=neighbor,tile=layout=1x12
 while getopts "ps" OPT ; do
     case "${OPT}" in
       p)
-        printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
-        echo "Line Selected:" $line
-        echo ffplay "$2" -vf $vf
-        printf "********END FFPLAY COMMANDS********\n\n " >&2
-        ffplay "$2" -vf $vf
+         ffplay "$2" -vf $vf
+         printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
+         echo "Line Selected:" $line
+         echo ffplay "$2" -vf $vf
+         printf "********END FFPLAY COMMANDS********\n\n " >&2
         ;;
       s)
-        printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
-        echo ffmpeg -i "'$2'" -c:v prores -profile:v 3 -filter_complex $vf "'${2}_zoomscroll.mov'"
-        echo "Line Selected:" $line
-        printf "********END FFMPEG COMMANDS********\n\n " >&2
-        ffmpeg -hide_banner -i "$2" -c:v prores -profile:v 3 -vf $vf "${2}_zoomscroll.mov"
+         ffmpeg -hide_banner -i "$2" -c:v prores -profile:v 3 -vf $vf "${2}_zoomscroll.mov"
+         printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
+         echo ffmpeg -i "'$2'" -c:v prores -profile:v 3 -filter_complex $vf "'${2}_zoomscroll.mov'"
+         echo "Line Selected:" $line
+         printf "********END FFMPEG COMMANDS********\n\n " >&2
         ;;
     esac
   done

@@ -51,13 +51,13 @@ while getopts "hs" OPT ; do
       h) _usage ; exit 0
         ;;
       s)
+         ffmpeg -hide_banner -i "${2}" -filter_complex $palletteFilter "${palette}"
+         ffmpeg -hide_banner -i "${2}" -i "${palette}" -filter_complex $gifFilter "${2%.*}.gif"
+         rm "${palette}"
          printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
          printf "ffmpeg -hide_banner -i '${2}' -filter_complex $palletteFilter '${palette}' \n" >&2
          printf "ffmpeg -hide_banner -i '${2}' -i "${palette}" -filter_complex $gifFilter '${2%.*}.gif' \n" >&2
          printf "\n********END FFMPEG COMMANDS********\n\n " >&2
-         ffmpeg -hide_banner -i "${2}" -filter_complex $palletteFilter "${palette}"
-         ffmpeg -hide_banner -i "${2}" -i "${palette}" -filter_complex $gifFilter "${2%.*}.gif"
-         rm "${palette}"
          ;;
       *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
     esac
