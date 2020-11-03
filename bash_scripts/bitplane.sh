@@ -40,7 +40,7 @@ function filter_complex()
    U="${4:-$rand2}"    # user selected or, if not, random default value bet 1-8
    V="${5:-$rand3}"    # user selected or, if not, random default value bet 1-8
 
- filter_string="format=yuv420p10le|yuv422p10le|yuv444p10le|yuv440p10le,lutyuv=y=if(eq($Y\,-1)\,512\,if(eq($Y\,0)\,val\,bitand(val\,pow(2\,10-$Y))*pow(2\,$Y))):u=if(eq($U\,-1)\,512\,if(eq($U\,0)\,val\,bitand(val\,pow(2\,10-$U))*pow(2\,$U))):v=if(eq($V\,-1)\,512\,if(eq($V\,0)\,val\,bitand(val\,pow(2\,10-$V))*pow(2\,$V))),format=yuv422p10le"
+   filter_string="format=yuv420p10le|yuv422p10le|yuv444p10le|yuv440p10le,lutyuv=y=bitand(val\,pow(2\,10-$Y))*pow(2\,$Y):u=bitand(val\,pow(2\,10-$U))*pow(2\,$U):v=bitand(val\,pow(2\,10-$V))*pow(2\,$V),format=yuv422p10le"
 
    # Return full filter string, with necessary prefix and suffix filterchains
    printf '%s%s%s' $filter_string
