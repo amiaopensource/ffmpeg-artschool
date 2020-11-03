@@ -23,7 +23,20 @@
 
 # Parse arguments
 Param(
-    [Parameter(Position=0, Mandatory)]
+    [Parameter(ParameterSetName="Help")]
+    [Parameter(ParameterSetName="Run")]
+    [Switch]
+    $h,
+
+    [Parameter(ParameterSetName="Run")]
+    [Switch]
+    $p,
+
+    [Parameter(ParameterSetName="Run")]
+    [Switch]
+    $s = $true,
+
+    [Parameter(Position=0, Mandatory, ParameterSetName="Run")]
     [ValidateScript({
         if(-Not ($_ | Test-Path) ){
             throw "File or folder does not exist" 
@@ -35,7 +48,7 @@ Param(
     })]
     [System.IO.FileInfo]$video1,
 
-    [Parameter(Position=1, Mandatory)]
+    [Parameter(Position=1, Mandatory, ParameterSetName="Run")]
     [ValidateScript({
         if(-Not ($_ | Test-Path) ){
             throw "File or folder does not exist" 
@@ -47,16 +60,16 @@ Param(
     })]
     [System.IO.FileInfo]$video2,
 
-    [Parameter(Position=2)]
+    [Parameter(Position=2, ParameterSetName="Run")]
     [ValidateSet("blue", "green", "red", "purple", "orange", "yellow")]
     $key = "green",
 
-    [Parameter(Position=3)]
+    [Parameter(Position=3, ParameterSetName="Run")]
     [ValidateRange(0.01, 1)]
     [Decimal]
     $colorSim = 0.3,
 
-    [Parameter(Position=4)]
+    [Parameter(Position=4, ParameterSetName="Run")]
     [ValidateRange(0, 1)]
     [Decimal]
     $colorBlend = 0.1

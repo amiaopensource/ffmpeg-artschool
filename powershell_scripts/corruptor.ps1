@@ -65,9 +65,6 @@ if (($h) -or ($PSBoundParameters.Values.Count -eq 0 -and $args.count -eq 0)){
     }
 }
 
-if ($keepTemp -eq 1) {
-        Write-Host $keepTemp
-    }
 
 # Run command
 
