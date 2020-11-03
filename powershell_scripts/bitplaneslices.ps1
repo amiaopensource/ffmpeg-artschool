@@ -9,7 +9,6 @@
     saves to file with FFmpeg
 .PARAMETER video
     path to the video
-.PARAMETER ---
 #>
 
 

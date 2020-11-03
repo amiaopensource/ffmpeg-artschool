@@ -44,7 +44,7 @@ Param(
         }
         return $true
     })]
-    [System.IO.FileInfo]$input1,
+    [System.IO.FileInfo]$video1,
 
     [Parameter(Position=1, Mandatory, ParameterSetName="Run")]
     [ValidateScript({
@@ -56,7 +56,7 @@ Param(
         }
         return $true
     })]
-    [System.IO.FileInfo]$input2,
+    [System.IO.FileInfo]$video2,
 
     [Parameter(Position=2, ParameterSetName="Run")]
     [ValidateSet("addition", "addition128", "grainmerge", "and", "average", "burn", "darken", "difference", "difference128", "grainextract",
@@ -71,7 +71,7 @@ Param(
 
 if (($h) -or ($PSBoundParameters.Values.Count -eq 0 -and $args.count -eq 0)){
     Get-Help $MyInvocation.MyCommand.Definition -detailed
-    if (!$input1) {
+    if (!$video1) {
         exit
     }
 }
@@ -86,19 +86,19 @@ $filter = "[1:v]format=gbrp10le[v1];[0:v]format=gbrp10le[v0];[v1][v0]scale2ref[v
 
 if ($p) {
     $tempFile = New-TemporaryFile
-    ffmpeg.exe -hide_banner -stats -y -i $input1 -i $input2 -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" -f matroska $tempFile
+    ffmpeg.exe -hide_banner -stats -i $video1 -i $video2 -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" -f matroska $tempFile
     ffplay.exe $tempFile
     
     Write-Host "`n`n*******START FFPLAY COMMANDS*******`n"
-    Write-Host "ffmpeg.exe -hide_banner -stats -y -i $input1 -i $input2 -c:v prores -profile:v 3 -filter_complex `'$($filter)`'' -map '[v]' -f matroska $tempFile`n"
+    Write-Host "ffmpeg.exe -hide_banner -stats -y -i $video1 -i $video2 -c:v prores -profile:v 3 -filter_complex `'$($filter)`'' -map '[v]' -f matroska $tempFile`n"
     Write-Host "ffplay $tempFile.FullName`n"
     Write-Host "`n********END FFPLAY COMMANDS********`n`n"
 }
 else {
-    ffmpeg.exe -hide_banner -i $input1 -i $input2 -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" "$((Get-Item $input1).Basename)_blend_$($blendMode).mov"
+    ffmpeg.exe -hide_banner -i $video1 -i $video2 -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" "$((Get-Item $video1).Basename)_blend_$($blendMode).mov"
 
     Write-Host "`n`n*******START FFMPEG COMMANDS*******`n"
-    Write-Host "ffmpeg.exe -hide_banner -i $input1 -i $input2 -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -map `"[v]`" `"$((Get-Item $input1).Basename)_blend_$($blendMode).mov`"`n"
+    Write-Host "ffmpeg.exe -hide_banner -i $video1 -i $video2 -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -map `"[v]`" `"$((Get-Item $video1).Basename)_blend_$($blendMode).mov`"`n"
     Write-Host "`n********END FFMPEG COMMANDS********`n`n"
 }
 
