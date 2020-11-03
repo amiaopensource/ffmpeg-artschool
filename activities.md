@@ -10,8 +10,6 @@ This document will describe how to run certain scripts for artistic effects!
 
 ## Playtime 1: Running Bash and FFmpeg
 
-## Playtime 2: Chromakey and Echo
-
 Before we get start with this section, make sure that your terminal window is in the root level of the `ffmpeg-artschool` directory. you do do this by typing `cd` then dragging in the ffmpeg-artschool folder.
 
 Also, for these activities we're going to use ffplay to stream the videos we're creating, rather than save them. In order to do this we're using the following format:
@@ -20,7 +18,16 @@ Also, for these activities we're going to use ffplay to stream the videos we're 
 ffmpeg -i [InputFile.mov] -c:v prores -filter_complex [Filter String] -f matroska - | ffplay -
 ```
 
-The last section that says `-f matroska - | ffplay - ` is telling ffmpeg to output what it's processing as a matroska file, and then telling ffplay to playback whatever it coming out of ffmpeg as it comes out. This means that if your computer can't handle the processing it might be a bit slow to play back the file. This is why most of our sample files are at 640x480, which is easier for a CPU to handle than a large HD or 2K file.
+The last portion that says `-f matroska - | ffplay - ` is telling ffmpeg to output what it's processing as a matroska file, and then telling ffplay to playback whatever it coming out of ffmpeg as it comes out. This means that if your computer can't handle the processing it might be a bit slow to play back the file. This is why most of our sample files are at 640x480, which is easier for a CPU to handle than a large HD or 2K file.
+
+### Normalizing your sourve sample_video_files
+All of the video files we provide have been normalized to ProRes. However, if you have your own sample files that you want to use, it's best to make sure it's transcoded to ProRes and resized to SD before working with it. We've created a simple bash script that can help you with this. Here's how ton run the script:
+```
+./bash_scripts/proreser.sh -s [/path/to/input/file.mov] 640x480
+```
+By default the `proreser.sh` script will convert your file to ProRes. By adding the `-s` flag we're telling the script to save the output file. By adding `640x480` to the end of the command we're telling the script to resize the file to 640 pixels by 480 pixels. 
+
+## Playtime 2: Chromakey and Echo
 
 ### Chromakey
 The Chromakey effect is used to remove any pixel that is a specific color from a video and turn it transparent. Once the color has been turned transparent the video can be overlayed over another video file and the second file will appear "behind" the removed pixels. The bash script chromakey.sh takes care of the chromakey AND the overlay at once. Let's take it step by step.
