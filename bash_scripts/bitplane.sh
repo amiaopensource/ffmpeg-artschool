@@ -26,19 +26,19 @@ $(basename "${0}")
 EOF
 }
 
+low=-1
+high=10
+rand1=$((low + RANDOM%(1+high-low)))
+rand2=$((low + RANDOM%(1+high-low)))
+rand3=$((low + RANDOM%(1+high-low)))
+
+Y="${3:-$rand1}"    # user selected or, if not, random default value bet 1-8
+U="${4:-$rand2}"    # user selected or, if not, random default value bet 1-8
+V="${5:-$rand3}"    # user selected or, if not, random default value bet 1-8
+
 
 function filter_complex()
 {
-
-   low=1
-   high=8
-   rand1=$((low + RANDOM%(1+high-low)))
-   rand2=$((low + RANDOM%(1+high-low)))
-   rand3=$((low + RANDOM%(1+high-low)))
-
-   Y="${3:-$rand1}"    # user selected or, if not, random default value bet 1-8
-   U="${4:-$rand2}"    # user selected or, if not, random default value bet 1-8
-   V="${5:-$rand3}"    # user selected or, if not, random default value bet 1-8
 
  filter_string="format=yuv420p10le|yuv422p10le|yuv444p10le|yuv440p10le,lutyuv=y=if(eq($Y\,-1)\,512\,if(eq($Y\,0)\,val\,bitand(val\,pow(2\,10-$Y))*pow(2\,$Y))):u=if(eq($U\,-1)\,512\,if(eq($U\,0)\,val\,bitand(val\,pow(2\,10-$U))*pow(2\,$U))):v=if(eq($V\,-1)\,512\,if(eq($V\,0)\,val\,bitand(val\,pow(2\,10-$V))*pow(2\,$V))),format=yuv422p10le"
 
@@ -54,15 +54,22 @@ while getopts "hps" OPT ; do
       p)
         ffplay "${2}" -vf $(filter_complex)
         printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
+        echo "Y:" $Y
+        echo "U:" $U
+        echo "V:" $V
         printf "ffplay '$2' -vf '$(filter_complex)'" >&2
         printf "\n********END FFPLAY COMMANDS********\n\n " >&2
         ;;
       s)
-        ffmpeg -hide_banner -i "${2}"  -c:v prores -profile:v 3 -vf $(filter_complex) "${2%.*}_bitplane.mov"
+        ffmpeg -hide_banner -i "${2}"  -c:v prores -profile:v 3 -an -vf $(filter_complex) "${2%.*}_bitplane.mov"
         printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
+        echo "Y:" $Y
+        echo "U:" $U
+        echo "V:" $V
         printf "ffmpeg -hide_banner -i '$2'  -c:v prores -profile:v 3 -filter_complex '$(filter_complex)' '${2%.*}_bitplane.mov'" >&2
         printf "\n********END FFMPEG COMMANDS********\n\n " >&2
         ;;
       *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
     esac
   done
+
