@@ -1,3 +1,26 @@
+<#
+.DESCRIPTION
+    ---
+.PARAMETER h
+    display this help
+.PARAMETER p
+    previews in FFplay
+.PARAMETER s
+    saves to file with FFmpeg
+.PARAMETER video1
+    path to the first video
+.PARAMETER video2
+    path to the second video
+.PARAMETER key
+    color that will be replaced with transparency. Options include: blue, green, red, purple, orange, and yellow
+.PARAMETER colorSim
+    similarity percentage with the key color. Between 0.01 and 1. 0.01 matches only the exact key color, while 1.0 matches everything.
+.PARAMETER colorBlend
+    blend percentage for overlay video. Between 0 and 1. 9 makes pixels fully transparent or not transparent at all. The closer to 1, the more transparency.
+
+#>
+
+
 # Parse arguments
 Param(
     [Parameter(Position=0, Mandatory)]
@@ -10,7 +33,7 @@ Param(
         }
         return $true
     })]
-    [System.IO.FileInfo]$v1,
+    [System.IO.FileInfo]$video1,
 
     [Parameter(Position=1, Mandatory)]
     [ValidateScript({
@@ -22,22 +45,35 @@ Param(
         }
         return $true
     })]
-    [System.IO.FileInfo]$v2,
+    [System.IO.FileInfo]$video2,
 
-    [Parameter(Mandatory)]
+    [Parameter(Position=2)]
     [ValidateSet("blue", "green", "red", "purple", "orange", "yellow")]
     $key = "green",
 
+    [Parameter(Position=3)]
     [ValidateRange(0.01, 1)]
     [Decimal]
     $colorSim = 0.3,
 
+    [Parameter(Position=4)]
     [ValidateRange(0, 1)]
     [Decimal]
     $colorBlend = 0.1
 )
 
-# Convert key color to hex code
+
+# Display help
+
+if (($h) -or ($PSBoundParameters.Values.Count -eq 0 -and $args.count -eq 0)){
+    Get-Help $MyInvocation.MyCommand.Definition -detailed
+    if (!$video1) {
+        exit
+    }
+}
+
+
+# Create filter string
 Switch ($key)
 {
     "blue" {$hexkey = "0000FF"}
@@ -48,6 +84,25 @@ Switch ($key)
     "yellow" {$hexkey = "FFFF00"}
 }
 
+$filter = "[1:v][0:v]scale2ref[v1][v0];[v1]chromakey=0x$($hexkey):$($colorSim):$($colorBlend)[1v];[v0][1v]overlay,format=yuv422p10le[v]"
 
-# Run ffmpeg command
-ffmpeg.exe -i $v1 -i $v2 -c:v prores_ks -profile:v 3 -filter_complex "[1:v][0:v]scale2ref[v1][v0];[v1]chromakey=0x$hexkey:$colorSim:$colorBlend[1v];[v0][1v]overlay[v]" -map '[v]' "$((Get-Item $v1).Basename)_chromakey.mov"
+
+# Run command
+
+if ($p) {
+    $tempFile = New-TemporaryFile
+    ffmpeg.exe -hide_banner -stats -y -i $video1 -i $video2 -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" -f matroska $tempFile
+    ffplay.exe $tempFile
+    
+    Write-Host "`n`n*******START FFPLAY COMMANDS*******`n"
+    Write-Host "ffmpeg.exe -hide_banner -stats -y -i $video1 -i $video2 -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -map `"[v]`" -f matroska $tempFile`n"
+    Write-Host "ffplay $tempFile.FullName`n"
+    Write-Host "`n********END FFPLAY COMMANDS********`n`n"
+}
+else {
+    ffmpeg.exe -hide_banner -i $video1 -i $video2 -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" "$((Get-Item $video1).Basename)_chromakey.mov"
+
+    Write-Host "`n`n*******START FFMPEG COMMANDS*******`n"
+    Write-Host "ffmpeg.exe -hide_banner -i $video1 -i $video2 -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -map `"[v]`" `"$((Get-Item $video1).Basename)_chromakey.mov`"`n"
+    Write-Host "`n********END FFMPEG COMMANDS********`n`n"
+}
