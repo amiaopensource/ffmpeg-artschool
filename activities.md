@@ -25,7 +25,7 @@ All of the video files we provide have been normalized to ProRes. However, if yo
 ```
 ./bash_scripts/proreser.sh -s [/path/to/input/file.mov] 640x480
 ```
-By default the `proreser.sh` script will convert your file to ProRes. By adding the `-s` flag we're telling the script to save the output file. By adding `640x480` to the end of the command we're telling the script to resize the file to 640 pixels by 480 pixels. 
+By default the `proreser.sh` script will convert your file to ProRes. By adding the `-s` flag we're telling the script to save the output file. By adding `640x480` to the end of the command we're telling the script to resize the file to 640 pixels by 480 pixels.
 
 ## Playtime 2: Chromakey and Echo
 
@@ -49,31 +49,31 @@ ffmpeg -i ./sample_video_files/Cat01.mov -i ./sample_video_files/Skull01.mov -c:
 6. Congrats! You've now chromakeyed a file and overlayed over another file! The script `chromakey.sh` will do this for you automatically, with many extra options. It will also automatically resize the files so that their dimensions match.
 
 ### Echo
-This echo effect is based off [a classic tape echo effect](https://www.youtube.com/watch?v=y3Whi-g-0A0) for audio. It adds decaying repetitions to an input file. When using this effect make sure to use an effects with big sweeping motions (like dancers!) for the best results. For this example we'll use `RetroDancers.mov`
+This echo effect is based off [a classic tape echo effect](https://www.youtube.com/watch?v=y3Whi-g-0A0) for audio. It adds decaying repetitions to an input file. When using this effect make sure to use an effects with big sweeping motions (like dancers!) for the best results. For this example we'll use `retrodancers.mov`
 
 1. Run the default echo effects on RetroDancer.mov with the following command
 ```
-./bash_scripts/echo.sh -p ./sample_video_files/RetroDancers.mov
+./bash_scripts/echo.sh -p ./sample_video_files/retrodancers.mov
 ```
 2. For the sake of clarity, this is the same as running this command, which shows all the default arguments used (0.2 second echo, Level 2 trails, Blend mode 1)
 ```
-./bash_scripts/echo.sh -p ./sample_video_files/RetroDancers.mov 0.2 2 1
+./bash_scripts/echo.sh -p ./sample_video_files/retrodancers.mov 0.2 2 1
 ```
 3. Now let's adjust the time of the echo. We can set it to a much shorter time with more trails for a more washy effect:
 ```
-./bash_scripts/echo.sh -p ./sample_video_files/RetroDancers.mov 0.05 5 1
+./bash_scripts/echo.sh -p ./sample_video_files/retrodancers.mov 0.05 5 1
 ```
 4. The fun really starts when we try different blend modes. Let's do the same short delay time with heavy trails, but using the Pheonix blend mode, which is mode 3
 ```
-./bash_scripts/echo.sh -p ./sample_video_files/RetroDancers.mov 0.05 5 3
+./bash_scripts/echo.sh -p ./sample_video_files/retrodancers.mov 0.05 5 3
 ```
 5. We can make it even crazier with the XOR blend mode: 5
 ```
-./bash_scripts/echo.sh -p ./sample_video_files/RetroDancers.mov 0.05 5 7
+./bash_scripts/echo.sh -p ./sample_video_files/retrodancers.mov 0.05 5 7
 ```
 6. XOR mode is wild! But we can actually make it a bit more interesting by really slowing down the delay time and reducing the trails. Let's try that
 ```
-./bash_scripts/echo.sh -p ./sample_video_files/RetroDancers.mov 0.5 3 7
+./bash_scripts/echo.sh -p ./sample_video_files/retrodancers.mov 0.5 3 7
 ```
 7. Now you've seen some of what echo can do, try experimenting!
 
