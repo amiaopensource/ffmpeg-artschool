@@ -69,7 +69,7 @@ while getopts "hps" OPT ; do
       p)
       ffmpeg -hide_banner -i "${3}" -i "${2}" -c:v prores -profile:v 3 -filter_complex "$(filter_complex "${@:4}")" -map '[v]' -f matroska - | ffplay -
       printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
-      printf "ffmpeg -hide_banner -i '$3' -i '$2' -c:v prores -filter_complex $(filter_complex ${@:4}) -map '[v]' -f matroska - | ffplay - \n" >&2
+      printf "ffmpeg -hide_banner -i '$3' -i '$2' -c:v prores -filter_complex '$(filter_complex ${@:4})' -map '[v]' -f matroska - | ffplay - \n" >&2
       printf "********END FFPLAY COMMANDS********\n\n " >&2
         ;;
       s)
