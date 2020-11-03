@@ -1,6 +1,37 @@
+<#
+.DESCRIPTION
+    ---
+.PARAMETER h
+    display this help
+.PARAMETER p
+    previews in FFplay
+.PARAMETER s
+    saves to file with FFmpeg
+.PARAMETER video1
+    path to the first video
+.PARAMETER video2
+    path to the second video
+.PARAMETER ---
+#>
+
+
 # Parse arguments
+
 Param(
-    [Parameter(Position=0, Mandatory)]
+    [Parameter(ParameterSetName="Help")]
+    [Parameter(ParameterSetName="Run")]
+    [Switch]
+    $h,
+
+    [Parameter(ParameterSetName="Run")]
+    [Switch]
+    $p,
+
+    [Parameter(ParameterSetName="Run")]
+    [Switch]
+    $s = $true,
+
+    [Parameter(Position=0, Mandatory, ParameterSetName="Run")]
     [ValidateScript({
         if(-Not ($_ | Test-Path) ){
             throw "File or folder does not exist" 
@@ -10,25 +41,56 @@ Param(
         }
         return $true
     })]
-    [System.IO.FileInfo]$v1,
+    [System.IO.FileInfo]$input1,
 
-    [Parameter(Position=1)]
-    [ValidateRange(1, 7)]
+    [Parameter(Position=1, ParameterSetName="Run")]
+    [ValidateRange(1, 3)]
     [Int]
     $trailMode = 1
+
+    [Parameter(Position=1, ParameterSetName="Run")]
+    [ValidateRange(1, 7)]
+    [Int]
+    $trailAmount = 1
 )
 
-Switch ($trailMode)
-{
-    1 {$filterComplex = "lagfun=decay=.95[out]"}
-    2 {$filterComplex = "format=gbrp10[formatted];[formatted]lagfun=decay=.95:planes=5,format=yuv422p10le[out]"}
-    3 {$filterComplex = "format=gbrp10[formatted];[formatted]split[a][b];[a]lagfun=decay=.99:planes=1[a];[b]lagfun=decay=.98:planes=2[b];[a][b]blend=all_mode=screen:c0_opacity=.5:c1_opacity=.5,format=yuv422p10le[out]"}
-    4 {$filterComplex = "blend=all_mode=normal:c0_opacity=.5:c1_opacity=.5"}
-    5 {$filterComplex = "blend=all_mode=normal:c0_opacity=.5:c1_opacity=.5"}
-    6 {$filterComplex = "blend=all_mode=normal:c0_opacity=.5:c1_opacity=.5"}
-    7 {$filterComplex = "blend=all_mode=normal:c0_opacity=.5:c1_opacity=.5"}
+
+# Display help
+
+if (($h) -or ($PSBoundParameters.Values.Count -eq 0 -and $args.count -eq 0)){
+    Get-Help $MyInvocation.MyCommand.Definition -detailed
+    if (!$video1) {
+        exit
+    }
 }
 
 
-# Run ffmpeg command
-ffmpeg.exe -i $v1 -c:v prores -profile:v 3 -filter_complex $filterComplex -map '[out]' "$((Get-Item $v1).Basename)_lagfun.mov"
+# Create filter string
+
+Switch ($trailMode)
+{
+    1 {$filter = "lagfun=decay=.95[v]"}
+    2 {$filter = "format=gbrp10[formatted];[formatted]lagfun=decay=.95:planes=5,format=yuv422p10le[v]"}
+    3 {$filter = "format=gbrp10[formatted];[formatted]split[a][b];[a]lagfun=decay=.99:planes=1[a];[b]lagfun=decay=.98:planes=2[b];[a][b]blend=all_mode=screen:c0_opacity=.5:c1_opacity=.5,format=yuv422p10le[v]"}
+}
+
+
+# Run command
+
+if ($p) {
+    $tempFile = New-TemporaryFile
+    ffmpeg.exe -hide_banner -stats -y -i $video -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" -f matroska $tempFile
+    ffplay.exe $tempFile
+    
+    Write-Host "`n`n*******START FFPLAY COMMANDS*******`n"
+    Write-Host "ffmpeg.exe -hide_banner -stats -y -i $video -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -map `"[v]`" -f matroska $tempFile`n"
+    Write-Host "ffplay $tempFile.FullName`n"
+    Write-Host "`n********END FFPLAY COMMANDS********`n`n"
+}
+else {
+    ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" "$((Get-Item $video1).Basename)_lagfun.mov"
+
+    Write-Host "`n`n*******START FFMPEG COMMANDS*******`n"
+    Write-Host "ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -map `"[v]`" `"$((Get-Item $video1).Basename)_lagfun.mov`"`n"
+    Write-Host "`n********END FFMPEG COMMANDS********`n`n"
+}
