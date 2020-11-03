@@ -1,6 +1,38 @@
+<#
+.DESCRIPTION
+    Corrupts a file using Bitstream Filter Noise
+.PARAMETER h
+    display this help
+.PARAMETER p
+    previews in FFplay
+.PARAMETER s
+    saves to file with FFmpeg
+.PARAMETER video
+    path to the video
+.PARAMETER corruption
+    the percentage of corruption added. 0 is no error and 1 is all error. Anything above 0.5 will likely not play
+.PARAMETER keepTemp
+    whether to delete or keep the temporary intermediate file. [default: 0] 0 to delete, 1 to keep. The temp file is really finnicky. You only want to keep it if you're ready for how wonky it can be.
+#>
+
+
 # Parse arguments
+
 Param(
-    [Parameter(Position=0, Mandatory)]
+    [Parameter(ParameterSetName="Help")]
+    [Parameter(ParameterSetName="Run")]
+    [Switch]
+    $h,
+
+    [Parameter(ParameterSetName="Run")]
+    [Switch]
+    $p,
+
+    [Parameter(ParameterSetName="Run")]
+    [Switch]
+    $s = $true,
+
+    [Parameter(Position=0, Mandatory, ParameterSetName="Run")]
     [ValidateScript({
         if(-Not ($_ | Test-Path) ){
             throw "File or folder does not exist" 
@@ -10,29 +42,56 @@ Param(
         }
         return $true
     })]
-    [System.IO.FileInfo]$v1,
+    [System.IO.FileInfo]$video,
 
-    [Parameter(Position=1)]
+    [Parameter(Position=1, ParameterSetName="Run")]
     [ValidateRange(0, 1)]
     [Decimal]
     $corruption = 0.1,
 
-    [Parameter(Position=2)]
+    [Parameter(Position=2, ParameterSetName="Run")]
     [ValidateRange(0, 1)]
     [Int]
     $keepTemp = 0
-
-
 )
 
 
-# Run ffmpeg command for temp file
-ffmpeg.exe -i $v1 -c copy -bsf noise=$corruption -y "$((Get-Item $v1).Basename)_corruptor_temp.mov"
-# Run ffmpeg command for final file
-ffmpeg.exe -i "$((Get-Item $v1).Basename)_corruptor_temp.mov" -c:v prores -profile:v 3 -y "$((Get-Item $v1).Basename)_corruptor.mov"
+# Display help
 
-# Delete temp file
-if ($keepTemp -eq 0)
-{
-    rm "$((Get-Item $v1).Basename)_corruptor_temp.mov"
+if (($h) -or ($PSBoundParameters.Values.Count -eq 0 -and $args.count -eq 0)){
+    Get-Help $MyInvocation.MyCommand.Definition -detailed
+    if (!$video) {
+        exit
+    }
+}
+
+if ($keepTemp -eq 1) {
+        Write-Host $keepTemp
+    }
+
+# Run command
+
+if ($p) {
+    $tempFile = New-TemporaryFile
+    ffmpeg.exe -hide_banner -stats -y -i $video -c copy -bsf noise=$corruption -f matroska $tempFile
+    ffplay.exe $tempFile
+    
+    Write-Host "`n`n*******START FFPLAY COMMANDS*******`n"
+    Write-Host "ffmpeg.exe -hide_banner -stats -y -i $video -c copy -bsf noise=$($corruption) -f matroska $tempFile`n"
+    Write-Host "ffplay $tempFile.FullName`n"
+    Write-Host "`n********END FFPLAY COMMANDS********`n`n"
+}
+else {
+    $tempFile = "$((Get-Item $video).Basename)_corruptor_temp.mov"
+    ffmpeg.exe -hide_banner -i $video -c copy -bsf noise=$corruption -y $tempFile
+    ffmpeg.exe -i $tempFile -c:v prores -profile:v 3 -y "$((Get-Item $video).Basename)_corruptor.mov"
+
+    Write-Host "`n`n*******START FFMPEG COMMANDS*******`n"
+    Write-Host "ffmpeg.exe -hide_banner -i $video -c copy -bsf noise=$($corruption) -y `"$($tempFile)`"`n"
+    Write-Host "ffmpeg.exe -i `"$($tempFile)`" -c:v prores -profile:v 3 -y `"$((Get-Item $video).Basename)_corruptor.mov`"`n"
+    Write-Host "`n********END FFMPEG COMMANDS********`n`n"
+
+    if ($keepTemp -eq 1) {
+        rm $tempFile
+    }
 }
