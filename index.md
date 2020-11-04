@@ -6,6 +6,8 @@ nav_order: 1
 
 # Getting Started
 
+<img src="{{ site.baseurl }}/images/rainbowjellies.gif">
+
 Please complete the following instructions before the start of the workshop. Total setup time is approximately 15 minutes.
 
 ## Download the scripts for the workshop

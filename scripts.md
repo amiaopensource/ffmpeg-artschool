@@ -7,11 +7,15 @@ nav_order: 4
 # Instructions for Bash/FFmpeg Scripts
 {: .no_toc }
 
-## Table of contents
-{: .no_toc .text-delta }
+<details open markdown="block">
+  <summary>
+    Table of contents
+  </summary>
+  {: .text-delta }
 
 1. TOC
 {:toc}
+</details>
 
 ## General Usage (and -h for help)
 Nearly all of the scripts offer users two main paths: previewing the manipulated video with FFplay, or saving directly to a file with FFmpeg proper. Note: due to the taxing nature of some of these visualizations, your computer may not be able to preview with FFplay in a completely seamless fashion (prepare for the possibility of laggy playback).
