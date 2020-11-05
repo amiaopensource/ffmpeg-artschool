@@ -70,13 +70,13 @@ To take one example, the bitplane script, which manipulates the Y, U, and V plan
 ./bitplane.sh -p ./sample_video_files/retrodancers.mov 3 4 1
 ```
 
-<img src="{{ site.baseurl }}/images/retrodancers_bitplane.jpg" width="60%">
+<img src="{{ site.baseurl }}/images/retrodancers_bitplane.jpg" width="80%">
 
 
 ## audioviz
 Creates an audio visualization overlay by blending two input files (one video, one audio) and using FFmpeg's [displace](https://ffmpeg.org/ffmpeg-filters.html#displace){:target="\_blank"} and [showcqt](https://ffmpeg.org/ffmpeg-filters.html#showcqt){:target="\_blank"} filters. Essentially, the audio file gets passed through a frequency spectrum generating filter (showcqt), and the video file is forced to conform to the undulating waves of the audio. Sounds crazy, looks like this (Color Bars + Jumpin' Jack Flash):
 
-<img src="{{ site.baseurl }}/images/colorbars_audioviz.jpg" width="60%">
+<img src="{{ site.baseurl }}/images/colorbars_audioviz.jpg" width="80%">
 
 Usage:
 
@@ -116,18 +116,18 @@ Input 3 (optional, random if unspecified): the U channel (-1-10)
 
 Input 4 (optional, random if unspecified): the V channel (-1-10)
 
-<img src="{{ site.baseurl }}/images/fonda_bitplane.jpg" width="60%">
+<img src="{{ site.baseurl }}/images/fonda_bitplane.jpg" width="80%">
 
 ## bitplaneslices
 Again, totally lifted from QCTools, this script manipulates ONLY the Y plane of a video file (with FFmpeg's [lutyuv](https://ffmpeg.org/ffmpeg-filters.html#lut_002c-lutrgb_002c-lutyuv){:target="\_blank"} filter) to creates a "sliced" effect in which cropped sections of the source video are presented in numerical order from most significant bit (1) to least (10). Hard to describe, looks like this:
 
 Original video
 
-<img src="{{ site.baseurl }}/images/jumpinjackflash.jpg" width="60%">
+<img src="{{ site.baseurl }}/images/jumpinjackflash.jpg" width="80%">
 
 Passed through bitplaneslices
 
-<img src="{{ site.baseurl }}/images/jumpinjackflash_bitslices.jpg" width="60%">
+<img src="{{ site.baseurl }}/images/jumpinjackflash_bitslices.jpg" width="80%">
 
 Usage:
 
@@ -159,11 +159,11 @@ Input 3 (optional): the blend mode
 
 MRI brain scan + Jane Fonda's Workout (pinlight)
 
-<img src="{{ site.baseurl }}/images/brain_blend_pinlight.jpg" width="60%">
+<img src="{{ site.baseurl }}/images/brain_blend_pinlight.jpg" width="80%">
 
 MRI brain scan + Jane Fonda's Workout (xor)
 
-<img src="{{ site.baseurl }}/images/brain_blend_xor.jpg" width="60%">
+<img src="{{ site.baseurl }}/images/brain_blend_xor.jpg" width="80%">
 
 ## chromakey
 Combines two files using chromakey effects, using FFmpeg's [chromakey](https://ffmpeg.org/ffmpeg-filters.html#chromakey){:target="\_blank"} filter. Fairly straightforward, but you do have to have at least one file that contains the "green" screen that will be replaced with transparency.
@@ -186,15 +186,15 @@ Input 5 (optional): the blending level. Default value is 0.1
 
 Green Screen Octopus
 
-<img src="{{ site.baseurl }}/images/green_octopus.jpg" width="60%">
+<img src="{{ site.baseurl }}/images/green_octopus.jpg" width="80%">
 
 Background video (neon squiggle lines)
 
-<img src="{{ site.baseurl }}/images/neonsquigglelines.jpg" width="60%">
+<img src="{{ site.baseurl }}/images/neonsquigglelines.jpg" width="80%">
 
 Chromakeyed video
 
-<img src="{{ site.baseurl }}/images/green_octopus_chromakey.jpg" width="60%">
+<img src="{{ site.baseurl }}/images/green_octopus_chromakey.jpg" width="80%">
 
 ## colorizer
 
@@ -212,27 +212,153 @@ Input 2: the color (red, orange, yellow, green, blue, purple, white or black)
 
 Shania Twain "That Don't Impress Me Much" music video
 
-<img src="{{ site.baseurl }}/images/shania_original.jpg" width="60%">
+<img src="{{ site.baseurl }}/images/shania_original.jpg" width="80%">
 
 Mixed red
 
-<img src="{{ site.baseurl }}/images/shania_red.jpg" width="60%">
+<img src="{{ site.baseurl }}/images/shania_red.jpg" width="80%">
 
 Mixed blue
 
-<img src="{{ site.baseurl }}/images/shania_blue.jpg" width="60%">
+<img src="{{ site.baseurl }}/images/shania_blue.jpg" width="80%">
 
 ## corruptor
+Uses FFmpeg's [bitstream noise](https://ffmpeg.org/ffmpeg-bitstream-filters.html#noise){:target="\_blank"} filter to CORRUPT your video in potentially cool looking ways. Mostly used for fuzzing or error concealment/resilience testing, but adapted to suit our artistic needs.
+
+Usage:
+
+```
+./corruptor.sh -p ./sample_video_files/charli.mov
+```
+
+Input 1: the video to be corrupted
+
+Input 2 (optional): the corruption Amount [default: 0.1]. 0 is no error and 1 is all error. Anything above 0.5 will likely not play
+
+Input 3 (optional): keep temporary file (boolean). Default is 0 (false), use 1 to keep the file but it will probably be wonky
+
+Charli XCX & Christine and the Queens "Gone" music video
+
+<img src="{{ site.baseurl }}/images/charli_original.jpg" c>
+
+Corrupted (with default settings)
+
+<img src="{{ site.baseurl }}/images/charli_corrupted.jpg" width="80%">
 
 ## echo
+Uses FFmpeg's [blend](https://ffmpeg.org/ffmpeg-filters.html#blend-1){:target="\_blank"} filter to create a video echo/ghost/trailing effect. Offers eight different blend modes, with varying effects:
+
+```
+# 1: Normal mode, nice and balanced with evenly blending trails, but gets out of hand with a higher tail length.
+# 2: Screen mode, Works well with high contrast stuff but gets out of hand very quickly
+# 3: Phoenix mode, cool psychedelic effect
+# 4: Softlight mode, trails dissipate very quickly, a subtle effect.
+# 5: Average mode, Similar to normal with slightly different colors.
+# 6: Heat mode, image is harshly affects.
+# 7: Xor mode, very cool strobing effect
+# 8: Difference mode, slightly less intense than xor but similar
+```
+
+Usage:
+
+```
+./echo.sh -p ./sample_video_files/jellyfish.mov .2 5 3
+```
+
+Input 1: the video file to be echoed
+
+Input 2 (optional): the echo rate, in seconds (default is 0.2)
+
+Input 3 (optional): the length of trails. 1 is just one trails, number increases exponentially as it goes.
+
+Input 4 (optional): the echo mode (choose 1 thru 8)
+
+Jellyfish
+
+<img src="{{ site.baseurl }}/images/jellyfish.jpg" width="80%">
+
+Echo Jellies
+
+<img src="{{ site.baseurl }}/images/jellyfish_echo.jpg" width="80%">
 
 ## gif
+Turns a video file into a gif, using FFmpeg's [palettegen](https://ffmpeg.org/ffmpeg-filters.html#palettegen-1){:target="\_blank"} filter (good for sharing your art!). Note: this script has no preview mode, it just makes gifs.
+
+Usage:
+
+```
+./gif.sh ./sample_video_files/jellyfish_echo.mov 1
+```
+
+Input 1: the video file
+
+Input 2: the quality of the resulting gif (0 = more compressed, smaller file; 1 = less compressed bigger file)
+
+<img src="{{ site.baseurl }}/images/jellyfish_echo.gif" width="80%">
+
 
 ## lagfun
+Creates a different kind of echo/ghost/trailing effect, using FFmpeg's [lagfun](https://ffmpeg.org/ffmpeg-filters.html#lagfun_){:target="\_blank"} filter.
+
+Usage:
+
+```
+./lagfun -p ./sample_video_files/jellyfish.mov 3
+```
+Input 1: the video file to be lagged
+
+Input 2: the trail mode (pick 1 thru 3). Try different modes for fun!
+
+Input 3: the trail amount, or intensity of the effect. Default is 1.
+
+Lagfun Jellyfish, trail mode 3, in gif form
+
+<img src="{{ site.baseurl }}/images/jellyfish_lagfun.gif" width="80%">
 
 ## life
+One of the only Art School scripts to not require an input file, this one uses FFmpeg's [life](https://ffmpeg.org/ffmpeg-filters.html#life){:target="\_blank"} filter to generate a visualization based upon John Conway's [Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life){:target="\_blank"}. Ideal for testing your FFmpeg installation, and the starting point of FFmpeg Art School's lesson plan. Note: if running this script in save mode, the resulting file will be located in your current working directory (in all likelihood `bash_scripts`)
+
+Usage:
+
+```
+./life.sh -p
+```
+Input 1 (optional): the game size (small, medium, or large). Default is medium.
+
+Input 2 (optional): the color of life (blue, green, red, purple, or orange). Default is yellow.
+
+Input 3 (optional): the color of death (blue, green, red, purple, or orange). Default is red.
+
+Input 4 (optional): the rate (slow, medium, or fast). Default is random selection.
+
+Input 5 (optional): the ratio (low, medium, or high). Default is random selection.
+
+Game of Life, also best seen in gif form
+
+<img src="{{ site.baseurl }}/images/life.gif" width="80%">
 
 ## lumakey
+Combine two files using FFmpeg's [lumakey](https://ffmpeg.org/ffmpeg-filters.html#lumakey){:target="\_blank"} while transforming certain luma values into transparency.  
+
+Usage:
+
+```
+./lumakey.sh ./sample_video_files/green_trex.mov ./sample_video_files/flowers.mov
+```
+
+Input 1: the video that will be keyed
+
+Input 2: the background video
+
+Input 3 (optional): the threshold (0 will key out black, 1 will key out white). Default is 0.
+
+Input 4 (optional): the tolerance (if the threshold is 0, use a low number like 0.1 to key out darks. If threshold is 1, use a high number like 0.7 to key out whites). Default is 0.1.
+
+Input 5: the softness (softens the key; 0 has sharp edges, 1 is Downy soft, though it's not advisable to go above 0.4). Default is 0.2.
+
+Green screen T-Rex, lumakeyed over timelape video of Nasturtium flowers (why? who knows)
+
+<img src="{{ site.baseurl }}/images/green_trex_lumakey.gif" width="80%">
 
 ## procamp
 
@@ -240,7 +366,7 @@ Mixed blue
 
 ## pseudocolor
 
-## rainbow-trail.
+## rainbow-trail
 
 ## repeat
 Repeats the input file an arbitrary number of times
