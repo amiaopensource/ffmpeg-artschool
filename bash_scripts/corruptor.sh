@@ -43,7 +43,8 @@ while getopts "hps" OPT ; do
          printf "********END FFPLAY COMMANDS********\n\n " >&2
          ;;
       s)
-         ffmpeg -hide_banner -i "${2}" -c copy -bsf noise=$corruption -y "${2%.*}_corruptor_temp.mov" && ffmpeg -i "${2%.*}_corruptor_temp.mov" -c:v prores -profile:v 3 -y "${2%.*}_corruptor.mov"         printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
+         ffmpeg -hide_banner -i "${2}" -c copy -bsf noise=$corruption -y "${2%.*}_corruptor_temp.mov" && ffmpeg -i "${2%.*}_corruptor_temp.mov" -c:v prores -profile:v 3 -y "${2%.*}_corruptor.mov"         
+         printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
          printf "ffmpeg -hide_banner -i '$2' -c copy -bsf noise=$corruption -y '${2%.*}_corruptor_temp.mov' && ffmpeg -i '${2%.*}_corruptor_temp.mov' -c:v prores -profile:v 3 -y '${2%.*}_corruptor.mov' \n" >&2
          printf "********END FFMPEG COMMANDS********\n\n " >&2
          ;;
