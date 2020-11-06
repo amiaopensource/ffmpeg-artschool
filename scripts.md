@@ -239,7 +239,7 @@ Input 3 (optional): keep temporary file (boolean). Default is 0 (false), use 1 t
 
 Charli XCX & Christine and the Queens "Gone" music video
 
-<img src="{{ site.baseurl }}/images/charli_original.jpg" c>
+<img src="{{ site.baseurl }}/images/charli_original.jpg" width="80%">
 
 Corrupted (with default settings)
 
@@ -338,7 +338,7 @@ Game of Life, also best seen in gif form
 <img src="{{ site.baseurl }}/images/life.gif" width="80%">
 
 ## lumakey
-Combine two files using FFmpeg's [lumakey](https://ffmpeg.org/ffmpeg-filters.html#lumakey){:target="\_blank"} while transforming certain luma values into transparency.  
+Combines two files using FFmpeg's [lumakey](https://ffmpeg.org/ffmpeg-filters.html#lumakey){:target="\_blank"} filter, transforming certain luma values into transparency.  
 
 Usage:
 
@@ -356,35 +356,194 @@ Input 4 (optional): the tolerance (if the threshold is 0, use a low number like 
 
 Input 5: the softness (softens the key; 0 has sharp edges, 1 is Downy soft, though it's not advisable to go above 0.4). Default is 0.2.
 
-Green screen T-Rex, lumakeyed over timelape video of Nasturtium flowers (why? who knows)
+Green screen T-Rex, lumakeyed over timelape video of Nasturtium flowers
 
 <img src="{{ site.baseurl }}/images/green_trex_lumakey.gif" width="80%">
 
 ## procamp
 
+A script that mimics a timebase corrector's (TBC) processing amplification (procamp) controls, allowing for manipulation of the luma, black, chroma, or hue/phase of an input video. Modeled specifically on the [DPS-290 TBC](https://archive.org/details/dsp-dps-290){:target="\_blank"}, each value has a range of -128 to 128, with 0 being the unchanged amount. Uses FFmpeg's [lutyuv](https://ffmpeg.org/ffmpeg-filters.html#lut_002c-lutrgb_002c-lutyuv){:target="\_blank"} and [hue](https://ffmpeg.org/ffmpeg-filters.html#hue){:target="\_blank"} filters to make its manipulations.
+
+Usage:
+
+```
+./procamp.sh -p ./sample_video_files/neonlines.mov 0 0 0 65
+```
+
+Input 1: the video to be procamped
+
+Input 2: adjusts the luma/contrast (-128 to 128, 0 = no change)
+
+Input 3: adjusts the black/brightness (-128 to 128, 0 = no change)
+
+Input 4: adjusts the chroma/saturation, or intensity of color (-128 to 128, 0 = no change)
+
+Input 5: adjusts the hue/phase, or shade of color (-128 to 128, 0 = no change)
+
+Neon Lines
+
+<img src="{{ site.baseurl }}/images/neonlines.jpg" width="80%">
+
+Neon Lines w/ hue adjustment of 65
+
+<img src="{{ site.baseurl }}/images/neonlines_procamp.jpg" width="80%">
+
 ## proreser
+Conforms any input file into a prores file, with an option to resize. Not terribly exciting, but good for normalizing files before making art.
+
+Usage:
+
+```
+./proreser.sh -s ./sample_video_files/neonlines.mov 640x480
+```
+
+Input 1: the video file to be transcoded to prores/mov
+
+Input 2 (optional): the resolution of the output file, formatted as WxH (ex: 640x480)
 
 ## pseudocolor
+Boosts the video levels on an input file and adds a gradient effect to pixels that are out of broadcast range, using FFmpeg's [pseudocolor](https://ffmpeg.org/ffmpeg-filters.html#pseudocolor){:target="\_blank"} filter.
+
+Usage:
+
+```
+./pseudocolor.sh -p ./sample_video_files/nightturkey.mov
+```
+
+Input 1: the video file to be boosted and given gradient out-of-range colors
+
+Night Turkey (BAVC EIAJ Test Tape from 1973)
+
+<img src="{{ site.baseurl }}/images/nightturkey.jpg" width="80%">
+
+Pseudocolored
+
+<img src="{{ site.baseurl }}/images/nightturkey_pseudocolor.jpg" width="80%">
 
 ## rainbow-trail
+Adapted from oioiiooixiii and the amazing work described in this [blog post](https://oioiiooixiii.blogspot.com/2020/07/ffmpeg-improved-rainbow-trail-effect.html){:target="\_blank"}, this script generates a rainbow trail effect that's loosely based on the [Scanimate](https://en.wikipedia.org/wiki/Scanimate){:target="\_blank"} video synthesizer system. A real doozy, uses FFmpeg's [colorkey](https://ffmpeg.org/ffmpeg-filters.html#colorkey){:target="\_blank"}, [chromakey](https://ffmpeg.org/ffmpeg-filters.html#chromakey){:target="\_blank"}, and [colorchannelmixer](https://ffmpeg.org/ffmpeg-filters.html#colorchannelmixer){:target="\_blank"} filters.
+
+Usage:
+
+```
+./rainbow-trail.sh -p ./sample_video_files/jellyfish.mov
+```
+
+Input 1: the video to be rainbow trailed
+
+Input 2 (optional): the colorkey value (default: 0000FF)
+
+Input 3 (optional): the similarity value (default 0.3)
+
+Input 4 (optional) the colorkey blend value (default 0.1)
+
+Input 5 (optional): the number of color iterations (default: 7)
+
+Input 6 (optional): alpha plane extraction (default: true)
+
+Rainbow Jellies
+
+<img src="{{ site.baseurl }}/images/rainbowjellies.gif" width="80%">
 
 ## repeat
-Repeats the input file an arbitrary number of times
+Repeats the input file an arbitrary number of times. Makes a temporary concatenation list, uses FFmpeg's [concatenation demuxer](https://trac.ffmpeg.org/wiki/Concatenate#demuxer){:target="\_blank"} to loop it up. NOTE: for this script, preview mode is disabled.
 
-Input 1: The video file to be repeated
+Usage:
 
-Input 2 (optional): The number of times to repeat the file. If nothing is entered this will default to 2
+```
+./repeat.sh -p ./sample_video_files/iknow.mov
+```
+
+Input 1: the video file to be repeated
+
+Input 2 (optional): the number of times to repeat the file. Default 2.
+
+I Know What You Did Last Summer, the "What are you waiting for" moment (looping gif, but also a looping video! Believe it!)
+
+<img src="{{ site.baseurl }}/images/iknow.gif" width="80%">
 
 ## reverse
-Reverses the input file
+Reverses the input file using FFmpeg's [reverse](https://ffmpeg.org/ffmpeg-filters.html#reverse){:target="\_blank"} filter.
 
-Input 1: The video file to be reversed
+Usage:
+
+```
+./reverse.sh -p ./sample_video_files/dancers.mov
+```
+
+Input 1: the video file to be reversed
+
+Original video
+
+<img src="{{ site.baseurl }}/images/dancers.gif" width="80%">
+
+
+Reversed
+
+<img src="{{ site.baseurl }}/images/dancers_reverse.gif" width="80%">
 
 ## rotate
+Rotates an input file with options to resize the output, using FFmpeg's [transpose](https://ffmpeg.org/ffmpeg-filters.html#transpose-1){:target="\_blank"} filter.
+
+Usage:
+
+```
+./rotate.sh -p ./sample_video_files/cat.mov 270 1
+```
+
+Input 1: the video file to be rotated
+
+Input 2: the rotation amount, in degrees (must be 90, 180, or 270)
+
+Input 3: the stretch, to conform an output file to the input's aspect ratio (1 for true 0 for false)
+
+Cat + Pumpkin
+
+<img src="{{ site.baseurl }}/images/cat.jpg" width="80%">
+
+Rotated Cat + Pumpkin (270 degrees, aspect ratio manipulated)
+
+<img src="{{ site.baseurl }}/images/cat_rotate.jpg" width="80%">
 
 ## tblend_glitch
+Performs a glitchy [tblend](https://ffmpeg.org/ffmpeg-filters.html#tblend){:target="\_blank"} on an input video file, again adapted from [oioiiooixiii](https://oioiiooixiii.blogspot.com){:target="\_blank"}
+
+Usage:
+
+```
+./tblend_glitch.sh ./sample_video_files/neonlines.mov 4
+```
+
+Input 1: the video file to be tblend glitched
+
+Input 2: the blend mode (choose a number between 1 and 4)
+
+Neon lines, tblend glitched 1
+
+<img src="{{ site.baseurl }}/images/neonlines_tblend_glitch.gif" width="80%">
 
 ## tblend
+Applies FFmpeg's [tblend](https://ffmpeg.org/ffmpeg-filters.html#tblend){:target="\_blank"} filter with an arbitrary blend mode. Trippy trippy stuff.
+
+Usage:
+
+```
+./tblend.sh -p ./sample_video_files/flowers.mov xor
+```
+
+Input 1: the video file to be tblended
+
+Input 2: the blend mode. Options include:
+
+```
+addition, addition128, grainmerge, and, average, burn, darken, difference, difference128, grainextract, divide, dodge, freeze, exclusion, extremity, glow, hardlight, hardmix, heat,
+lighten, linearlight, multiply, multiply128, negation, normal, or, overlay,
+phoenix, pinlight, reflect, screen, softlight, subtract, vividlight, xor
+```
+
+Nasturtium flowers timelape video, tblend xor
+
+<img src="{{ site.baseurl }}/images/flowers_tblend_xor.gif" width="80%">
 
 ## text
 
