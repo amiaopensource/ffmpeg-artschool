@@ -46,16 +46,16 @@ while getopts "hps" OPT ; do
       h) _usage ; exit 0
         ;;
       p)
+         ffmpeg -hide_banner -i "${2}" -i "${3}" -c:v prores -profile:v 3 -filter_complex $(filter_complex) -map '[v]' -map '0:a' -shortest -f matroska - | ffplay -
          printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
          printf "ffmpeg -hide_banner -i '$2' -i '$3' -c:v prores -profile:v 3 -filter_complex $(filter_complex) -map '[v]' -map '0:a' -shortest -f matroska - | ffplay - \n" >&2
          printf "********END FFPLAY COMMANDS********\n\n " >&2
-         ffmpeg -hide_banner -i "${2}" -i "${3}" -c:v prores -profile:v 3 -filter_complex $(filter_complex) -map '[v]' -map '0:a' -shortest -f matroska - | ffplay -
          ;;
       s)
+         ffmpeg -hide_banner -y -i "${2}" -i "${3}" -c:v prores -profile:v 3 -filter_complex $(filter_complex) -map '[v]' -map '0:a' -shortest "${2%.*}_audioviz.mov"
          printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
          printf "ffmpeg -hide_banner -i '$2' -i '$3' -c:v prores -profile:v 3 -filter_complex $(filter_complex) -map '[v]' -map '0:a' -shortest '${2%.*}_audioviz.mov'" >&2
          printf "********END FFMPEG COMMANDS********\n\n " >&2
-         ffmpeg -hide_banner -y -i "${2}" -i "${3}" -c:v prores -profile:v 3 -filter_complex $(filter_complex) -map '[v]' -map '0:a' -shortest "${2%.*}_audioviz.mov"
          ;;
       *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
     esac
