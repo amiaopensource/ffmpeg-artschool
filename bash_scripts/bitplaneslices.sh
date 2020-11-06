@@ -23,16 +23,16 @@ while getopts "hps" OPT ; do
       h) _usage ; exit 0
         ;;
       p)
-        printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
-        echo ffplay "$2" -vf "$vf"
-        printf "********END FFPLAY COMMANDS********\n\n " >&2
         ffplay "$2" -vf "$vf"
+        printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
+        printf "ffplay -i '$2' -vf '$vf' \n" >&2
+        printf "********END FFPLAY COMMANDS********\n\n " >&2
         ;;
       s)
-        printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
-        echo ffmpeg -i "'$2'" -c:v prores -profile:v 3 -filter_complex $vf "'${2}_bitslices.mov'"
-        printf "********END FFMPEG COMMANDS********\n\n " >&2
         ffmpeg -hide_banner -i "$2" -c:v prores -profile:v 3 -vf "$vf" "${2}_bitslices.mov"
+        printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
+        printf "ffmpeg -hide_banner -stats -i '$2' -c:v prores -profile:v 3 -vf '$vf' '${2}_bitslices.mov' \n" >&2
+        printf "********END FFPLAY COMMANDS********\n\n " >&2
         ;;
       *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
     esac
