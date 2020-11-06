@@ -15,8 +15,8 @@ $(basename "${0}")
 
   Notes
   GAME_SIZE: small, medium, or large. Default is medium
-  LIFE_COLOR: blue, green red purple or orange. default is yellow
-  DEATH_COLOR: blue, green red purple or orange. default is red
+  LIFE_COLOR: blue, green red, purple or orange. default is yellow
+  DEATH_COLOR: blue, green red, purple or orange. default is red
   RATE slow medium fast, default is random
   RATIO low medium high, default is random
 
