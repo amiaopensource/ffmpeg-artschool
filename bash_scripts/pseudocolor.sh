@@ -20,7 +20,7 @@ $(basename "${0}")
    INPUT_FILE_1 The file that will be processed
 
   Outcome
-   Boosts Levels and then adds gradient for out of ranger pixels using psuedocolor.
+   Boosts Levels and then adds gradient for out of range pixels using psuedocolor.
    dependencies: ffmpeg 4.3 or later
 EOF
 }
