@@ -24,15 +24,11 @@ $(basename "${0}")
    dependencies: ffmpeg 4.3 or later
 EOF
 }
-Function filter_complex()
+function filter_complex()
 {
 
-   filterString="\
-   color=0x808080:s=720x480,format=rgb24,loop=-1:size=2[base];\
-   [0:a]showcqt=s=720x480:basefreq=73.41:endfreq=1567.98,format=rgb24,geq='p(X,363)',setsar=1,colorkey=black:similarity=0.1[vcqt];\
-   [base][vcqt]overlay,split[vcqt1][vcqt2];\
-   [1:v]scale=720x480,format=rgb24,setsar=1[bgv];\
-   [bgv][vcqt1][vcqt2]displace=edge=blank,format=yuv420p10le[v]"
+   filterString= # words go Here
+   # -vf pseudocolor="'if(between(val,ymax,amax),lerp(ymin,ymax,(val-ymax)/(amax-ymax)),-1):if(between(val,ymax,amax),lerp(umax,umin,(val-ymax)/(amax-ymax)),-1):if(between(val,ymax,amax),lerp(vmin,vmax,(val-ymax)/(amax-ymax)),-1):-1'"
 
    # Return full filter string, with necessary prefix and suffix filterchains
    printf '%s%s%s' $filterString
