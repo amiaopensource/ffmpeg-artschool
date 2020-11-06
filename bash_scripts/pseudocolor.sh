@@ -24,7 +24,20 @@ $(basename "${0}")
    dependencies: ffmpeg 4.3 or later
 EOF
 }
+Function filter_complex()
+{
 
+   filterString="\
+   color=0x808080:s=720x480,format=rgb24,loop=-1:size=2[base];\
+   [0:a]showcqt=s=720x480:basefreq=73.41:endfreq=1567.98,format=rgb24,geq='p(X,363)',setsar=1,colorkey=black:similarity=0.1[vcqt];\
+   [base][vcqt]overlay,split[vcqt1][vcqt2];\
+   [1:v]scale=720x480,format=rgb24,setsar=1[bgv];\
+   [bgv][vcqt1][vcqt2]displace=edge=blank,format=yuv420p10le[v]"
+
+   # Return full filter string, with necessary prefix and suffix filterchains
+   printf '%s%s%s' $filterString
+
+}
 
 while getopts "hps" OPT ; do
     case "${OPT}" in
