@@ -31,16 +31,25 @@ EOF
 
 filename=$(basename -- "$2")
 extension="${filename##*.}"
-
 repeats="${3:-2}"    # Number of repeats - default vaue 2
+firstchar=${2:0:1}
+pwd=$(pwd)
+
+
+if [[ $firstchar == "." ]]; then
+   filepath="$pwd${2:1}"
+else
+   filepath=$2
+fi
+
 
 for i in $( seq 1 $repeats )
 do
   if [[ $i = 1 ]]
   then
-    echo file \'$2\' > /tmp/catlist.txt
+    echo file \'$filepath\' > /tmp/catlist.txt
   else
-    echo file \'$2\' >> /tmp/catlist.txt
+    echo file \'$filepath\' >> /tmp/catlist.txt
   fi
 done
 
@@ -57,5 +66,3 @@ while getopts "hs" OPT ; do
       *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
     esac
   done
-
-ffmpeg -f concat -safe 0 -i /tmp/catlist.txt -c copy "${2%.*}_looped_x${3}.${extension}"
