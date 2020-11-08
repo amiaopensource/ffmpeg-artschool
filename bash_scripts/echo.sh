@@ -37,13 +37,13 @@ $(basename "${0}")
 
   Echo modes:
    1: Normal mode, nice and balanced with evenly blending trails, but gets out of hand with a higher tail length.
-   2: Screen mode, Works well with high contrast stuff but gets out of hand very quickly
-   3: Phoenix mode, cool psychedelic effect
-   4: Softlight mode, trails dissapapte very quickly, a subtle effect.
+   2: Screen mode, Works well with high contrast stuff but gets out of hand very quickly.
+   3: Phoenix mode, cool psychedelic effect.
+   4: Softlight mode, trails dissipate very quickly, a subtle effect.
    5: Average mode, Similar to normal with slightly different colors.
-   6: Heat mode, image is harshly affects.
-   7: Xor mode, very cool strobing effect
-   8: Difference mode, slightly less intense than xor but similar
+   6: Heat mode, image is harshly affected.
+   7: Xor mode, very cool strobing effect.
+   8: Difference mode, slightly less intense than xor but similar.
 
   Outcome
    Adds echo trails to a video file
