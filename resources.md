@@ -1,21 +1,31 @@
 ---
-title: Schedule
+title: Resources
 layout: default
 nav_order: 6
 ---
 
-# Schedule
+# Resources
 
-| **Time** | **Activity** | **Notes** |
-|   -----          |     -----      |     -----      |
-|   11:30AM - 11:45AM EST      |  Hello + Fun Kick-off |      We'll hit the ground with something colorful (Conway's Game of Life)   |
-|   11:45AM - 12:00PM EST      |  Introduction to FFmpeg |      History, Basics, Helpful Hints   |
-|   12:00PM - 12:15PM EST      |  Studio 1 |      Running Bash and FFmpeg    |
-|   12:15PM - 12:45PM EST      |  Understanding Filterchains & Filtergraphs |      Truly all you'll ever need to know about FFmpeg filtering |
-|   12:45PM - 1:15PM EST      |  Break Time |      Enjoy a beverage/food, move around a little   |
-|   1:15PM - 1:30PM EST      |  Studio 2: Chromakey and Echo |      Green screens and laggy effects   |
-|   1:30PM - 2:00PM EST      |  FFmpeg for Archives + Preservation |      Seems boring but it's not     |
-|   2:00PM - 2:15PM EST      |  Studio 3: Bitplane, Blend, Zoom/Scroll |      YUV plane manipulation, derivative file comparison, and twisting a Line 21 viewer     |
-|   2:15PM - 2:45PM EST      |  FFmpeg + QC |      Video levels and audio spectrograms     |
-|   2:45PM - 3:00PM EST      |  Studio 4: Pseudocolor, Showcqt |      Repurposing signal analysis tools tools     |
-|   3:00PM - 4:00PM EST      |  Free Time + Show 'n' Tell |    Go wild! Mix and Match       |
+## Helpful built-in FFmpeg commands
+* man ffmpeg
+* ffmpeg -version
+* ffmpeg -pix_fmts
+* ffmpeg -codecs
+* ffmpeg -h encoder=codecname
+    * change 'encoder' to 'decoder' or 'muxer' for more info, ex:
+      * ffmpeg -h muxer=matroska
+* ffmpeg -filters
+* ffmpeg -h filter=filtername
+  * ffmpeg -h filter=signalstats
+
+## Other Great Resources
+* [ffmprovisr](https://amiaopensource.github.io/ffmprovisr/){:target="\_blank"}
+* FFmpeg [documentation](https://www.ffmpeg.org/ffmpeg.html){:target="\_blank"}
+* [Fancy Filtering Examples](https://trac.ffmpeg.org/wiki/FancyFilteringExamples)
+* [oioiiooixii blogpsot](https://oioiiooixiii.blogspot.com/){:target="\_blank"}
+* Andrew Weaver's [NDSR Tutorial](https://ndsr.americanarchive.org/2017/05/01/resident-webinar-recording-roundup/){:target="\_blank"}
+* Carl Eugen Hoyos, [No Time to Wait 2 Livestream](https://www.youtube.com/watch?v=zHnvAM_CHUQ){:target="\_blank"} (02:24:00)
+* Kieran Kunya, [No Time to Wait 3, "Supporting Niche Formats in Open Source Software and Operating Systems"](https://www.youtube.com/watch?v=oXvmbt_9X1s&list=PLb-Zj-nXPS3JzNRX1VcfMDa66l3saTYZg&index=8){:target="\_blank"}
+
+## Thanks
+Special thanks to Paul Mahol, oioiiooixii, and Dave Rice, whose work not only paved the way, but also directly inspired a good part of FFmpeg Art School.
