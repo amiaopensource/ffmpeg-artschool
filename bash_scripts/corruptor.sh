@@ -18,7 +18,7 @@ $(basename "${0}")
    -s  saves to file with FFmpeg
 
   Notes
-  Corruption Amount [default: 0.1] 0 is no error and 1 is all error. Anything abot 0.5 will likely not play
+  Corruption Amount [default: 0.1] 0 is no error and 1 is all error. Anything about 0.5 will likely not play
   Keep temp file: Boolean. Default is 0 (false), use 1 to keep the file but it will probably by wonky
 
   Outcome
@@ -43,7 +43,7 @@ while getopts "hps" OPT ; do
          printf "********END FFPLAY COMMANDS********\n\n " >&2
          ;;
       s)
-         ffmpeg -hide_banner -i "${2}" -c copy -bsf noise=$corruption -y "${2%.*}_corruptor_temp.mov" && ffmpeg -i "${2%.*}_corruptor_temp.mov" -c:v prores -profile:v 3 -y "${2%.*}_corruptor.mov"         
+         ffmpeg -hide_banner -i "${2}" -c copy -bsf noise=$corruption -y "${2%.*}_corruptor_temp.mov" && ffmpeg -i "${2%.*}_corruptor_temp.mov" -c:v prores -profile:v 3 -y "${2%.*}_corruptor.mov"
          printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
          printf "ffmpeg -hide_banner -i '$2' -c copy -bsf noise=$corruption -y '${2%.*}_corruptor_temp.mov' && ffmpeg -i '${2%.*}_corruptor_temp.mov' -c:v prores -profile:v 3 -y '${2%.*}_corruptor.mov' \n" >&2
          printf "********END FFMPEG COMMANDS********\n\n " >&2

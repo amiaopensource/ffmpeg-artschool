@@ -17,7 +17,7 @@ $(basename "${0}")
    -s  saves to file with FFmpeg
 
   Notes
-  Audio file must be first argument, video file music be second arguement
+  Audio file must be first argument, video file must be second arguement. Duration of each file should be similar.
 
   Outcome
    Creates audio visualization overlay by blending video and audio using dispalce and showcqt
