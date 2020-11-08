@@ -18,7 +18,7 @@ nav_order: 4
 </details>
 
 ## General Usage (and -h for help)
-Nearly all of the scripts offer users two main paths: previewing the manipulated video with FFplay, or saving directly to a file with FFmpeg proper. Note: due to the taxing nature of some of these visualizations, your computer may not be able to preview with FFplay in a completely seamless fashion (prepare for the possibility of laggy playback).
+Nearly all of the scripts offer users two main paths: previewing the manipulated video with FFplay or saving directly to a file with FFmpeg. Due to the taxing nature of some of these visualizations, your computer may not be able to preview with FFplay in a completely seamless fashion (prepare for the possibility of laggy playback).
 
 But fear not: you should be able to at least get a sense of how your art will look, and these delays will not carry over into your resulting files.
 
@@ -48,7 +48,7 @@ Outcome
 
 ## Preview (-p) or Save (-s)
 
-One of the operating assumptions of FFmpeg Art School is that you'll want to try out a whole host of possibilities before settling on the look of your final artwork. To help you in this process of playing around, you can preview by using the `-p` flag. For example:
+One of the operating assumptions of FFmpeg Art School is that you'll want to try out a whole range of possibilities before settling on the look of your final artwork. To help you in this process, you can preview by using the `-p` flag. For example:
 
 ```
 ./lagfun.sh -p ./sample_video_files/retrodancers.mov
@@ -57,9 +57,9 @@ If you're satisfied with the echoey look of these Retro Dancers, you can re-run 
 
 Note: when "saving" files, the resulting file will be placed in the same directory as the file you're manipulating, with a helpful filename suffix that should call your attention. In the above case, the resulting file would be called `retrodancers_lagfun.mov` and it would live in the same `sample_video_files` directory as the original.
 
-For consistency and ease-of-use, all of the FFmpeg Art School scripts currently transcode your input file to Prores HQ 422, wrapped in Quicktime (.mov). But feel free to adapt these to your wants or needs!
+For consistency and ease-of-use, all of the FFmpeg Art School scripts currently transcode  input files to Prores HQ 422, wrapped in Quicktime (.mov). But feel free to adapt these to your wants or needs!
 
-MOST IMPORTANT: the `-p` or `-s` flags are required, so if you run the scripts without them, nothing will happen!
+**MOST IMPORTANT: the `-p` or `-s` flags are required, so if you run the scripts without them, nothing will happen!**
 
 ## Optional Parameters
 Many—but not all—of the scripts allow for customization through the use of optional parameters (or positional arguments) passed by the user when executing a script. In almost all cases, we've written code that either defaults to pre-set options or makes random selections, but these variables can always be adjusted by the user as needed. And, most importantly, whether options are available for a script or not, they will be described in depth in the help documentation (run the script with a `-h` flag).
@@ -74,7 +74,7 @@ To take one example, the bitplane script, which manipulates the Y, U, and V plan
 
 
 ## audioviz
-Creates an audio visualization overlay by blending two input files (one video, one audio) and using FFmpeg's [displace](https://ffmpeg.org/ffmpeg-filters.html#displace){:target="\_blank"} and [showcqt](https://ffmpeg.org/ffmpeg-filters.html#showcqt){:target="\_blank"} filters. Essentially, the audio file gets passed through a frequency spectrum generating filter (showcqt), and the video file is forced to conform to the undulating waves of the audio. Sounds crazy, looks like this (Color Bars + Jumpin' Jack Flash):
+Creates an audio visualization overlay by blending two input files (one video, one audio) and using FFmpeg's [displace](https://ffmpeg.org/ffmpeg-filters.html#displace){:target="\_blank"} and [showcqt](https://ffmpeg.org/ffmpeg-filters.html#showcqt){:target="\_blank"} filters. Essentially, the audio file gets passed through a frequency spectrum generating filter (showcqt) and the video file is forced to conform to the undulating waves of the audio. Sounds crazy, looks like this (Color Bars + Jumpin' Jack Flash):
 
 <img src="{{ site.baseurl }}/images/colorbars_audioviz.jpg" width="80%">
 
@@ -88,12 +88,12 @@ Input 1: the audio file
 Input 2: the video file
 
 ## bitplane
-Based on the QCTools bitplane visualization, which "binds" the bit position of the Y, U, and V planes of a video file by using FFmpeg's [lutyuv](https://ffmpeg.org/ffmpeg-filters.html#lut_002c-lutrgb_002c-lutyuv){:target="\_blank"} filter. The script has randomness built into it, and the numerical values—a range between -1 and 10—for the Y, U, and V planes will vary upon successive runs, yielding cool and different results each time you give it a spin. NOTE: -1 will be the equivalent of removing a plane entirely, while 0 is essentially a stand-in for not manipulating a channel at all (so three zeroes will look exactly like the video would without any change at all).
+Based on the QCTools bitplane visualization, which "binds" the bit position of the Y, U, and V planes of a video file by using FFmpeg's [lutyuv](https://ffmpeg.org/ffmpeg-filters.html#lut_002c-lutrgb_002c-lutyuv){:target="\_blank"} filter. The script has randomness built into it, and the numerical values—a range between -1 and 10—for the Y, U, and V planes will vary upon successive runs, yielding cool and different results each time you give it a spin. **NOTE: -1 will be the equivalent of removing a plane entirely, while 0 is essentially a stand-in for not manipulating a channel at all (so three zeroes will look exactly like the video would without any change at all)**.
 
-In YUV video, there are two general things to keep in mind:
+In YUV video, there are two things to keep in mind:
 
-* The most significant bits are the lower value numbers—aka most of the image data lives in these lower bits—and as you go up the ranks to 10, your results will become noisier (harder to discern the source).
-* In color difference video, Y equates to luma, or brightness, or black and white; U to R-Y; and V to B-Y, so adjusting Y numbers will make the most dramatic difference, while adjusting U and V will make the most colorful difference.
+* Generally, the most significant bits are the lower value numbers—aka most of the image data lives in these lower bits—and as you go up the ranks to 10, your results will become noisier (harder to discern the source).
+* In color difference video, Y equates to luma, or brightness, or black and white information; U to R-Y; and V to B-Y, so adjusting Y numbers will make the most dramatic difference, while adjusting U and V will make the most colorful difference.
 
 Some additional helpful info from the QCTools documentation:
 
@@ -119,7 +119,7 @@ Input 4 (optional, random if unspecified): the V channel (-1-10)
 <img src="{{ site.baseurl }}/images/fonda_bitplane.jpg" width="80%">
 
 ## bitplaneslices
-Again, totally lifted from QCTools, this script manipulates ONLY the Y plane of a video file (with FFmpeg's [lutyuv](https://ffmpeg.org/ffmpeg-filters.html#lut_002c-lutrgb_002c-lutyuv){:target="\_blank"} filter) to creates a "sliced" effect in which cropped sections of the source video are presented in numerical order from most significant bit (1) to least (10). Hard to describe, looks like this:
+Totally lifted from QCTools, this script manipulates ONLY the Y plane of a video file (with FFmpeg's [lutyuv](https://ffmpeg.org/ffmpeg-filters.html#lut_002c-lutrgb_002c-lutyuv){:target="\_blank"} filter) to create a "sliced" effect in which cropped sections of the source video are presented in numerical order from most significant bit (1) to least (10). Hard to describe, looks like this:
 
 Original video
 
@@ -137,7 +137,7 @@ Usage:
 Input 1: the video file
 
 ## blend
-Blends two files together in a variety of ways, using FFmpeg's [blend](https://ffmpeg.org/ffmpeg-filters.html#blend-1){:target="\_blank"} filter. The first input will serve as the "top" layer, the second the "bottom." Defaults to `addition128`, but a number of other options are available (don't miss out on xor):
+Blends two files together in a variety of ways, using FFmpeg's [blend](https://ffmpeg.org/ffmpeg-filters.html#blend-1){:target="\_blank"} filter. The first input will serve as the "top" layer, the second the "bottom." Defaults to `addition128`, but a number of other options are available (don't miss out on xor!):
 
 ```
 addition, addition128, grainmerge, and, average, burn, darken, difference, difference128,
@@ -223,7 +223,7 @@ Mixed blue
 <img src="{{ site.baseurl }}/images/shania_blue.jpg" width="80%">
 
 ## corruptor
-Uses FFmpeg's [bitstream noise](https://ffmpeg.org/ffmpeg-bitstream-filters.html#noise){:target="\_blank"} filter to CORRUPT your video in potentially cool looking ways. Mostly used for fuzzing or error concealment/resilience testing, but adapted to suit our artistic needs.
+Uses FFmpeg's [bitstream noise](https://ffmpeg.org/ffmpeg-bitstream-filters.html#noise){:target="\_blank"} filter to CORRUPT your video in potentially cool looking ways. Mostly used for fuzzing or error concealment/resilience testing, but adapted here to suit our artistic needs.
 
 Usage:
 
@@ -296,6 +296,30 @@ Input 2: the quality of the resulting gif (0 = more compressed, smaller file; 1 
 
 <img src="{{ site.baseurl }}/images/jellyfish_echo.gif" width="80%">
 
+## jetcolor
+Uses FFmpeg's [pseudocolor](https://ffmpeg.org/ffmpeg-filters.html#pseudocolor){:target="\_blank"} filter to create a "jetcolor" effect (also boosts the brightness and saturation of the video before the jet takes off).
+
+Usage:
+
+```
+./jetcolor.sh -p ./sample_video_files/dancers.mov
+```
+
+Input 1: the video to be jetcolored
+
+Input 2 (optional): toggle between three different jetcolor modes (1-3, default 1)
+
+Original video of dancer
+
+<img src="{{ site.baseurl }}/images/dancer.gif" width="80%">
+
+Jetcolor Dancers, mode 1
+
+<img src="{{ site.baseurl }}/images/dancer_jetcolor1.gif" width="80%">
+
+Jetcolor Dancers, mode 3
+
+<img src="{{ site.baseurl }}/images/dancer_jetcolor3.gif" width="80%">
 
 ## lagfun
 Creates a different kind of echo/ghost/trailing effect, using FFmpeg's [lagfun](https://ffmpeg.org/ffmpeg-filters.html#lagfun_){:target="\_blank"} filter.
@@ -311,12 +335,12 @@ Input 2: the trail mode (pick 1 thru 3). Try different modes for fun!
 
 Input 3: the trail amount, or intensity of the effect. Default is 1.
 
-Lagfun Jellyfish, trail mode 3, in gif form
+Lagfun Jellies, trail mode 3
 
 <img src="{{ site.baseurl }}/images/jellyfish_lagfun.gif" width="80%">
 
 ## life
-One of the only Art School scripts to not require an input file, this one uses FFmpeg's [life](https://ffmpeg.org/ffmpeg-filters.html#life){:target="\_blank"} filter to generate a visualization based upon John Conway's [Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life){:target="\_blank"}. Ideal for testing your FFmpeg installation, and the starting point of FFmpeg Art School's lesson plan. Note: if running this script in save mode, the resulting file will be located in your current working directory (in all likelihood `bash_scripts`)
+One of the only Art School scripts to not require an input file, this one uses FFmpeg's [life](https://ffmpeg.org/ffmpeg-filters.html#life){:target="\_blank"} filter to generate a visualization based upon John Conway's [Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life){:target="\_blank"}. Ideal for testing your FFmpeg installation and the starting point of FFmpeg Art School's lesson plan. Note: if running this script in save mode, the resulting file will be located in your current working directory (in all likelihood `bash_scripts` or `powershell_scripts`)
 
 Usage:
 
@@ -389,7 +413,7 @@ Neon Lines w/ hue adjustment of 65
 <img src="{{ site.baseurl }}/images/neonlines_procamp.jpg" width="80%">
 
 ## proreser
-Conforms any input file into a prores file, with an option to resize. Not terribly exciting, but good for normalizing files before making art.
+Conforms any input file into a prores file, with an option to resize. Not terribly exciting, but good for normalizing your files before making art.
 
 Usage:
 
@@ -446,7 +470,7 @@ Rainbow Jellies
 <img src="{{ site.baseurl }}/images/rainbowjellies.gif" width="80%">
 
 ## repeat
-Repeats the input file an arbitrary number of times. Makes a temporary concatenation list, uses FFmpeg's [concatenation demuxer](https://trac.ffmpeg.org/wiki/Concatenate#demuxer){:target="\_blank"} to loop it up. NOTE: for this script, preview mode is disabled.
+Repeats the input file an arbitrary number of times. Makes a temporary concatenation list, uses FFmpeg's [concatenation demuxer](https://trac.ffmpeg.org/wiki/Concatenate#demuxer){:target="\_blank"} to loop it up. **NOTE: for this script, preview mode is disabled**.
 
 Usage:
 
@@ -546,18 +570,112 @@ Nasturtium flowers timelape video, tblend xor
 <img src="{{ site.baseurl }}/images/flowers_tblend_xor.gif" width="80%">
 
 ## text
+Generates text on screen based upon user input, offering a variety of text colors, background colors, sizes, and scroll directions/speeds. Uses FFmpeg's [Libavfilter virtual input device](https://ffmpeg.org/ffmpeg-devices.html#lavfi){:target="\_blank"} and the [drawtext](https://ffmpeg.org/ffmpeg-filters.html#drawtext-1){:target="\_blank"} filter to do its thing.
+
+**Note: this script does not draw text on top of a input file, but rather generates something akin to a title card. So no input file needed!**
+
+Usage:
+
+```
+./text.sh -p "Hello World" white green 100 up
+```
+
+Input 1: the text to be written. Accepts either text **in quotation marks** or path to a text file. If text, no apostrophes. If text file. make sure it's plain text.
+
+Input 2: the color of the text (white, black, silver, grey, green, blue, yellow, red, purple, orange). Default: white
+
+Input 3: the background color (white, black, silver, grey, green, blue, yellow, red, purple, orange). Default: black
+
+Input 4: the text size (higher = bigger)
+
+Input 5: the direction of the scroll (left, right, up, down, center). Default: center (no motion)
+
+Input 6: the speed of the scroll (higher = faster)
+
+"Hello World" white text (size 100) on green background, scrolling up
+
+<img src="{{ site.baseurl }}/images/text.gif" width="80%">
 
 ## tile
-Based off the QCTools filter "Filmstrip". Tiles the input file, rows and columns can be defined
+Adapted from the QCTools [filmstrip](http://bavc.github.io/qctools/playback_filters.html#filmstrip){:target="\_blank"} filter. Uses the FFmpeg [tile](https://ffmpeg.org/ffmpeg-filters.html#tile-1){:target="\_blank"} filter to create a mosaic, "tiled" effect for the input video, based upon a user selected set of rows and columns.
 
-Input 1: The video file to be tiled
+Usage:
 
-Input 2 (optional): Number of columns (width). Default is 2
+```
+./tile.sh -p ./sample_video_files/skull.mov
+```
 
-Input 3 (optional): Number of columns (height). Default is 2
+Input 1: the video file to be tiled
 
-Input 4 (optional): Output frame size. This will squeeze the output into a specific size. Must be in format "WIDTHxHEIGHT" to work
+Input 2 (optional): the number of columns (must be a multiple of 2). Default: 4
+
+Input 3 (optional): the number of rows (must be a multiple of 2). Default: 4
+
+Input 4 (optional): the output frame size. This will squeeze the output into a specific size. Must be in format "WIDTHxHEIGHT" to work
+
+Green screen black skull
+
+<img src="{{ site.baseurl }}/images/skull.gif" width="80%">
+
+Tiled skulls
+
+<img src="{{ site.baseurl }}/images/skull_tile.gif" width="80%">
 
 ## trim
+Trims a video file based upon user-defined starting and ending timestamps (HH:MM:SS). Uses FFmpeg's [output seeking](https://trac.ffmpeg.org/wiki/Seeking){:target="\_blank"} to make its cuts. **NOTE: for this script, preview mode is disabled**.
+
+Usage:
+
+```
+./trim.sh -s ./sample_video_files/skull.mov 00:00:00 00:00:10
+```
+
+Input 1: the video to be trimmed
+
+Input 2: the start point (HH:MM:SS)
+
+Input 2: the end point (HH:MM:SS)
+
+## xstack
+Creates a mosaic of multiple input video files using FFmpeg's [xstack](https://ffmpeg.org/ffmpeg-filters.html#xstack){:target="\_blank"} filter. Note: though the xstack filter itself is endlessly customizable, this script will only accept a set number of input files that can be stacked into a square shape (**4, 9, 16, or 25**).
+
+Usage:
+
+```
+./xstack.sh -p INPUT_FILE_1 INPUT_FILE_2 INPUT_FILE_3 INPUT_FILE_4
+```
+
+Input 1: the video file to be situated in the upper left corner
+
+The following inputs will vary based upon the total number to be stacked (4, 9, 16, or 25), but inputs should be sequenced from left to right, from row to row, as desired.
+
+25 colorized videos of Jane Fonda's workout, arranged in American flag design (riff on Nam June Paik's ["Video Flag"](https://www.si.edu/tbma/work/video-flag){:target="\_blank"})
+
+<img src="{{ site.baseurl }}/images/fonda_xstack.gif" width="80%">
 
 ## zoomflipscroller
+A play on one of the visualizations provided by the Line 21 closed caption extraction tool [sccyou](https://github.com/amiaopensource/sccyou){:target="\_blank"}, zoom/flip/scroller takes a single line of video, zooms in extra close, flips it on its axis, and scrolls up vertically. Designed to visualize and analyze closed captioning information, which lives at the tippy top of the video raster, this re-purposing—which draws upon FFmpeg's [crop](https://ffmpeg.org/ffmpeg-filters.html#crop){:target="\_blank"}, [scale](https://ffmpeg.org/ffmpeg-filters.html#scale-1){:target="\_blank"}, and [tile](https://ffmpeg.org/ffmpeg-filters.html#tile-1){:target="\_blank"} filters—generates results unlike any other. And, as with bitplane, zoomflipscroller defaults to a randomly selected line (between 1-350) but will also accept a user-specified input.
+
+Usage:
+
+```
+./zoomflipscroller.sh -p ./sample_video_files/jumpinjackflash.mov 1
+```
+
+Input 1: the video file to be zoomed/flipped/scrolled
+
+Input 2 (optional): the line to be zeroed in on. Default: random number between 1-350. If your video has line 21 and you'd like to zoom in on it, select 1.
+
+Jumpin' Jack Flash, zoom in on line 21 (line 1)
+
+<img src="{{ site.baseurl }}/images/jumpinjackflash_zoomscroll.jpg" width="80%">
+
+More fun: random zoom on colorful and random bitplaned video
+
+Bitplaned dancer (Y:3, U:-1, V: 7)
+
+<img src="{{ site.baseurl }}/images/dancer_bitplane.jpg" width="80%">
+
+Zoom/Flip/Scroll, line 286
+
+<img src="{{ site.baseurl }}/images/dancer_bitplane_zoomscroll.jpg" width="80%">
