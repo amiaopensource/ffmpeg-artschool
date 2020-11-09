@@ -85,11 +85,11 @@ This one is based on the QCTools bitplane visualization, which “binds” the b
 
 1. Let's start here, with a totally random call:
 ```
-./bash_scripts/bitplane.sh -p ./video_files/jumpinjackflash.mkv
+./bash_scripts/bitplane.sh -p ./video_files/jumpinjackflash.mov
 ```
 2. Let's test this, by playing Jumpin' Jack Flash but visualizing ONLY the 2 bitplane of the Y channel:
 ```
-./bash_scripts/bitplane.sh -p ./video_files/jumpinjackflash.mkv 2 -1 -1
+./bash_scripts/bitplane.sh -p ./video_files/jumpinjackflash.mov 2 -1 -1
 ```
 You can see how this plays out, with a black and white, fairly blocky image as a result (remember: in this kind of YUV video, the lower bits are "more significant," meaning they contain more image data and serve as the foundational building blocks of your digital image).
 Returning to a random run, you should be able to see in your terminal window another fun aspect of this script: it prints out the Y, U, and V values that were either randomly chosen or hand-selected.
@@ -102,7 +102,7 @@ V: 10
 The idea here is that you can run the script over and over (`q` is a good way to quit FFplay between runs) and when you end up with a video that most suits your artistic temperament, you can easily swap out the `-p` flag for a `-s`.
 3. Do this and save your favorite file for our next activity, Zoom/Flip/Scroll.
 ```
-./bash_scripts/bitplane.sh -s ./video_files/jumpinjackflash.mkv FAVORITE_Y FAVORITE_U FAVORITE_V
+./bash_scripts/bitplane.sh -s ./video_files/jumpinjackflash.mov FAVORITE_Y FAVORITE_U FAVORITE_V
 ```
 
 ### Zoom/Flip/Scroll
