@@ -28,4 +28,4 @@ nav_order: 6
 * Kieran Kunya, [No Time to Wait 3, "Supporting Niche Formats in Open Source Software and Operating Systems"](https://www.youtube.com/watch?v=oXvmbt_9X1s&list=PLb-Zj-nXPS3JzNRX1VcfMDa66l3saTYZg&index=8){:target="\_blank"}
 
 ## Thanks
-Special thanks to Paul Mahol, oioiiooixii, and Dave Rice, whose work not only paved the way, but also directly inspired a good part of FFmpeg Art School.
+Special thanks to Paul Mahol, oioiiooixii, and Dave Rice, whose work not only paved the way but also directly inspired a good part of FFmpeg Art School.
