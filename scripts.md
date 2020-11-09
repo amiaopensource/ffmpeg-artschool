@@ -51,11 +51,11 @@ Outcome
 One of the operating assumptions of FFmpeg Art School is that you'll want to try out a whole range of possibilities before settling on the look of your final artwork. To help you in this process, you can preview by using the `-p` flag. For example:
 
 ```
-./lagfun.sh -p ./sample_video_files/retrodancers.mov
+./lagfun.sh -p ./video_files/retrodancers.mov
 ```
 If you're satisfied with the echoey look of these Retro Dancers, you can re-run the previous command and simply swap the `-p` for `-s` to call FFmpeg and tell it to create and save the file.
 
-Note: when "saving" files, the resulting file will be placed in the same directory as the file you're manipulating, with a helpful filename suffix that should call your attention. In the above case, the resulting file would be called `retrodancers_lagfun.mov` and it would live in the same `sample_video_files` directory as the original.
+Note: when "saving" files, the resulting file will be placed in the same directory as the file you're manipulating, with a helpful filename suffix that should call your attention. In the above case, the resulting file would be called `retrodancers_lagfun.mov` and it would live in the same `video_files` directory as the original.
 
 For consistency and ease-of-use, all of the FFmpeg Art School scripts currently transcode  input files to Prores HQ 422, wrapped in Quicktime (.mov). But feel free to adapt these to your wants or needs!
 
@@ -67,7 +67,7 @@ Many—but not all—of the scripts allow for customization through the use of o
 To take one example, the bitplane script, which manipulates the Y, U, and V planes of a video to make colorful creations, defaults to randomly chosen numbers between -1 and 10 for all three variables. But, if after running the script a number of times in preview mode, you're happy with the look of a particular combination, you can re-run the script in the following way to hard set those numbers:
 
 ```
-./bitplane.sh -p ./sample_video_files/retrodancers.mov 3 4 1
+./bitplane.sh -p ./video_files/retrodancers.mov 3 4 1
 ```
 
 <img src="{{ site.baseurl }}/images/retrodancers_bitplane.jpg" width="80%">
@@ -81,7 +81,7 @@ Creates an audio visualization overlay by blending two input files (one video, o
 Usage:
 
 ```
-./audioviz.sh -p ./sample_audio_files/jumpin.wav ./sample_video_files/colorbars.mov
+./audioviz.sh -p ./audio_files/jumpin.wav ./video_files/colorbars.mov
 ```
 Input 1: the audio file
 
@@ -106,7 +106,7 @@ Generally lossy video codecs will show blocky structured patterns at higher numb
 Usage:
 
 ```
-./bitplane.sh -p ./sample_video_files/fonda.mov 1 6 -1
+./bitplane.sh -p ./video_files/fonda.mov 1 6 -1
 ```
 Input 1: the video file
 
@@ -132,7 +132,7 @@ Passed through bitplaneslices
 Usage:
 
 ```
-./bitplaneslices.sh -p ./sample_video_files/jumpinjackflash.mov
+./bitplaneslices.sh -p ./video_files/jumpinjackflash.mov
 ```
 Input 1: the video file
 
@@ -149,7 +149,7 @@ phoenix, pinlight, reflect, screen, softlight, subtract, vividlight, xor
 Usage:
 
 ```
-./blend.sh -p ./sample_video_files/brain.mov ./sample_video_files/fonda.mov pinlight
+./blend.sh -p ./video_files/brain.mov ./video_files/fonda.mov pinlight
 ```
 Input 1: the first video file (top layer)
 
@@ -171,7 +171,7 @@ Combines two files using chromakey effects, using FFmpeg's [chromakey](https://f
 Usage:
 
 ```
-./chromakey.sh -p ./sample_video_files/green_octopus.mov ./sample_video_files/neonsquigglelines.mov
+./chromakey.sh -p ./video_files/green_octopus.mov ./video_files/neonsquigglelines.mov
 ```
 
 Input 1: the video file that contains the "green screen" or color to be keyed out
@@ -203,7 +203,7 @@ Re-mixes a video's color channels using FFmpeg's [colorchannelmixer](https://ffm
 Usage:
 
 ```
-./colorizer.sh -p ./sample_video_files/shania.mov red
+./colorizer.sh -p ./video_files/shania.mov red
 ```
 
 Input 1: the video to be colorized
@@ -228,7 +228,7 @@ Uses FFmpeg's [bitstream noise](https://ffmpeg.org/ffmpeg-bitstream-filters.html
 Usage:
 
 ```
-./corruptor.sh -p ./sample_video_files/charli.mov
+./corruptor.sh -p ./video_files/charli.mov
 ```
 
 Input 1: the video to be corrupted
@@ -262,7 +262,7 @@ Uses FFmpeg's [blend](https://ffmpeg.org/ffmpeg-filters.html#blend-1){:target="\
 Usage:
 
 ```
-./echo.sh -p ./sample_video_files/jellyfish.mov .2 5 3
+./echo.sh -p ./video_files/jellyfish.mov .2 5 3
 ```
 
 Input 1: the video file to be echoed
@@ -287,7 +287,7 @@ Turns a video file into a gif, using FFmpeg's [palettegen](https://ffmpeg.org/ff
 Usage:
 
 ```
-./gif.sh ./sample_video_files/jellyfish_echo.mov 1
+./gif.sh ./video_files/jellyfish_echo.mov 1
 ```
 
 Input 1: the video file
@@ -302,7 +302,7 @@ Uses FFmpeg's [pseudocolor](https://ffmpeg.org/ffmpeg-filters.html#pseudocolor){
 Usage:
 
 ```
-./jetcolor.sh -p ./sample_video_files/dancers.mov
+./jetcolor.sh -p ./video_files/dancers.mov
 ```
 
 Input 1: the video to be jetcolored
@@ -327,7 +327,7 @@ Creates a different kind of echo/ghost/trailing effect, using FFmpeg's [lagfun](
 Usage:
 
 ```
-./lagfun -p ./sample_video_files/jellyfish.mov 3
+./lagfun -p ./video_files/jellyfish.mov 3
 ```
 Input 1: the video file to be lagged
 
@@ -367,7 +367,7 @@ Combines two files using FFmpeg's [lumakey](https://ffmpeg.org/ffmpeg-filters.ht
 Usage:
 
 ```
-./lumakey.sh ./sample_video_files/green_trex.mov ./sample_video_files/flowers.mov
+./lumakey.sh ./video_files/green_trex.mov ./video_files/flowers.mov
 ```
 
 Input 1: the video that will be keyed
@@ -391,7 +391,7 @@ A script that mimics a timebase corrector's (TBC) processing amplification (proc
 Usage:
 
 ```
-./procamp.sh -p ./sample_video_files/neonlines.mov 0 0 0 65
+./procamp.sh -p ./video_files/neonlines.mov 0 0 0 65
 ```
 
 Input 1: the video to be procamped
@@ -418,7 +418,7 @@ Conforms any input file into a prores file, with an option to resize. Not terrib
 Usage:
 
 ```
-./proreser.sh -s ./sample_video_files/neonlines.mov 640x480
+./proreser.sh -s ./video_files/neonlines.mov 640x480
 ```
 
 Input 1: the video file to be transcoded to prores/mov
@@ -431,7 +431,7 @@ Boosts the video levels on an input file and adds a gradient effect to pixels th
 Usage:
 
 ```
-./pseudocolor.sh -p ./sample_video_files/nightturkey.mov
+./pseudocolor.sh -p ./video_files/nightturkey.mov
 ```
 
 Input 1: the video file to be boosted and given gradient out-of-range colors
@@ -450,7 +450,7 @@ Adapted from oioiiooixiii and the amazing work described in this [blog post](htt
 Usage:
 
 ```
-./rainbow-trail.sh -p ./sample_video_files/jellyfish.mov
+./rainbow-trail.sh -p ./video_files/jellyfish.mov
 ```
 
 Input 1: the video to be rainbow trailed
@@ -475,7 +475,7 @@ Repeats the input file an arbitrary number of times. Makes a temporary concatena
 Usage:
 
 ```
-./repeat.sh -p ./sample_video_files/iknow.mov
+./repeat.sh -p ./video_files/iknow.mov
 ```
 
 Input 1: the video file to be repeated
@@ -492,7 +492,7 @@ Reverses the input file using FFmpeg's [reverse](https://ffmpeg.org/ffmpeg-filte
 Usage:
 
 ```
-./reverse.sh -p ./sample_video_files/dancers.mov
+./reverse.sh -p ./video_files/dancers.mov
 ```
 
 Input 1: the video file to be reversed
@@ -512,7 +512,7 @@ Rotates an input file with options to resize the output, using FFmpeg's [transpo
 Usage:
 
 ```
-./rotate.sh -p ./sample_video_files/cat.mov 270 1
+./rotate.sh -p ./video_files/cat.mov 270 1
 ```
 
 Input 1: the video file to be rotated
@@ -535,7 +535,7 @@ Performs a glitchy [tblend](https://ffmpeg.org/ffmpeg-filters.html#tblend){:targ
 Usage:
 
 ```
-./tblend_glitch.sh ./sample_video_files/neonlines.mov 4
+./tblend_glitch.sh ./video_files/neonlines.mov 4
 ```
 
 Input 1: the video file to be tblend glitched
@@ -552,7 +552,7 @@ Applies FFmpeg's [tblend](https://ffmpeg.org/ffmpeg-filters.html#tblend){:target
 Usage:
 
 ```
-./tblend.sh -p ./sample_video_files/flowers.mov xor
+./tblend.sh -p ./video_files/flowers.mov xor
 ```
 
 Input 1: the video file to be tblended
@@ -602,7 +602,7 @@ Adapted from the QCTools [filmstrip](http://bavc.github.io/qctools/playback_filt
 Usage:
 
 ```
-./tile.sh -p ./sample_video_files/skull.mov
+./tile.sh -p ./video_files/skull.mov
 ```
 
 Input 1: the video file to be tiled
@@ -627,7 +627,7 @@ Trims a video file based upon user-defined starting and ending timestamps (HH:MM
 Usage:
 
 ```
-./trim.sh -s ./sample_video_files/skull.mov 00:00:00 00:00:10
+./trim.sh -s ./video_files/skull.mov 00:00:00 00:00:10
 ```
 
 Input 1: the video to be trimmed
@@ -659,7 +659,7 @@ A play on one of the visualizations provided by the Line 21 closed caption extra
 Usage:
 
 ```
-./zoomflipscroller.sh -p ./sample_video_files/jumpinjackflash.mov 1
+./zoomflipscroller.sh -p ./video_files/jumpinjackflash.mov 1
 ```
 
 Input 1: the video file to be zoomed/flipped/scrolled
