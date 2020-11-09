@@ -38,19 +38,19 @@ Param(
 
     [Parameter(Position=0, ParameterSetName="Run")]
     [ValidateSet("small", "medium", "large")]
-    [string]$size = "medium"
+    [string]$size = "medium",
 
     [Parameter(Position=1, ParameterSetName="Run")]
     [ValidateSet("blue", "green", "red", "yellow", "orange", "purple")]
-    [string]$color = "yellow"
+    [string]$color = "yellow",
 
     [Parameter(Position=2, ParameterSetName="Run")]
     [ValidateSet("blue", "green", "red", "yellow", "orange", "purple")]
-    [string]$death_color = "red"
+    [string]$death_color = "red",
 
     [Parameter(Position=3, ParameterSetName="Run")]
     [ValidateSet("slow", "medium", "fast")]
-    [string]$rate = $(Get-Random -InputObject @("slow", "medium", "fast"))
+    [string]$rate = $(Get-Random -InputObject @("slow", "medium", "fast")),
 
     [Parameter(Position=4, ParameterSetName="Run")]
     [ValidateSet("low", "medium", "high")]
