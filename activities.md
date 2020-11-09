@@ -52,7 +52,6 @@ ffmpeg -i ./video_files/Cat01.mov -i ./video_files/greenscreen_diamond_02.mov -c
 This echo effect is based off [a classic tape echo effect](https://www.youtube.com/watch?v=y3Whi-g-0A0) for audio. It adds decaying repetitions to an input file. When using this effect make sure to use an effects with big sweeping motions (like dancers!) for the best results. For this example we'll use `retrodancers.mov`
 
 1. Run the default echo effects on RetroDancer.mov with the following command
-
 ```
 ./bash_scripts/echo.sh -p ./video_files/retrodancers.mov
 ```
