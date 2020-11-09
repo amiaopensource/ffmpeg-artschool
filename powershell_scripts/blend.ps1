@@ -94,7 +94,7 @@ if ($p) {
 
 *******START FFPLAY COMMANDS*******
 
-ffmpeg.exe -hide_banner -stats -y -i $video1 -i $video2 -c:v prores -profile:v 3 -filter_complex `'$($filter)`'' -map '[v]' -f matroska $tempFile`n"
+ffmpeg.exe -hide_banner -stats -y -i $video1 -i $video2 -c:v prores -profile:v 3 -filter_complex `'$($filter)`'' -map '[v]' -f matroska $tempFile
 ffplay $tempFile.FullName
 
 ********END FFPLAY COMMANDS********
@@ -110,7 +110,7 @@ else {
 
 *******START FFMPEG COMMANDS*******
 
-ffmpeg.exe -hide_banner -i $video1 -i $video2 -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -map `"[v]`" `"$((Get-Item $video1).Basename)_blend_$($blendMode).mov`"`n"
+ffmpeg.exe -hide_banner -i $video1 -i $video2 -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -map `"[v]`" `"$((Get-Item $video1).Basename)_blend_$($blendMode).mov`"
 
 ********END FFMPEG COMMANDS********
 

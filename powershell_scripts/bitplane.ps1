@@ -90,8 +90,8 @@ if ($p) {
 
 *******START FFPLAY COMMANDS*******
 
-Y:$($Y)    U:$($U)    V:$($V)`n"
-ffmpeg.exe -hide_banner -stats -i $video -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -f matroska $tempFile`n"
+Y:$($Y)    U:$($U)    V:$($V)
+ffmpeg.exe -hide_banner -stats -i $video -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -f matroska $tempFile
 ffplay $tempFile.FullName
 
 ********END FFPLAY COMMANDS********

@@ -86,7 +86,7 @@ if ($p) {
 
 *******START FFPLAY COMMANDS*******
 
-ffmpeg.exe -hide_banner -stats -i $audio -i $video -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -map `"[v]`" -map `"0:a`" -shortest -f matroska $tempFile`n"
+ffmpeg.exe -hide_banner -stats -i $audio -i $video -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -map `"[v]`" -map `"0:a`" -shortest -f matroska $tempFile
 ffplay $tempFile.FullName
 
 ********END FFPLAY COMMANDS********
@@ -102,7 +102,7 @@ else {
 
 *******START FFMPEG COMMANDS*******
 
-ffmpeg.exe -hide_banner -i $audio -i $video -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -map `"[v]`" `"$((Get-Item $audio).Basename)_audioviz.mov`"`n"
+ffmpeg.exe -hide_banner -i $audio -i $video -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -map `"[v]`" `"$((Get-Item $audio).Basename)_audioviz.mov`"
 
 ********END FFMPEG COMMANDS********
 
