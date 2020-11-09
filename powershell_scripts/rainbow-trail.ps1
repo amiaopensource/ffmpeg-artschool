@@ -1,6 +1,6 @@
 <#
 .DESCRIPTION
-    Create visuals based on Conway's Game of Life
+    generate rainbow-trail video effect
 .PARAMETER h
     display this help
 .PARAMETER p
@@ -175,14 +175,14 @@ ffplay $tempFile.FullName
 "@
 }
 else {
-    ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 $filter "$((Get-Item $video).Basename)_rainbowTrails.mov"
+    ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -vf $filter "$((Get-Item $video).Basename)_rainbowTrails.mov"
 
     Write-Host @"
 
 
 *******START FFMPEG COMMANDS*******
 
-ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 $($filter) `"$((Get-Item $video).Basename)_rainbowTrails.mov`"
+ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -vf $($filter) `"$((Get-Item $video).Basename)_rainbowTrails.mov`"
 
 ********END FFMPEG COMMANDS********
 

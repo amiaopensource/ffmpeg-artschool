@@ -78,14 +78,14 @@ ffplay $tempFile.FullName
 "@
 }
 else {
-    ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 $filter "$((Get-Item $video).Basename)_pseudocolor.mov"
+    ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -vf $filter "$((Get-Item $video).Basename)_pseudocolor.mov"
 
     Write-Host @"
 
 
 *******START FFMPEG COMMANDS*******
 
-ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 $($filter) `"$((Get-Item $video).Basename)_pseudocolor.mov`"
+ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -vf $($filter) `"$((Get-Item $video).Basename)_pseudocolor.mov`"
 
 ********END FFMPEG COMMANDS********
 

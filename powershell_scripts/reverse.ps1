@@ -1,6 +1,6 @@
 <#
 .DESCRIPTION
-    repeats/loops the input file as many times as requested
+    reverses the input file
 .PARAMETER h
     display this help
 .PARAMETER s
@@ -22,10 +22,6 @@ Param(
 
     [Parameter(ParameterSetName="Run")]
     [Switch]
-    $p,
-
-    [Parameter(ParameterSetName="Run")]
-    [Switch]
     $s = $true,
 
     [Parameter(Position=0, Mandatory, ParameterSetName="Run")]
@@ -38,11 +34,7 @@ Param(
         }
         return $true
     })]
-    [System.IO.FileInfo]$video,
-
-    [Parameter(Position=1, ParameterSetName="Run")]
-    [Int]
-    $repeats = 2
+    [System.IO.FileInfo]$video
 )
 
 
@@ -56,26 +48,35 @@ if (($h) -or ($PSBoundParameters.Values.Count -eq 0 -and $args.count -eq 0)){
 }
 
 
-# Create list for concatenation
+# Run command
 
-$tempFile = New-TemporaryFile
+if ($p) {
+    $tempFile = New-TemporaryFile
+    ffmpeg.exe -hide_banner -stats -y -i $video -c:v prores -profile:v 3 -vf reverse -f matroska $tempFile
+    ffplay.exe $tempFile
+    
+    Write-Host @"
 
-for ($i=1; $i -le $repeats; $i++)
-{
-    "file '$((Get-Item $v1).FullName)'" | Out-File -Encoding ASCII -Append $tempFile.FullName
+
+*******START FFPLAY COMMANDS*******
+
+ffmpeg.exe -hide_banner -stats -y -i $video -c:v prores -profile:v 3 -vf reverse -f matroska $tempFile
+ffplay $tempFile.FullName
+
+********END FFPLAY COMMANDS********
+
+
+"@
 }
+else {
+    ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -vf reverse "$((Get-Item $video).Basename)_reverse.mov"
 
-
-# Run ffmpeg command
-
-ffmpeg.exe -f concat -safe -0 -i $tempFile.FullName -c copy "$((Get-Item $video).Basename)_looped_x$($repeats).$((Get-Item $video).Extension)"
-
-Write-Host @"
+    Write-Host @"
 
 
 *******START FFMPEG COMMANDS*******
 
-ffmpeg.exe -f concat -safe -0 -i $($tempFile.FullName) -c copy `"$((Get-Item $video).Basename)_looped_x$($repeats).$((Get-Item $video).Extension)`"
+ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -vf reverse `"$((Get-Item $video).Basename)_reverse.mov`"
 
 ********END FFMPEG COMMANDS********
 
