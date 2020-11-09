@@ -43,12 +43,23 @@ Param(
     })]
     [System.IO.FileInfo]$video,
 
+    [Parameter(Position=1, ParameterSetName="Run")]
+    [ValidateScript({
+        if(-Not ($_ -match "\d{2}:\d{2}:\d{2}") ){
+            throw "Timestamp must be in the format HH:MM:SS\n"
+        }
+        return $true
+    })]
+    [String]$begin = "",
+
     [Parameter(Position=2, ParameterSetName="Run")]
-    [ValidateSet("addition", "addition128", "grainmerge", "and", "average", "burn", "darken", "difference", "difference128", "grainextract",
-    "divide", "dodge", "freeze", "exclusion", "extremity", "glow", "hardlight", "hardmix", "heat",
-    "lighten", "linearlight", "multiply", "multiply128", "negation", "normal", "or", "overlay",
-    "phoenix", "pinlight", "reflect", "screen", "softlight", "subtract", "vividlight", "xor")]
-    [string]$blendMode = "addition128"
+    [ValidateScript({
+        if(-Not ($_ -match "\d{2}:\d{2}:\d{2}") ){
+            throw "Timestamp must be in the format HH:MM:SS\n"
+        }
+        return $true
+    })]
+    [String]$end = ""
 )
 
 
@@ -62,16 +73,16 @@ if (($h) -or ($PSBoundParameters.Values.Count -eq 0 -and $args.count -eq 0)){
 }
 
 
-# Create filter string
+# Create trim string
 
-$filter = "format=gbrp10le,tblend=all_mode=$($blendMode),format=yuv422p10le"
+$trim = "-ss $begin -t $end"
 
 
 # Run command
 
 if ($p) {
     $tempFile = New-TemporaryFile
-    ffmpeg.exe -hide_banner -stats -i $video -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" -f matroska $tempFile
+    ffmpeg.exe -hide_banner -stats -i $video $trim -f matroska $tempFile
     ffplay.exe $tempFile
     
     Write-Host @"
@@ -79,7 +90,7 @@ if ($p) {
 
 *******START FFPLAY COMMANDS*******
 
-ffmpeg.exe -hide_banner -stats -y -i $video -c:v prores -profile:v 3 -filter_complex `'$($filter)`'' -map '[v]' -f matroska $tempFile
+ffmpeg.exe -hide_banner -stats -y -i $video $trim -f matroska $tempFile
 ffplay $tempFile.FullName
 
 ********END FFPLAY COMMANDS********
@@ -88,14 +99,14 @@ ffplay $tempFile.FullName
 "@
 }
 else {
-    ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" "$((Get-Item $video1).Basename)_tblend_$($blendMode).mov"
+    ffmpeg.exe -hide_banner -i $video $trim -c copy -map 0 "$((Get-Item $video1).Basename)_trim.mov"
 
     Write-Host @"
 
 
 *******START FFMPEG COMMANDS*******
 
-ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -map `"[v]`" `"$((Get-Item $video1).Basename)_tblend_$($blendMode).mov`"
+ffmpeg.exe -hide_banner -i $video $trim -c copy -map 0 `"$((Get-Item $video1).Basename)_trim.mov`"
 
 ********END FFMPEG COMMANDS********
 
