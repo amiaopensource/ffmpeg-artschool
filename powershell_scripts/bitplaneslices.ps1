@@ -62,16 +62,32 @@ $filter = "format=yuv420p10le|yuv422p10le|yuv444p10le|yuv440p10le,split=10[b0][b
 if ($p) {
     ffplay.exe $video -vf $filter
     
-    Write-Host "`n`n*******START FFPLAY COMMANDS*******`n"
-    Write-Host "ffmpeg.exe -hide_banner -stats -i $input1 -i $input2 -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -map `"[v]`" -f matroska $tempFile`n"
-    Write-Host "ffplay $tempFile.FullName`n"
-    Write-Host "`n********END FFPLAY COMMANDS********`n`n"
+    Write-Host @"
+
+
+*******START FFPLAY COMMANDS*******
+
+ffmpeg.exe -hide_banner -stats -i $input1 -i $input2 -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -map `"[v]`" -f matroska $tempFile`n"
+ffplay $tempFile.FullName
+
+********END FFPLAY COMMANDS********
+
+
+"@
 }
 else {
     ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -filter_complex $filter "$((Get-Item $video).Basename)_bitslices.mov"
 
-    Write-Host "`n`n*******START FFMPEG COMMANDS*******`n"
-    Write-Host "ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -filter_complex `"$($filter)`" `"$((Get-Item $video).Basename)_bitslices.mov`"`n"
-    Write-Host "`n********END FFMPEG COMMANDS********`n`n"
+    Write-Host @"
+
+
+*******START FFMPEG COMMANDS*******
+
+ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -filter_complex `"$($filter)`" `"$((Get-Item $video).Basename)_bitslices.mov`"`n"
+
+********END FFMPEG COMMANDS********
+
+
+"@
 }
 

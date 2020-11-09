@@ -73,20 +73,36 @@ if ($p) {
     ffmpeg.exe -hide_banner -stats -y -i $video -c copy -bsf noise=$corruption -f matroska $tempFile
     ffplay.exe $tempFile
     
-    Write-Host "`n`n*******START FFPLAY COMMANDS*******`n"
-    Write-Host "ffmpeg.exe -hide_banner -stats -y -i $video -c copy -bsf noise=$($corruption) -f matroska $tempFile`n"
-    Write-Host "ffplay $tempFile.FullName`n"
-    Write-Host "`n********END FFPLAY COMMANDS********`n`n"
+    Write-Host @"
+
+
+*******START FFPLAY COMMANDS*******
+
+ffmpeg.exe -hide_banner -stats -y -i $video -c copy -bsf noise=$($corruption) -f matroska $tempFile
+ffplay $tempFile.FullName
+
+********END FFPLAY COMMANDS********
+
+
+"@
 }
 else {
     $tempFile = "$((Get-Item $video).Basename)_corruptor_temp.mov"
     ffmpeg.exe -hide_banner -i $video -c copy -bsf noise=$corruption -y $tempFile
     ffmpeg.exe -i $tempFile -c:v prores -profile:v 3 -y "$((Get-Item $video).Basename)_corruptor.mov"
 
-    Write-Host "`n`n*******START FFMPEG COMMANDS*******`n"
-    Write-Host "ffmpeg.exe -hide_banner -i $video -c copy -bsf noise=$($corruption) -y `"$($tempFile)`"`n"
-    Write-Host "ffmpeg.exe -i `"$($tempFile)`" -c:v prores -profile:v 3 -y `"$((Get-Item $video).Basename)_corruptor.mov`"`n"
-    Write-Host "`n********END FFMPEG COMMANDS********`n`n"
+    Write-Host @"
+
+
+*******START FFMPEG COMMANDS*******
+
+ffmpeg.exe -hide_banner -i $video -c copy -bsf noise=$($corruption) -y `"$($tempFile)`"
+ffmpeg.exe -i `"$($tempFile)`" -c:v prores -profile:v 3 -y `"$((Get-Item $video).Basename)_corruptor.mov`"
+
+********END FFMPEG COMMANDS********
+
+
+"@
 
     if ($keepTemp -eq 1) {
         rm $tempFile

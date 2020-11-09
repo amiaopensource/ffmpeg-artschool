@@ -76,15 +76,31 @@ if ($p) {
     ffmpeg.exe -hide_banner -stats -y -i $video -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" -f matroska $tempFile
     ffplay.exe $tempFile
     
-    Write-Host "`n`n*******START FFPLAY COMMANDS*******`n"
-    Write-Host "ffmpeg.exe -hide_banner -stats -y -i $video -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -map `"[v]`" -f matroska $tempFile`n"
-    Write-Host "ffplay $tempFile.FullName`n"
-    Write-Host "`n********END FFPLAY COMMANDS********`n`n"
+    Write-Host @"
+
+
+*******START FFPLAY COMMANDS*******
+
+ffmpeg.exe -hide_banner -stats -y -i $video -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -map `"[v]`" -f matroska $tempFile
+ffplay $tempFile.FullName
+
+********END FFPLAY COMMANDS********
+
+
+"@
 }
 else {
     ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" "$((Get-Item $video1).Basename)_lagfun.mov"
 
-    Write-Host "`n`n*******START FFMPEG COMMANDS*******`n"
-    Write-Host "ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -map `"[v]`" `"$((Get-Item $video1).Basename)_lagfun.mov`"`n"
-    Write-Host "`n********END FFMPEG COMMANDS********`n`n"
+    Write-Host @"
+
+
+*******START FFMPEG COMMANDS*******
+
+ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -map `"[v]`" `"$((Get-Item $video1).Basename)_lagfun.mov`"
+
+********END FFMPEG COMMANDS********
+
+
+"@
 }

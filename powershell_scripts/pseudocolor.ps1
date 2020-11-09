@@ -64,7 +64,7 @@ if ($p) {
     ffmpeg.exe -hide_banner -stats -y -i $video -c:v prores -profile:v 3 -filter_complex $filter -f matroska $tempFile
     ffplay.exe $tempFile
     
-Write-Host @"
+    Write-Host @"
 
 
 *******START FFPLAY COMMANDS*******
@@ -80,7 +80,7 @@ ffplay $tempFile.FullName
 else {
     ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 $filter "$((Get-Item $video).Basename)_pseudocolor.mov"
 
-Write-Host @"
+    Write-Host @"
 
 
 *******START FFMPEG COMMANDS*******

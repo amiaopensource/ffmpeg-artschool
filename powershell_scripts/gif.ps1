@@ -76,7 +76,14 @@ ffmpeg -hide_banner -i $video -filter_complex $paletteFilter $palette
 ffmpeg -hide_banner -i $video -i ${palette} -filter_complex $gifFilter "$((Get-Item $video).Basename).gif"
 rm "${palette}"
 
-Write-Host "`n`n*******START FFMPEG COMMANDS*******`n"
-Write-Host "ffmpeg -hide_banner -i $video -filter_complex $($paletteFilter) $palette `n"
-Write-Host "ffmpeg -hide_banner -i $video -i "${palette}" -filter_complex $gifFilter `"$((Get-Item $video).Basename).gif`" `n"
-Write-Host "`n********END FFMPEG COMMANDS********`n`n"
+Write-Host @"
+
+
+*******START FFMPEG COMMANDS*******
+
+ffmpeg -hide_banner -i $video -filter_complex $($paletteFilter) $palette
+ffmpeg -hide_banner -i $video -i "${palette}" -filter_complex $gifFilter `"$((Get-Item $video).Basename).gif`"
+
+********END FFMPEG COMMANDS********
+
+"@
