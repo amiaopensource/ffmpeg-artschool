@@ -20,7 +20,7 @@
 .PARAMETER colorDelay
     delay between colors in seconds [default: 0.1]
 .PARAMETER alphaExtract
-    slpha plane extraction [default: true]
+    alpha plane extraction [default: true]
 #>
 
 
