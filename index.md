@@ -58,11 +58,11 @@ These instructions differ depending on what operating system you are using.
 ### Mac/Linux
 1. In the terminal, change your working directory to the workshop folder. For example, if you downloaded and unzipped the github repository to your Downloads folder, you would use the following command `cd ~/Downloads/ffmpeg-artschool-main/ffmpeg-artschool-main\bash_scripts`
 2. Test a script
-`./bash_scripts/life.sh`
+`./life.sh -p`
 	* If you see any errors, please email the workshop organizers.
 
 ### Windows
 1. In the terminal, change your working directory to the workshop folder. For example, if you downloaded and unzipped the github repository to your Downloads folder, you would use the following command `cd ~\Downloads\ffmpeg-artschool-main\ffmpeg-artschool-main\powershell_scripts`
 2. Test a script
-`./rotate.ps1 ../sample_video_files/Cat01.mp4`
+`.\life.sh -p`
 	* If you see any errors, please email the workshop organizers.
