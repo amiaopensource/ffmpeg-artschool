@@ -99,22 +99,12 @@ function rainbowFilter()
    {
       # 'bc' command used for floating point addition
       ptsDelay="$(bc <<<"${ptsDelay}+${delay}")"
-      filtergraph="[original]split[original][top];
-                   [top]colorkey=${key}:${colorSim}:${colorBlend},
-                        ${extractFilter},
-                        colorchannelmixer=${colours[$((i%7))]},
-                        setpts=PTS+$ptsDelay/TB,
-                        chromakey=black:0.01:0.1[top];
-                   [bottom][top]overlay[bottom];
-                   ${filtergraph}"
+      filtergraph="[original]split[original][top];[top]colorkey=${key}:${colorSim}:${colorBlend},${extractFilter},colorchannelmixer=${colours[$((i%7))]},setpts=PTS+$ptsDelay/TB,chromakey=black:0.01:0.1[top];[bottom][top]overlay[bottom];${filtergraph}"
+
    }
 
    # Return full filtergraph, with necessary prefix and suffix filterchains
-   printf '%s%s%s' "colorkey=${key}:${colorSim}:${colorBlend},
-                    split[original][bottom];
-                    [bottom]colorchannelmixer=0:0:0:0:0:0:0:0:0:0:0:0[bottom];"\
-                   "${filtergraph}"\
-                   "[bottom][original]overlay,format=yuv422p10le"
+   printf '%s%s%s' "colorkey=${key}:${colorSim}:${colorBlend},split[original][bottom];[bottom]colorchannelmixer=0:0:0:0:0:0:0:0:0:0:0:0[bottom];${filtergraph}[bottom][original]overlay,format=yuv422p10le"
 }
 
 while getopts "hps" OPT ; do
@@ -124,13 +114,13 @@ while getopts "hps" OPT ; do
       p)
          ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -vf "$(rainbowFilter "${@:3}")" -f nut - | ffplay -
          printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
-         printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -vf $(rainbowFilter "${@:3}") -f nut - | ffplay - \n" >&2
+         printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -vf \"$(rainbowFilter "${@:3}")\" -f nut - | ffplay - \n" >&2
          printf "********END FFPLAY COMMANDS********\n\n " >&2
          ;;
       s)
          ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -vf "$(rainbowFilter "${@:3}")" "${2%.*}_rainbowTrails.mov"
          printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
-         printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -vf $(rainbowFilter "${@:3}") '${2%.*}_rainbowTrails.mov' \n" >&2
+         printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -vf \"$(rainbowFilter "${@:3}")\" '${2%.*}_rainbowTrails.mov' \n" >&2
          printf "********END FFMPEG COMMANDS********\n\n " >&2
          ;;
       *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
