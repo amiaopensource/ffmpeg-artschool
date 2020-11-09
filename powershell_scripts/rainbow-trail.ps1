@@ -140,7 +140,6 @@ $ptsDelay = 0
 $filtergraph = ""
 
 For ( $i=0; $i -lt $trailLength; $i++ ){
-{
   ptsDelay = $ptsDelay + $delay
   filtergraph="[original]split[original][top];[top]colorkey=$key:$colorSim:$colorBlend,$extractFilter,colorchannelmixer=$($rainbowColors[i]),setpts=PTS+$ptsDelay/TB,chromakey=black:0.01:0.1[top];[bottom][top]overlay[bottom];$filtergraph"
 }
