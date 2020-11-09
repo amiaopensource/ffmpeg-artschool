@@ -17,7 +17,6 @@
     similarity percentage with the key color. Between 0.01 and 1. 0.01 matches only the exact key color, while 1.0 matches everything.
 .PARAMETER colorBlend
     blend percentage for overlay video. Between 0 and 1. 9 makes pixels fully transparent or not transparent at all. The closer to 1, the more transparency.
-
 #>
 
 

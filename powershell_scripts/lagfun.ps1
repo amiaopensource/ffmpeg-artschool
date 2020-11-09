@@ -7,11 +7,10 @@
     previews in FFplay
 .PARAMETER s
     saves to file with FFmpeg
-.PARAMETER video1
+.PARAMETER video
     path to the first video
-.PARAMETER video2
-    path to the second video
-.PARAMETER ---
+.PARAMETER trailMode
+    one of 3 pre-defined trail filters [default: 1]
 #>
 
 
@@ -41,17 +40,12 @@ Param(
         }
         return $true
     })]
-    [System.IO.FileInfo]$input1,
+    [System.IO.FileInfo]$video,
 
     [Parameter(Position=1, ParameterSetName="Run")]
     [ValidateRange(1, 3)]
     [Int]
     $trailMode = 1
-
-    [Parameter(Position=1, ParameterSetName="Run")]
-    [ValidateRange(1, 7)]
-    [Int]
-    $trailAmount = 1
 )
 
 
@@ -59,7 +53,7 @@ Param(
 
 if (($h) -or ($PSBoundParameters.Values.Count -eq 0 -and $args.count -eq 0)){
     Get-Help $MyInvocation.MyCommand.Definition -detailed
-    if (!$video1) {
+    if (!$video) {
         exit
     }
 }

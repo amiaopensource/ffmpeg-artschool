@@ -84,26 +84,26 @@ if (($h) -or ($PSBoundParameters.Values.Count -eq 0 -and $args.count -eq 0)){
 # Create filter string
 
 if ($luma -lt 1) {
-    $luma_temp = [Math]::Round($luma*0.0078125, 4)
+    $lumaTemp = [Math]::Round($luma*0.0078125, 4)
 }
 else {
-    $luma_temp = [Math]::Round($luma*0.015625, 4)
+    $lumaTemp = [Math]::Round($luma*0.015625, 4)
 }
-$luma_ffmpeg = $luma_temp + 1
+$ffLuma = $lumaTemp + 1
 
-$black_ffmpeg = [Math]::Round($black*1.40625, 4)
+$ffBlack = [Math]::Round($black*1.40625, 4)
 
 if ($chroma -lt 1) {
-    $chroma_temp = [Math]::Round($chroma*0.0078125, 4)
+    $chromaTemp = [Math]::Round($chroma*0.0078125, 4)
 }
 else {
-    $chroma_temp = [Math]::Round($chroma*0.0703125, 4)
+    $chromaTemp = [Math]::Round($chroma*0.0703125, 4)
 }
-$chroma_ffmpeg = $chroma_temp + 1
+$ffChroma = $chromaTemp + 1
 
-$hue_ffmpeg = [Math]::Round($hue*1.40625, 4)
+$ffHue = [Math]::Round($hue*1.40625, 4)
 
-$filter = "lutyuv=y=(val+$($black_ffmpeg))*$($luma_ffmpeg):u=val:v=val,hue=h=$($hue_ffmpeg):s=$($chroma_ffmpeg)"
+$filter = "lutyuv=y=(val+$($ffBlack))*$($ffLuma):u=val:v=val,hue=h=$($ffLuma):s=$($ffChroma)"
 
 
 # Run command

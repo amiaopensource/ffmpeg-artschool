@@ -46,7 +46,7 @@ Param(
 
 if (($h) -or ($PSBoundParameters.Values.Count -eq 0 -and $args.count -eq 0)){
     Get-Help $MyInvocation.MyCommand.Definition -detailed
-    if (!$input1) {
+    if (!$video) {
         exit
     }
 }

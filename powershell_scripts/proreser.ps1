@@ -69,9 +69,9 @@ if ($outputResolution -eq ""){
     $filter = ""
 }
 else {
-    $filter= "filter_complex scale=$($outResolution -Split 'x' -Join ':')"
+    $filter= "-filter_complex scale=$($outResolution -Split 'x' -Join ':')"
 }
-Write-Host $conversionString
+
 
 # Run command
 
