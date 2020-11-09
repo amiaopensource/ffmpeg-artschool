@@ -1,6 +1,6 @@
 <#
 .DESCRIPTION
-    ---
+    creates ghost trails using the lagfun effect
 .PARAMETER h
     display this help
 .PARAMETER p
@@ -8,7 +8,7 @@
 .PARAMETER s
     saves to file with FFmpeg
 .PARAMETER video
-    path to the first video
+    path to the video
 .PARAMETER trailMode
     one of 3 pre-defined trail filters [default: 1]
 #>
@@ -90,14 +90,14 @@ ffplay $tempFile.FullName
 "@
 }
 else {
-    ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" "$((Get-Item $video1).Basename)_lagfun.mov"
+    ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" "$((Get-Item $video).Basename)_lagfun.mov"
 
     Write-Host @"
 
 
 *******START FFMPEG COMMANDS*******
 
-ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -map `"[v]`" `"$((Get-Item $video1).Basename)_lagfun.mov`"
+ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -map `"[v]`" `"$((Get-Item $video).Basename)_lagfun.mov`"
 
 ********END FFMPEG COMMANDS********
 
