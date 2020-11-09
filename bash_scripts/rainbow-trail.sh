@@ -99,12 +99,16 @@ function rainbowFilter()
    {
       # 'bc' command used for floating point addition
       ptsDelay="$(bc <<<"${ptsDelay}+${delay}")"
-      filtergraph="[original]split[original][top];[top]colorkey=${key}:${colorSim}:${colorBlend},${extractFilter},colorchannelmixer=${colours[$((i%7))]},setpts=PTS+$ptsDelay/TB,chromakey=black:0.01:0.1[top];[bottom][top]overlay[bottom];${filtergraph}"
+      filtergraph="[original]split[original][top];\
+      [top]colorkey=${key}:${colorSim}:${colorBlend},${extractFilter},colorchannelmixer=${colours[$((i%7))]},setpts=PTS+$ptsDelay/TB,chromakey=black:0.01:0.1[top];\
+      [bottom][top]overlay[bottom];${filtergraph}"
 
    }
 
    # Return full filtergraph, with necessary prefix and suffix filterchains
-   printf '%s%s%s' "colorkey=${key}:${colorSim}:${colorBlend},split[original][bottom];[bottom]colorchannelmixer=0:0:0:0:0:0:0:0:0:0:0:0[bottom];${filtergraph}[bottom][original]overlay,format=yuv422p10le"
+   printf '%s%s%s' "colorkey=${key}:${colorSim}:${colorBlend},split[original][bottom];\
+   [bottom]colorchannelmixer=0:0:0:0:0:0:0:0:0:0:0:0[bottom];\
+   ${filtergraph}[bottom][original]overlay,format=yuv422p10le"
 }
 
 while getopts "hps" OPT ; do
