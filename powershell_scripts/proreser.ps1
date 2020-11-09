@@ -69,7 +69,7 @@ if ($outputResolution -eq ""){
     $filter = ""
 }
 else {
-    $filter= "-filter_complex scale=$($outResolution -Split 'x' -Join ':')"
+    $filter= "-filter_complex scale=$($outputResolution -Split 'x' -Join ':')"
 }
 
 

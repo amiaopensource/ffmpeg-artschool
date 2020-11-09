@@ -6,9 +6,7 @@
 .PARAMETER s
     saves to file with FFmpeg
 .PARAMETER video
-    size of particles [default: medium] small, medium, large
-.PARAMETER repeats 
-    the number of times to loop the video [default: 2]
+    path to the video
 #>
 
 

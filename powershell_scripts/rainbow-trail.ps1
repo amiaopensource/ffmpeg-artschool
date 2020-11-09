@@ -8,7 +8,7 @@
 .PARAMETER s
     saves to file with FFmpeg
 .PARAMETER video
-    size of particles [default: medium] small, medium, large
+    path to the video
 .PARAMETER key 
     color that will be replaced with transparency. [default: "blue"] Options include: blue, green, red, purple, orange, and yellow
 .PARAMETER colorSim
