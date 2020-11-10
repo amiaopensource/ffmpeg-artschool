@@ -56,13 +56,13 @@ These instructions differ depending on what operating system you are using.
 
 ## Test that everything is working
 ### Mac/Linux
-1. In the terminal, change your working directory to the workshop folder. For example, if you downloaded and unzipped the github repository to your Downloads folder, you would use the following command `cd ~/Downloads/ffmpeg-artschool-main/ffmpeg-artschool-main\bash_scripts`
+1. In the terminal, change your working directory to the workshop folder. For example, if you downloaded and unzipped the github repository to your Downloads folder, you would use the following command `cd ~/Downloads/ffmpeg-artschool-main/ffmpeg-artschool-main`
 2. Test a script
-`./life.sh -p`
+`./bash_scripts/life.sh -p`
 	* If you see any errors, please email the workshop organizers.
 
 ### Windows
-1. In the terminal, change your working directory to the workshop folder. For example, if you downloaded and unzipped the github repository to your Downloads folder, you would use the following command `cd ~\Downloads\ffmpeg-artschool-main\ffmpeg-artschool-main\powershell_scripts`
+1. In the terminal, change your working directory to the workshop folder. For example, if you downloaded and unzipped the github repository to your Downloads folder, you would use the following command `cd ~\Downloads\ffmpeg-artschool-main\ffmpeg-artschool-main\`
 2. Test a script
-`.\life.sh -p`
+`.\powershell_scripts\life.sh -p`
 	* If you see any errors, please email the workshop organizers.
