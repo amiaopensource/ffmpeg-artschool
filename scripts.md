@@ -17,6 +17,11 @@ nav_order: 4
 {:toc}
 </details>
 
+## Bash and Powershell
+We have created Bash versions (for Mac and Linux users) and Powershell versions (for Windows users) of all scripts. We tried to make these versions act as similar as possible to one another, but you will notice some differences. For example, Bash scripts end with `.sh` and Powershell scripts end with `.ps1`. Ihe presenter is using a Mac and you are using a PC, when they type `script.sh`, you should type `script.ps1`.
+
+The scripts also print different information as output. If you see different help notes, error messages, or ffmpeg output than the presenter, that's ok.
+
 ## General Usage (and -h for help)
 Nearly all of the scripts offer users two main paths: previewing the manipulated video with FFplay or saving directly to a file with FFmpeg. Due to the taxing nature of some of these visualizations, your computer may not be able to preview with FFplay in a completely seamless fashion (prepare for the possibility of laggy playback).
 
@@ -54,6 +59,8 @@ One of the operating assumptions of FFmpeg Art School is that you'll want to try
 ./lagfun.sh -p ./video_files/retrodancers.mov
 ```
 If you're satisfied with the echoey look of these Retro Dancers, you can re-run the previous command and simply swap the `-p` for `-s` to call FFmpeg and tell it to create and save the file.
+
+Note: for Powershell script users, the -p flag first encodes the video to a temporary file and then plays the file with ffplay, so you will not see immediate feedback.
 
 Note: when "saving" files, the resulting file will be placed in the same directory as the file you're manipulating, with a helpful filename suffix that should call your attention. In the above case, the resulting file would be called `retrodancers_lagfun.mov` and it would live in the same `video_files` directory as the original.
 
