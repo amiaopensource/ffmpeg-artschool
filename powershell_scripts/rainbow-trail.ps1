@@ -50,45 +50,33 @@ Param(
         }
         return $true
     })]
-    [System.IO.FileInfo]$video1,
+    [System.IO.FileInfo]$video,
 
-    [Parameter(Position=1, Mandatory, ParameterSetName="Run")]
-    [ValidateScript({
-        if(-Not ($_ | Test-Path) ){
-            throw "File or folder does not exist" 
-        }
-        if(-Not ($_ | Test-Path -PathType Leaf) ){
-            throw "The Path argument must be a file. Folder paths are not allowed."
-        }
-        return $true
-    })]
-    [System.IO.FileInfo]$video2,
-
-    [Parameter(Position=2, ParameterSetName="Run")]
+    [Parameter(Position=1, ParameterSetName="Run")]
     [ValidateSet("blue", "green", "red", "purple", "orange", "yellow")]
     $key = "blue",
 
-    [Parameter(Position=3, ParameterSetName="Run")]
+    [Parameter(Position=2, ParameterSetName="Run")]
     [ValidateRange(0.01, 1)]
     [Decimal]
     $colorSim = 0.3,
 
-    [Parameter(Position=4, ParameterSetName="Run")]
+    [Parameter(Position=3, ParameterSetName="Run")]
     [ValidateRange(0, 1)]
     [Decimal]
     $colorBlend = 0.1,
 
-    [Parameter(Position=5, ParameterSetName="Run")]
+    [Parameter(Position=4, ParameterSetName="Run")]
     [ValidateRange(1, 7)]
     [Int]
     $colorIter = 7,
 
-    [Parameter(Position=6, ParameterSetName="Run")]
+    [Parameter(Position=5, ParameterSetName="Run")]
     [ValidateRange(0, 10)]
     [Decimal]
     $colorDelay = 0.1,
 
-    [Parameter(Position=7, ParameterSetName="Run")]
+    [Parameter(Position=6, ParameterSetName="Run")]
     [Switch]
     $alphaExtract = $true
 )
@@ -118,7 +106,7 @@ Switch ($key)
 
 # Array of colours (Violet, Indigo, Blue, Green, Yellow, Orange, Red)
 
-rainbowColors = @("2:0:0:0:0:0:0:0:2:0:0:0",
+$rainbowColors = @("2:0:0:0:0:0:0:0:2:0:0:0",
     ".5:0:0:0:0:0:0:0:2:0:0:0", 
     "0:0:0:0:0:0:0:0:2:0:0:0", 
     "0:0:0:0:2:0:0:0:0:0:0:0", 
@@ -141,16 +129,10 @@ $filtergraph = ""
 
 For ( $i=0; $i -lt $trailLength; $i++ ){
   ptsDelay = $ptsDelay + $delay
-  filtergraph="[original]split[original][top];[top]colorkey=$key:$colorSim:$colorBlend,$extractFilter,colorchannelmixer=$($rainbowColors[i]),setpts=PTS+$ptsDelay/TB,chromakey=black:0.01:0.1[top];[bottom][top]overlay[bottom];$filtergraph"
+  filtergraph="[original]split[original][top];[top]colorkey=$($key):$($colorSim):$($colorBlend),$($extractFilter),colorchannelmixer=$($rainbowColors[i]),setpts=PTS+$ptsDelay/TB,chromakey=black:0.01:0.1[top];[bottom][top]overlay[bottom];$filtergraph"
 }
 
-   # Return full filtergraph, with necessary prefix and suffix filterchains
-   printf '%s%s%s' "colorkey=${key}:${colorSim}:${colorBlend},split[original][bottom];\
-   [bottom]colorchannelmixer=0:0:0:0:0:0:0:0:0:0:0:0[bottom];\
-   ${filtergraph}[bottom][original]overlay,format=yuv422p10le"
-}
-
-$filtergraph = "colorkey=$key:$colorSim:$colorBlend,split[original][bottom];[bottom]colorchannelmixer=0:0:0:0:0:0:0:0:0:0:0:0[bottom];$filtergraph[bottom][original]overlay,format=yuv422p10le"
+$filter = "colorkey=$($key):$($colorSim):$($colorBlend),split[original][bottom];[bottom]colorchannelmixer=0:0:0:0:0:0:0:0:0:0:0:0[bottom];$filtergraph[bottom][original]overlay,format=yuv422p10le"
 
 
 # Run command

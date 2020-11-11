@@ -70,11 +70,13 @@ Switch ($rotation)
 
 if ($stretch -eq 0) {
     $filter = "$ffRotation,format=yuv422p10le"
+    $aspectString = ""
 }
 else {
-    $inputFrameSize = $(ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 $video) #gets input file dimensions
-    $inputDAR = $(ffprobe -v error -select_streams v:0 -show_entries stream=display_aspect_ratio -of csv=s=x:p=0 $video) #gets input file display aspect ratio
-    $filter = "$ffRotation,scale=$($outResolution -Split 'x' -Join ':'),format=yuv422p10le -aspect $inputDAR"  
+    $inputFrameSize = $(ffprobe -v error -select_streams v:0 -show_entries "stream=width,height" -of csv=s=x:p=0 $video) #gets input file dimensions
+    $inputDAR = $(ffprobe -v error -select_streams v:0 -show_entries "stream=display_aspect_ratio" -of csv=s=x:p=0 $video) #gets input file display aspect ratio
+    $filter = "$ffRotation,scale=$($inputFrameSize -Split 'x' -Join ':'),format=yuv422p10le"
+    $aspectString = "-aspect $inputDAR"  
 }
 
 
@@ -101,14 +103,14 @@ Remove-Item $tempFile
 "@
 }
 else {
-    ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -filter_complex $filter "$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_rotate.mov"
+    ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -filter_complex "$filter" $aspectString "$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_rotate.mov"
 
     Write-Host @"
 
 
 *******START FFMPEG COMMANDS*******
 
-ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -filter_complex $filter `"$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_rotate.mov`"
+ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -filter_complex $filter $aspectString `"$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_rotate.mov`"
 
 ********END FFMPEG COMMANDS********
 

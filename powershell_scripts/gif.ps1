@@ -66,14 +66,14 @@ elseif ($quality -eq 1) {
     $gifFilter="[0:v]fps=10,scale=500:-1:flags=lanczos[v],[v][1:v]paletteuse"
 }
 
-$palette = "$(Join-Path -Path (Split-Path -Path $video) -ChildPath palette.png)"
+$palette = "$(Join-Path (Get-Item $video).DirectoryName -ChildPath palette.png)"
 
 
 
 # Run command
 
 ffmpeg -hide_banner -i $video -filter_complex $paletteFilter $palette
-ffmpeg -hide_banner -i $video -i ${palette} -filter_complex $gifFilter "$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName).gif"
+ffmpeg -hide_banner -i $video -i $palette -filter_complex $gifFilter "$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName).gif"
 rm "${palette}"
 
 Write-Host @"
@@ -82,7 +82,7 @@ Write-Host @"
 *******START FFMPEG COMMANDS*******
 
 ffmpeg -hide_banner -i $video -filter_complex $($paletteFilter) $palette
-ffmpeg -hide_banner -i $video -i "${palette}" -filter_complex $gifFilter `"$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName).gif`"
+ffmpeg -hide_banner -i $video -i $palette -filter_complex $gifFilter `"$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName).gif`"
 
 ********END FFMPEG COMMANDS********
 

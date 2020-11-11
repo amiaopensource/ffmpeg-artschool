@@ -8,7 +8,7 @@
 .PARAMETER s
     saves to file with FFmpeg
 .PARAMETER videos
-    path to the videos
+    path to the videos, separate each path by a comman, e.g. path/to/vid1, path/to/vid2, etc
 #>
 
 
@@ -153,14 +153,16 @@ Remove-Item $tempFile
 "@
 }
 else {
-    ffmpeg -hide_banner $inputString -c:v prores -profile:v 3 -filter_complex "$filter" -map "[v]" "$(Join-path (Get-Item $videos[0]).DirectoryName -ChildPath (Get-Item $videos[0]).BaseName)_xstack_$($leastRoot)x$($leastRoot).mov"
+    
+    ffmpeg.exe -hide_banner $inputString -c:v prores -profile:v 3 -vsync 2 -t 20 -filter_complex "$filter" -map "[v]" "$(Join-path (Get-Item $videos[0]).DirectoryName -ChildPath (Get-Item $videos[0]).BaseName)_xstack_$($leastRoot)x$($leastRoot).mov"
 
     Write-Host @"
 
 
 *******START FFMPEG COMMANDS*******
-needs -vsync 2 -t 10 
-ffmpeg -hide_banner $inputString -c:v prores -profile:v 3 -vsync 2 -t 10 -filter_complex '$filter' -map "[v]" `"$(Join-path (Get-Item $videos[0]).DirectoryName -ChildPath (Get-Item $videos[0]).BaseName)_xstack_$($leastRoot)x$($leastRoot).mov`"
+
+ffmpeg.exe -hide_banner $inputString -c:v prores -profile:v 3 -vsync 2 -t 20 -filter_complex `"$filter`" -map "[v]" `"$(Join-path (Get-Item $videos[0]).DirectoryName -ChildPath (Get-Item $videos[0]).BaseName)_xstack_$($leastRoot)x$($leastRoot).mov`"
+
 ********END FFMPEG COMMANDS********
 
 

@@ -45,7 +45,7 @@ Param(
     })]
     [System.IO.FileInfo]$video,
 
-    [Parameter(Position=1, Mandatory, ParameterSetName="Run")]
+    [Parameter(Position=1, ParameterSetName="Run")]
     [ValidateScript({
         if(-Not ($_/2 -eq 0) ){
             throw "Columns must be an even number"
@@ -55,7 +55,7 @@ Param(
     [Int]
     $columns = 4,
 
-    [Parameter(Position=2, Mandatory, ParameterSetName="Run")]
+    [Parameter(Position=2, ParameterSetName="Run")]
     [ValidateScript({
         if(-Not ($_/2 -eq 0) ){
             throw "Rows must be an even number"
@@ -63,7 +63,7 @@ Param(
         return $true
     })]
     [Int]
-    $rows = 4
+    $rows = 4,
     
     [Parameter(Position=3, ParameterSetName="Run")]
     [ValidateScript({
@@ -87,7 +87,7 @@ if (($h) -or ($PSBoundParameters.Values.Count -eq 0 -and $args.count -eq 0)){
 
 
 # Create filter string
-$filter = "scale=iw/$($width):ih/$($height):force_original_aspect_ratio=decrease,tile=$($width)x$($height):overlap=$($width)*$($height)-1:init_padding=$($width)*$($height)-1"
+$filter = "scale=iw/$($columns):ih/$($rows):force_original_aspect_ratio=decrease,tile=$($columns)x$($rows):overlap=$($columns)*$($rows)-1:init_padding=$($columns)*$($rows)-1"
 
 if ($outputResolution -ne "") {
     $filter = "$filter,scale=$($outputResolution -Split 'x' -Join ':')"
@@ -97,7 +97,7 @@ if ($outputResolution -ne "") {
 
 if ($p) {
     $tempFile = New-TemporaryFile
-    ffmpeg.exe -hide_banner -stats -i $video -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" -f matroska $tempFile
+    ffmpeg.exe -hide_banner -stats -i $video -c:v prores -profile:v 3 -vf $filter -f matroska $tempFile
     ffplay.exe $tempFile
     Remove-Item $tempFile
     
@@ -106,7 +106,7 @@ if ($p) {
 
 *******START FFPLAY COMMANDS*******
 
-ffmpeg.exe -hide_banner -stats -y -i $video -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" -f matroska $tempFile
+ffmpeg.exe -hide_banner -stats -y -i $video -c:v prores -profile:v 3 -vf $filter -f matroska $tempFile
 ffplay $tempFile.FullName
 Remove-Item $tempFile
 
@@ -116,14 +116,14 @@ Remove-Item $tempFile
 "@
 }
 else {
-    ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" "$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_zoomscroll.mov"
+    ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -vf $filter "$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_tile$rows.mov"
 
     Write-Host @"
 
 
 *******START FFMPEG COMMANDS*******
 
-ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" "$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video1).BaseName)_zoomscroll.mov"
+ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -vf $filter "$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_tile$rows.mov"
 
 ********END FFMPEG COMMANDS********
 

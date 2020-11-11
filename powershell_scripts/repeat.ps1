@@ -62,13 +62,14 @@ $tempFile = New-TemporaryFile
 
 for ($i=1; $i -le $repeats; $i++)
 {
-    "file '$((Get-Item $v1).FullName)'" | Out-File -Encoding ASCII -Append $tempFile.FullName
+    "file '$((Get-Item $video).FullName)'" | Out-File -Encoding ASCII -Append $tempFile.FullName
 }
 
 
 # Run ffmpeg command
 
 ffmpeg.exe -f concat -safe -0 -i $tempFile.FullName -c copy "$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_looped_x$($repeats).$((Get-Item $video).Extension)"
+Remove-Item $tempFile
 
 Write-Host @"
 
@@ -81,4 +82,3 @@ ffmpeg.exe -f concat -safe -0 -i $($tempFile.FullName) -c copy `"$(Join-path (Ge
 
 
 "@
-}

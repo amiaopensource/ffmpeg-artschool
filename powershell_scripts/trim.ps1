@@ -43,23 +43,23 @@ Param(
     })]
     [System.IO.FileInfo]$video,
 
-    [Parameter(Position=1, ParameterSetName="Run")]
+    [Parameter(Position=1, Mandatory, ParameterSetName="Run")]
     [ValidateScript({
         if(-Not ($_ -match "\d{2}:\d{2}:\d{2}") ){
             throw "Timestamp must be in the format HH:MM:SS\n"
         }
         return $true
     })]
-    [String]$begin = "",
+    [String]$begin,
 
-    [Parameter(Position=2, ParameterSetName="Run")]
+    [Parameter(Position=2, Mandatory, ParameterSetName="Run")]
     [ValidateScript({
         if(-Not ($_ -match "\d{2}:\d{2}:\d{2}") ){
             throw "Timestamp must be in the format HH:MM:SS\n"
         }
         return $true
     })]
-    [String]$end = ""
+    [String]$end
 )
 
 
@@ -75,7 +75,7 @@ if (($h) -or ($PSBoundParameters.Values.Count -eq 0 -and $args.count -eq 0)){
 
 # Create trim string
 
-$trim = "-ss $begin -t $end"
+$trim = "-ss $begin -to $end"
 
 
 # Run command

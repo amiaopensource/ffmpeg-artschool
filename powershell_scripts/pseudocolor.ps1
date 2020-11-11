@@ -54,7 +54,7 @@ if (($h) -or ($PSBoundParameters.Values.Count -eq 0 -and $args.count -eq 0)){
 
 # Create filter string
 
-$filter_string="eq=brightness=0.40:saturation=8,pseudocolor='if(between(val,ymax,amax),lerp(ymin,ymax,(val-ymax)/(amax-ymax)),-1):if(between(val,ymax,amax),lerp(umax,umin,(val-ymax)/(amax-ymax)),-1):if(between(val,ymax,amax),lerp(vmin,vmax,(val-ymax)/(amax-ymax)),-1):-1'"
+$filter_string="eq=brightness=0.40:saturation=8,pseudocolor=if(between(val,ymax,amax),lerp(ymin,ymax,(val-ymax)/(amax-ymax)),-1):if(between(val,ymax,amax),lerp(umax,umin,(val-ymax)/(amax-ymax)),-1):if(between(val,ymax,amax),lerp(vmin,vmax,(val-ymax)/(amax-ymax)),-1):-1"
 
 
 # Run command

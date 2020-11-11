@@ -73,7 +73,7 @@ $filter = "format=gbrp10le,tblend=all_mode=$($blendMode),format=yuv422p10le"
 
 if ($p) {
     $tempFile = New-TemporaryFile
-    ffmpeg.exe -hide_banner -stats -i $video -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" -f matroska $tempFile
+    ffmpeg.exe -hide_banner -stats -i $video -c:v prores -profile:v 3 -vf $filter -f matroska $tempFile
     ffplay.exe $tempFile
     Remove-Item $tempFile
     
@@ -82,7 +82,7 @@ if ($p) {
 
 *******START FFPLAY COMMANDS*******
 
-ffmpeg.exe -hide_banner -stats -y -i $video -c:v prores -profile:v 3 -filter_complex `'$($filter)`'' -map '[v]' -f matroska $tempFile
+ffmpeg.exe -hide_banner -stats -y -i $video -c:v prores -profile:v 3 -vf `"$($filter)`" -f matroska $tempFile
 ffplay $tempFile.FullName
 Remove-Item $tempFile
 
@@ -92,14 +92,14 @@ Remove-Item $tempFile
 "@
 }
 else {
-    ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" "$(Join-path (Get-Item $video1).DirectoryName -ChildPath (Get-Item $video1).BaseName)_tblend_$($blendMode).mov"
+    ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -vf $filter "$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_tblend_$($blendMode).mov"
 
     Write-Host @"
 
 
 *******START FFMPEG COMMANDS*******
 
-ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -map `"[v]`" `"$(Join-path (Get-Item $video1).DirectoryName -ChildPath (Get-Item $video1).BaseName)_tblend_$($blendMode).mov`"
+ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -vf `"$($filter)`" `"$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_tblend_$($blendMode).mov`"
 
 ********END FFMPEG COMMANDS********
 

@@ -40,29 +40,25 @@ Param(
     [Parameter(Position=0, Mandatory, ParameterSetName="Run")]
     [String]$text,
 
-    [Parameter(Position=1, Mandatory, ParameterSetName="Run")]
+    [Parameter(Position=1, ParameterSetName="Run")]
     [ValidateSet("white", "black", "silver", "grey", "green", "blue", "yellow", "red", "purple", "orange")]
-    $textColor = "green",
+    $textColor = "white",
 
-    [Parameter(Position=2, Mandatory, ParameterSetName="Run")]
+    [Parameter(Position=2, ParameterSetName="Run")]
     [ValidateSet("white", "black", "silver", "grey", "green", "blue", "yellow", "red", "purple", "orange")]
     $backgroundColor = "black",
     
     [Parameter(Position=3, ParameterSetName="Run")]
     [ValidateRange(0,1024)]
-    [Int]$textSize = 30
+    [Int]$textSize = 30,
 
     [Parameter(Position=4, ParameterSetName="Run")]
-    [ValidateRange(0,1024)]
-    [Int]$scrollDirection = 30
+    [ValidateSet("left", "right", "up", "down", "center")]
+    [String]$scrollDirection = "center",
 
     [Parameter(Position=5, ParameterSetName="Run")]
     [ValidateRange(0,1024)]
     [Int]$scrollSpeed = 80
-
-    [Parameter(Position=6, ParameterSetName="Run")]
-    [ValidateSet("left", "right", "up", "down", "center")]
-    [Int]$textSize = 30
 )
 
 
@@ -115,15 +111,15 @@ Switch ($scrollDirection) {
 }
 
 
-if (-Not ($_ | Test-Path)) {
+if (-Not ($text | Test-Path)) {
     $textString = "text='$text'"
 }
 else {
     $textString = "textfile='$text'"
 }
 
-$lavfiString="color=size=640x480:duration=10:rate=25:color=$bgrColor"
-$filter="drawtext=fontfile=/path/to/helvitca.ttf:fontsize=$($textSize):fontcolor=$textColor:$posString:$textFilter"
+$lavfiString="color=size=640x480:duration=10:rate=25:color=0x$ffBackgroundColor"
+$filter="drawtext=fontfile=/path/to/helvitca.ttf:fontsize=$($textSize):fontcolor=0x$($ffTextColor):$($posString):$($textString)"
 
 
 # Run command
