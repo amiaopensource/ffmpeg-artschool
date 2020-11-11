@@ -24,10 +24,10 @@
     "relUrl": "/activities.html#activity-3-bitplane-blend-zoomscroll"
   },"4": {
     "doc": "Activities and Exercises",
-    "title": "Activity 4: Pseudocolor, Showcqt",
-    "content": " ",
-    "url": "http://localhost:4000/activities.html#activity-4-pseudocolor-showcqt",
-    "relUrl": "/activities.html#activity-4-pseudocolor-showcqt"
+    "title": "Activity 4: Tblend, Pseudocolor, Showcqt",
+    "content": ". | Find bloodmoon_a.mov and bloodmoon_b.mov in the Sample Videos folder | Use tblend’s difference128 filter and hstack to compare these two similar videos and see if the bad frame/s jump out from behind the gray. ffmpeg -i bloodmoon_a.mov -i bloodmoon_b.mov -filter_complex \"[0:v:0]tblend=all_mode=difference128[a];[1:v:0]tblend=all_mode=difference128[b];[a][b]hstack[out]\" -map [out] -f nut -c:v rawvideo - | ffplay - | Neato! Try out tblend.sh with the same experimental whimsy as the previous activity, playing around with various blend modes. Choose a mode and preview your result with bloodmoon_b.mov in the sample videos folder: ./tblend.sh -p /Users/genevievehavemeyerking/Desktop/activity4/bloodmoon_b.mov [mode] . | Run again and -s if you like what you see. | Blend your output file with bloodmoon_b.mov and select a mode to add another layer of fun, like so: ./blend.sh -s /Users/genevievehavemeyerking/Desktop/activity4/bloodmoon_1.mov /Users/genevievehavemeyerking/Desktop/activity4/bloodmoon_2.mov [mode] . | . ",
+    "url": "http://localhost:4000/activities.html#activity-4-tblend-pseudocolor-showcqt",
+    "relUrl": "/activities.html#activity-4-tblend-pseudocolor-showcqt"
   },"5": {
     "doc": "Activities and Exercises",
     "title": "Activities and Exercises",
@@ -43,13 +43,13 @@
   },"7": {
     "doc": "CLI Tips and Tricks",
     "title": "macOS terminal",
-    "content": "To get the most of this workshop, it’s worth briefly reviewing some command line shortcuts that will help you make more art more quickly. | control + A : moves cursor to the beginning of the line | control + E : moves cursor to the end of the line | control + C : kills a running process | command + N : opens a new terminal window | command + T : opens a new terminal tab | command + K : clears terminal to start | command + L : clears terminal to previous mark | Holding the Option key + moving the pointer : repositions the insertion point (super handy for switching a -p flag to a -s flag) | command + Plus (+) : makes terminal font bigger | command + Minus (-) : makes terminal font smaller | Arrow Up : scrolls through previously entered commands | Arrow Down : goes in the opposite direction | Tab : autocompletes a command after typing a few letters | . ",
+    "content": "To get the most of this workshop, it’s worth briefly reviewing some command line shortcuts that will help you make more art more quickly. | control + A : moves cursor to the beginning of the line | control + E : moves cursor to the end of the line | control + C : kills a running process | command + N : opens a new terminal window | command + T : opens a new terminal tab | command + Delete : erases character to the right of the cursor | Delete : erases character to the left of the cursor | control + U : clears current line | command + K : clears terminal to start | command + L : clears terminal to previous mark | Holding the Option key + moving the pointer : repositions the insertion point (super handy for switching a -p flag to a -s flag) | command + Plus (+) : makes terminal font bigger | command + Minus (-) : makes terminal font smaller | Arrow Up : scrolls through previously entered commands | Arrow Down : goes in the opposite direction | Tab : autocompletes a command after typing a few letters | . ",
     "url": "http://localhost:4000/clitipsandtricks.html#macos-terminal",
     "relUrl": "/clitipsandtricks.html#macos-terminal"
   },"8": {
     "doc": "CLI Tips and Tricks",
     "title": "PowerShell",
-    "content": ". | Home : moves cursor to the beginning of the line | End : moves cursor to the end of the line | Del : erases character to the right of the cursor | Backspace : erases character to the left of the cursor | Esc : deletes entire current line | control + Home : deletes all characters at the current position up to the beginning of the line | control + End : deletes everything from the current cursor position up to the end of the line | Arrow Up : scrolls through previously entered commands | Arrow Down : goes in the opposite direction | Tab : autocompletes a command after typing a few letters | . ",
+    "content": ". | Home : moves cursor to the beginning of the line | End : moves cursor to the end of the line | control + C : kills a running process | alt + X then i : opens a new powershell window | Del : erases character to the right of the cursor | Backspace : erases character to the left of the cursor | Esc : deletes entire current line | control + Home : deletes all characters at the current position up to the beginning of the line | control + End : deletes everything from the current cursor position up to the end of the line | Arrow Up : scrolls through previously entered commands | Arrow Down : goes in the opposite direction | Tab : autocompletes a command after typing a few letters | Tab : autocompletes a command after typing a few letters | . ",
     "url": "http://localhost:4000/clitipsandtricks.html#powershell",
     "relUrl": "/clitipsandtricks.html#powershell"
   },"9": {
@@ -85,7 +85,7 @@
   },"14": {
     "doc": "Getting Started",
     "title": "Test that everything is working",
-    "content": "Mac/Linux . | In the terminal, change your working directory to the workshop folder. For example, if you downloaded and unzipped the github repository to your Downloads folder, you would use the following command cd ~/Downloads/ffmpeg-artschool-main/ffmpeg-artschool-main\\bash_scripts | Test a script ./life.sh -p . | If you see any errors, please email the workshop organizers. | . | . Windows . | In the terminal, change your working directory to the workshop folder. For example, if you downloaded and unzipped the github repository to your Downloads folder, you would use the following command cd ~\\Downloads\\ffmpeg-artschool-main\\ffmpeg-artschool-main\\powershell_scripts | Test a script .\\life.sh -p . | If you see any errors, please email the workshop organizers. | . | . ",
+    "content": "Mac/Linux . | In the terminal, change your working directory to the workshop folder. For example, if you downloaded and unzipped the github repository to your Downloads folder, you would use the following command cd ~/Downloads/ffmpeg-artschool-main/ffmpeg-artschool-main | Test a script ./bash_scripts/life.sh -p . | If you see any errors, please email the workshop organizers. | . | . Windows . | In the terminal, change your working directory to the workshop folder. For example, if you downloaded and unzipped the github repository to your Downloads folder, you would use the following command cd ~\\Downloads\\ffmpeg-artschool-main\\ffmpeg-artschool-main\\ | Test a script .\\powershell_scripts\\life.ps1 -p . | If you see any errors, please email the workshop organizers. | . | . ",
     "url": "http://localhost:4000/#test-that-everything-is-working",
     "relUrl": "/#test-that-everything-is-working"
   },"15": {
