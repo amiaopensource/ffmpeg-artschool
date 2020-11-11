@@ -134,6 +134,7 @@ if ($p) {
     $tempFile = New-TemporaryFile
     ffmpeg.exe -f lavfi -i $life_string,format=yuv422p10le -c:v prores -profile:v 3 -t 10 $tempFile
     ffplay.exe $tempFile
+    Remove-Item $tempFile
     
 Write-Host @"
 
@@ -142,6 +143,7 @@ Write-Host @"
 
 ffmpeg.exe -f lavfi -i $($life_string),format=yuv422p10le -c:v prores -profile:v 3 -t 10 $tempFile
 ffplay $tempFile.FullName
+Remove-Item $tempFile
 
 ********END FFPLAY COMMANDS********
 

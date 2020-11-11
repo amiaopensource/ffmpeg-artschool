@@ -159,6 +159,7 @@ if ($p) {
     $tempFile = New-TemporaryFile
     ffmpeg.exe -hide_banner -stats -y -i $video -c:v prores -profile:v 3 -vf $filter -f matroska $tempFile
     ffplay.exe $tempFile
+    Remove-Item $tempFile
     
     Write-Host @"
 
@@ -167,6 +168,7 @@ if ($p) {
 
 ffmpeg.exe -hide_banner -stats -y -i $video -c:v prores -profile:v 3 -vf $filter -f matroska $tempFile
 ffplay $tempFile.FullName
+Remove-Item $tempFile
 
 ********END FFPLAY COMMANDS********
 

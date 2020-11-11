@@ -80,6 +80,7 @@ if ($p) {
     $tempFile = New-TemporaryFile
     ffmpeg.exe -hide_banner -stats -y -i $audio -i $video -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" -map "0:a" -shortest -f matroska $tempFile
     ffplay.exe $tempFile
+    Remove-Item $tempFile
     
     Write-Host @"
 
@@ -88,6 +89,7 @@ if ($p) {
 
 ffmpeg.exe -hide_banner -stats -i $audio -i $video -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -map `"[v]`" -map `"0:a`" -shortest -f matroska $tempFile
 ffplay $tempFile.FullName
+Remove-Item $tempFile
 
 ********END FFPLAY COMMANDS********
 

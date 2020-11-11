@@ -132,6 +132,7 @@ if ($p) {
     $tempFile = New-TemporaryFile
     ffmpeg.exe -hide_banner -stats -f lavfi -i $lavfiString -vf $filter -f matroska $tempFile
     ffplay.exe $tempFile
+    Remove-Item $tempFile
     
     Write-Host @"
 
@@ -140,6 +141,7 @@ if ($p) {
 
 ffmpeg.exe -hide_banner -stats -y -f lavfi -i $lavfiString -vf $filter -f matroska $tempFile
 ffplay $tempFile.FullName
+Remove-Item $tempFile
 
 ********END FFPLAY COMMANDS********
 

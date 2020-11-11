@@ -69,6 +69,7 @@ if ($p) {
 
 ffmpeg.exe -hide_banner -stats -i $video1 -i $video2 -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -map `"[v]`" -f matroska $tempFile
 ffplay $tempFile.FullName
+Remove-Item $tempFile
 
 ********END FFPLAY COMMANDS********
 
