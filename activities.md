@@ -130,7 +130,8 @@ What kinds of results did you get, and did you dig them?
 
 1. Find ```bloodmoon_a.mov``` and ```bloodmoon_b.mov``` in the Sample Videos folder
 2. Use tblend’s difference128 filter and hstack to compare these two similar videos and see if the bad frame/s jump out from behind the gray.
-```ffmpeg -i bloodmoon_a.mov -i bloodmoon_b.mov -filter_complex "[0:v:0]tblend=all_mode=difference128[a];[1:v:0]tblend=all_mode=difference128[b];[a][b]hstack[out]" -map [out] -f nut -c:v rawvideo - | ffplay -
+```
+ffmpeg -i bloodmoon_a.mov -i bloodmoon_b.mov -filter_complex "[0:v:0]tblend=all_mode=difference128[a];[1:v:0]tblend=all_mode=difference128[b];[a][b]hstack[out]" -map [out] -f nut -c:v rawvideo - | ffplay -
 ```
 3. Neato! Try out tblend.sh with the same experimental whimsy as the previous activity, playing around with various blend modes. Choose a mode and preview your result with ```bloodmoon_b.mov``` in the sample videos folder:
 ```
