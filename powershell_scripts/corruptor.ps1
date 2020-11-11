@@ -89,9 +89,9 @@ Remove-Item $tempFile
 "@
 }
 else {
-    $tempFile = "$((Get-Item $video).Basename)_corruptor_temp.mov"
+    $tempFile = "$(Join-Path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_corruptor_temp.mov"
     ffmpeg.exe -hide_banner -i $video -c copy -bsf noise=$corruption -y $tempFile
-    ffmpeg.exe -i $tempFile -c:v prores -profile:v 3 -max_muxing_queue_size 512 -y "$((Get-Item $video).Basename)_corruptor.mov"
+    ffmpeg.exe -i $tempFile -c:v prores -profile:v 3 -max_muxing_queue_size 512 -y "$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_corruptor.mov"
 
     Write-Host @"
 
@@ -99,7 +99,7 @@ else {
 *******START FFMPEG COMMANDS*******
 
 ffmpeg.exe -hide_banner -i $video -c copy -bsf noise=$($corruption) -y `"$($tempFile)`"
-ffmpeg.exe -i `"$($tempFile)`" -c:v prores -profile:v 3 -y `"$((Get-Item $video).Basename)_corruptor.mov`"
+ffmpeg.exe -i `"$($tempFile)`" -c:v prores -profile:v 3 -y `"$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_corruptor.mov`"
 
 ********END FFMPEG COMMANDS********
 

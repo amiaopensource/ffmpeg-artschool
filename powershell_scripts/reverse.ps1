@@ -69,14 +69,14 @@ Remove-Item $tempFile
 "@
 }
 else {
-    ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -vf reverse "$((Get-Item $video).Basename)_reverse.mov"
+    ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -vf reverse "$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_reverse.mov"
 
     Write-Host @"
 
 
 *******START FFMPEG COMMANDS*******
 
-ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -vf reverse `"$((Get-Item $video).Basename)_reverse.mov`"
+ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -vf reverse `"$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_reverse.mov`"
 
 ********END FFMPEG COMMANDS********
 

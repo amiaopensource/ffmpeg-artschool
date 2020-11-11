@@ -102,7 +102,7 @@ Remove-Item $tempFile
 "@
 }
 else {
-    ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -filter_complex $filter "$((Get-Item $video).Basename)_bitplane.mov"
+    ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -filter_complex $filter "$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_bitplane.mov"
 
     Write-Host @"
 
@@ -110,7 +110,7 @@ else {
 *******START FFMPEG COMMANDS*******
 
 Y:$($Y)    U:$($U)    V:$($V)
-ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -filter_complex `"$($filter)`" `"$((Get-Item $video).Basename)_bitplane.mov`"
+ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -filter_complex `"$($filter)`" `"$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_bitplane.mov`"
 
 ********END FFMPEG COMMANDS********
 

@@ -45,7 +45,7 @@ Param(
 
 if (($h) -or ($PSBoundParameters.Values.Count -eq 0 -and $args.count -eq 0)){
     Get-Help $MyInvocation.MyCommand.Definition -detailed
-    if (!$video) {
+    if (!$videos) {
         exit
     }
 }
@@ -143,7 +143,7 @@ if ($p) {
 
 *******START FFPLAY COMMANDS*******
 
-ffmpeg.exe -hide_banner -stats -y $video -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" -f matroska $tempFile
+ffmpeg.exe -hide_banner -stats -y $inputString -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" -f matroska $tempFile
 ffplay $tempFile.FullName
 Remove-Item $tempFile
 
@@ -153,15 +153,14 @@ Remove-Item $tempFile
 "@
 }
 else {
-    ffmpeg -hide_banner $inputString -c:v prores -profile:v 3 -filter_complex "$filter" -map "[v]" "xstack.mov"
+    ffmpeg -hide_banner $inputString -c:v prores -profile:v 3 -filter_complex "$filter" -map "[v]" "$(Join-path (Get-Item $videos[0]).DirectoryName -ChildPath (Get-Item $videos[0]).BaseName)_xstack_$($leastRoot)x$($leastRoot).mov"
 
     Write-Host @"
 
 
 *******START FFMPEG COMMANDS*******
 needs -vsync 2 -t 10 
-ffmpeg -hide_banner $inputString -c:v prores -profile:v 3 -vsync 2 -t 10 -filter_complex '$filter' -map "[v]" "xstack.mov"
-
+ffmpeg -hide_banner $inputString -c:v prores -profile:v 3 -vsync 2 -t 10 -filter_complex '$filter' -map "[v]" `"$(Join-path (Get-Item $videos[0]).DirectoryName -ChildPath (Get-Item $videos[0]).BaseName)_xstack_$($leastRoot)x$($leastRoot).mov`"
 ********END FFMPEG COMMANDS********
 
 

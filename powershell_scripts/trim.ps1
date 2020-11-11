@@ -101,14 +101,14 @@ Remove-Item $tempFile
 "@
 }
 else {
-    ffmpeg.exe -hide_banner -i $video $trim -c copy -map 0 "$((Get-Item $video1).Basename)_trim.mov"
+    ffmpeg.exe -hide_banner -i $video $trim -c copy -map 0 "$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_trim.mov"
 
     Write-Host @"
 
 
 *******START FFMPEG COMMANDS*******
 
-ffmpeg.exe -hide_banner -i $video $trim -c copy -map 0 `"$((Get-Item $video1).Basename)_trim.mov`"
+ffmpeg.exe -hide_banner -i $video $trim -c copy -map 0 `"$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_trim.mov`"
 
 ********END FFMPEG COMMANDS********
 

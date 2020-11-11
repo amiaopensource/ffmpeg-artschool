@@ -80,14 +80,14 @@ Remove-Item $tempFile
 "@
 }
 else {
-    ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -vf $filter "$((Get-Item $video).Basename)_pseudocolor.mov"
+    ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -vf $filter "$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_pseudocolor.mov"
 
     Write-Host @"
 
 
 *******START FFMPEG COMMANDS*******
 
-ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -vf $($filter) `"$((Get-Item $video).Basename)_pseudocolor.mov`"
+ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -vf $($filter) `"$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_pseudocolor.mov`"
 
 ********END FFMPEG COMMANDS********
 

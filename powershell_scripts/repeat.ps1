@@ -68,14 +68,14 @@ for ($i=1; $i -le $repeats; $i++)
 
 # Run ffmpeg command
 
-ffmpeg.exe -f concat -safe -0 -i $tempFile.FullName -c copy "$((Get-Item $video).Basename)_looped_x$($repeats).$((Get-Item $video).Extension)"
+ffmpeg.exe -f concat -safe -0 -i $tempFile.FullName -c copy "$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_looped_x$($repeats).$((Get-Item $video).Extension)"
 
 Write-Host @"
 
 
 *******START FFMPEG COMMANDS*******
 
-ffmpeg.exe -f concat -safe -0 -i $($tempFile.FullName) -c copy `"$((Get-Item $video).Basename)_looped_x$($repeats).$((Get-Item $video).Extension)`"
+ffmpeg.exe -f concat -safe -0 -i $($tempFile.FullName) -c copy `"$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_looped_x$($repeats).$((Get-Item $video).Extension)`"
 
 ********END FFMPEG COMMANDS********
 

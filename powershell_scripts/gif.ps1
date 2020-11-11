@@ -73,7 +73,7 @@ $palette = "$(Join-Path -Path (Split-Path -Path $video) -ChildPath palette.png)"
 # Run command
 
 ffmpeg -hide_banner -i $video -filter_complex $paletteFilter $palette
-ffmpeg -hide_banner -i $video -i ${palette} -filter_complex $gifFilter "$((Get-Item $video).Basename).gif"
+ffmpeg -hide_banner -i $video -i ${palette} -filter_complex $gifFilter "$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName).gif"
 rm "${palette}"
 
 Write-Host @"
@@ -82,7 +82,7 @@ Write-Host @"
 *******START FFMPEG COMMANDS*******
 
 ffmpeg -hide_banner -i $video -filter_complex $($paletteFilter) $palette
-ffmpeg -hide_banner -i $video -i "${palette}" -filter_complex $gifFilter `"$((Get-Item $video).Basename).gif`"
+ffmpeg -hide_banner -i $video -i "${palette}" -filter_complex $gifFilter `"$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName).gif`"
 
 ********END FFMPEG COMMANDS********
 

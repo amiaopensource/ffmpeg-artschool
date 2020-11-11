@@ -96,14 +96,14 @@ Remove-Item $tempFile
 "@
 }
 else {
-    ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -vf $filter "$((Get-Item $video).Basename)_colorizer_$($color).mov"
+    ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -vf $filter "$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_colorizer_$($color).mov"
 
     Write-Host @"
 
 
 *******START FFMPEG COMMANDS*******
 
-ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -vf `"$($filter)`" `"$((Get-Item $video).Basename)_colorizer_$($color).mov`"
+ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -vf `"$($filter)`" `"$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_colorizer_$($color).mov`"
 
 ********END FFMPEG COMMANDS********
 
