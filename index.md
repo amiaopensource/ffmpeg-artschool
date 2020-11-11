@@ -8,7 +8,9 @@ nav_order: 1
 
 <img src="{{ site.baseurl }}/images/rainbowjellies.gif">
 
-Please complete the following instructions before the start of the workshop. Total setup time is approximately 15 minutes.
+Please complete the following instructions before the start of the workshop. Total setup time is approximately 25 minutes.
+
+The setup instructions for Windows PCs have been [recorded as a video](https://www.youtube.com/watch?v=Lq8OLnaWqj8).
 
 ## Download the scripts for the workshop
 1. Go the [Github repository for the workshop](https://github.com/iamdamosuzuki/ffmpeg-artschool)
