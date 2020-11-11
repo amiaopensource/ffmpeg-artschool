@@ -8,24 +8,82 @@ nav_order: 5
 
 This document will describe how to run certain scripts for artistic effects!
 
-## Activity 1: Running Bash and FFmpeg
+## Activity 0: Testing your Installation with the Game of Life
 
-Before we get started with this section, make sure that your terminal window is in the root level of the `ffmpeg-artschool` directory. You can do this by typing `cd` then dragging in the ffmpeg-artschool folder.
+Before doing anything else, a good first activity (carried over from the Getting Started page) is to make sure you have FFmpeg installed properly. To do this, open a terminal or powershell window and `cd` into the `ffmpeg-artschool-main` directory (`cd` space drag-and-drop `ffmpeg-artschool-main` is a solid workable approach).
 
-Also, for these activities we're going to use ffplay to stream the videos we're creating, rather than save them. In order to do this we're using the following format:
+You'll be testing your installation with one of the only Art School scripts that does NOT require an input file: life, which calls on FFmpeg and asks it to generate a visualization based upon John Conway’s [Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life){:target="\_blank"}.
+
+1. From the root level of `ffmpeg-artschool-main`, run the following:
+
+Mac
 
 ```
-ffmpeg -i [InputFile.mov] -c:v prores -filter_complex [Filter String] -f matroska - | ffplay -
+./bash_scripts/life.sh -p
 ```
 
-The last portion that says `-f matroska - | ffplay - ` is telling ffmpeg to output what it's processing as a matroska file, and then telling ffplay to play back whatever it coming out of ffmpeg as it comes out. This means that if your computer can't handle the processing, it might be a bit slow to play back the file. This is why most of our sample files are at 640x480, which is easier for a CPU to handle than a large HD or 2K file.
+Windows
+```
+ .\powershell_scripts\life.ps1 -p
+```
 
-### Normalizing your source video_files
-All of the video files we provide have been normalized to ProRes. However, if you have your own sample files that you want to use, it's best to make sure it's transcoded to ProRes and resized to SD before working with it. We've created a simple bash script that can help you with this. Here's how ton run the script:
+If all goes according to plan, an FFplay window should pop up with a visualization that looks similar to the following:
+
+<img src="{{ site.baseurl }}/images/life.gif" width="80%">
+
+Congratulations! You're ready to proceed forward. Hit `q` to quit FFplay, and let's move on.
+
+## Activity 1: Normalize/Trim/GIF
+
+From here on out, we'll assume that your terminal or powershell window is still at the root level of `ffmpeg-artschool-main`.
+
+The next set of activities, while not necessarily the most exciting, serve as a good primer to FFmpeg Art School and will help you circumvent any issues you might enocunter when beginning to run various files through the Art School scripts.
+
+### Normalize
+Most of the video files that we've provided have been normalized to ProRes/MOV, with a resolution of 640x480, which is easier for a CPU to handle than a large HD or 2K file. However, if you have your own sample files that you'd like to use, it's best to make sure they've been transcoded to ProRes and resized to SD before working with them.
+
+1. Let's start here, with 'normalizing' one of the abnormal sample files we've provided, `fonda.mkv,` a brief clip from Jane Fonda's 1982 classic exercise video.
+
 ```
-./bash_scripts/proreser.sh -s [/path/to/input/file.mov] 640x480
+./bash_scripts/proreser.sh -s fonda.mkv 640x480
 ```
-By default, the `proreser.sh` script will convert your file to ProRes. By adding the `-s` flag we're telling the script to save the output file. By adding `640x480` to the end of the command we're telling the script to resize the file to 640 pixels by 480 pixels.
+
+```
+.\powershell_scripts\proreser.ps1 -s fonda.mkv 640x480
+```
+By default, `proreser` will convert your file to ProRes, and by adding the `-s` flag, we're telling the script to save to an output file. By adding `640x480` to the end of the command, we're telling the script to resize the file to 640 pixels by 480 pixels. `proreser` will also remove any audio tracks during this transformation, which may not be ideal for you, but will again help you avoid script fails down the road.
+
+Ta-daah! You've now got a new Quicktime file, `fonda_prores.mov` that should be living alongside the MKV original.
+
+### Trim
+You're loving your new Fonda ProRes file, but after watching it again, you've realized that you'd prefer a shorter, more targeted clip: the group performing jumping jacks (right around the 00:00:07 mark).
+
+1. To make a clip of just this section (00:00:07-00:00:14), we'll use of the Art School `trim` script. Usage is similar and straightforward (a `-s` flag and timestamp in and out points):
+
+```
+./bash_scripts/trim.sh -s fonda_prores.mov 00:00:07 00:00:14
+```
+
+```
+.\powershell_scripts\trim.ps1 -s fonda_prores.mov 00:00:07 00:00:14
+```
+
+Now we're cooking! You should see, again alongside your original file, a new trimmed version called `fonda_prores_trim.mov`
+
+### GIF
+No Art School experience would be complete without transforming your art into something easily shareable online. For this, we've created a `gif`, a script which will take any input file and turn it into duh, a gif (as with the previous scripts, `gif` does have an optional parameter: 0 results in a more compressed gif; 1 a less compressed, higher quality one).
+
+1. Let's give this a try, making a better looking Fonda crew jumping jack GIF:
+
+```
+./bash_scripts/gif.sh -s fonda_prores_trim.mov 1
+```
+
+```
+.\powershell_scripts\gif.ps1 -s fonda_prores_trim.mov 1
+```
+
+With these three scripts working, you should be ready for all the colorful and crazy stuff that follows. Good luck!
 
 ## Activity 2: Chromakey and Echo
 
@@ -142,7 +200,7 @@ ffmpeg -i bloodmoon_a.mov -i bloodmoon_b.mov -filter_complex "[0:v:0]tblend=all_
 6. Blend your output file back with ```bloodmoon_b.mov``` and try the ```vividlight``` mode to add another layer of fun, like so:
 ```
 ./blend.sh -s bloodmoon_b_tblend.mov bloodmoon_b.mov vividlight
-``` 
+```
 7. Use this new combo file with either ```pseudocolor.sh``` or combine it with an audio file to change things up with ```audioviz.sh```!(note: audio will not play back with -p, only with -s)
 ```
 ./audioviz.sh -p jackhammer.mp3 bloodmoon_b_blend.mov
