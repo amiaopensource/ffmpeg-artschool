@@ -72,6 +72,9 @@ For ( $i=0; $i -lt $leastSquare; $i++ ) {
     if ($i -ge $videos.Length) {
         $inputString = "$inputString -f lavfi -i color=color=black:s=320x240"
     }
+    elseif ($inputString -eq "") {
+        $inputString = "-i $($videos[$i])"
+    }
     else {
         $inputString = "$inputString -i $($videos[$i])"
     }
@@ -149,12 +152,13 @@ Remove-Item $tempFile
 
 ********END FFPLAY COMMANDS********
 
+To run this script, please copy-past the FFMPEG and FFPLAY commands. Because of a bug, a file has not been created yet.
 
 "@
 }
 else {
     
-    ffmpeg.exe -hide_banner $inputString -c:v prores -profile:v 3 -vsync 2 -t 20 -filter_complex "$filter" -map "[v]" "$(Join-path (Get-Item $videos[0]).DirectoryName -ChildPath (Get-Item $videos[0]).BaseName)_xstack_$($leastRoot)x$($leastRoot).mov"
+ffmpeg.exe -hide_banner $inputString -c:v prores -profile:v 3 -vsync 2 -t 20 -filter_complex "$filter" -map "[v]" "$(Join-path (Get-Item $videos[0]).DirectoryName -ChildPath (Get-Item $videos[0]).BaseName)_xstack_$($leastRoot)x$($leastRoot).mov"
 
     Write-Host @"
 
@@ -165,6 +169,7 @@ ffmpeg.exe -hide_banner $inputString -c:v prores -profile:v 3 -vsync 2 -t 20 -fi
 
 ********END FFMPEG COMMANDS********
 
+To run this script, please copy-past the FFMPEG commands. Because of a bug, a file has not been created yet.
 
 "@
 }
