@@ -45,11 +45,11 @@ Most of the video files that we've provided have been normalized to ProRes/MOV, 
 1. Let's start here, with 'normalizing' one of the abnormal sample files we've provided, `fonda.mp4,` a brief clip from Jane Fonda's 1982 classic exercise video.
 
 ```
-./bash_scripts/proreser.sh -s fonda.mp4 640x480
+./bash_scripts/proreser.sh -s ./video_files/fonda.mp4 640x480
 ```
 
 ```
-.\powershell_scripts\proreser.ps1 -s fonda.mp4 640x480
+.\powershell_scripts\proreser.ps1 -s .\video_files\fonda.mp4 640x480
 ```
 By default, `proreser` will convert your file to ProRes, and by adding the `-s` flag, we're telling the script to save to an output file. By adding `640x480` to the end of the command, we're telling the script to resize the file to 640 pixels by 480 pixels. `proreser` will also remove any audio tracks during this transformation, which may not be ideal for you, but will again help you avoid script fails down the road.
 
@@ -61,11 +61,11 @@ You're loving your new Fonda ProRes file, but after watching it again, you've re
 1. To make a clip of just this section (00:00:07-00:00:14), we'll use of the Art School `trim` script. Usage is similar and straightforward (a `-s` flag and timestamp in and out points):
 
 ```
-./bash_scripts/trim.sh -s fonda_prores.mov 00:00:07 00:00:14
+./bash_scripts/trim.sh -s ./video_files/fonda_prores.mov 00:00:07 00:00:14
 ```
 
 ```
-.\powershell_scripts\trim.ps1 -s fonda_prores.mov 00:00:07 00:00:14
+.\powershell_scripts\trim.ps1 -s .\video_files\fonda_prores.mov 00:00:07 00:00:14
 ```
 
 Now we're cooking! You should see, again alongside your original file, a new trimmed version called `fonda_prores_trim.mov`
@@ -76,11 +76,11 @@ No Art School experience would be complete without transforming your art into so
 1. Let's give this a try, making a better looking Fonda crew jumping jack GIF:
 
 ```
-./bash_scripts/gif.sh -s fonda_prores_trim.mov 1
+./bash_scripts/gif.sh -s ./video_files_fonda_prores_trim.mov 1
 ```
 
 ```
-.\powershell_scripts\gif.ps1 -s fonda_prores_trim.mov 1
+.\powershell_scripts\gif.ps1 -s .\video_files\fonda_prores_trim.mov 1
 ```
 
 With these three scripts working, you should be ready for all the colorful and crazy stuff that follows. Good luck!
