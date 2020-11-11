@@ -17,10 +17,10 @@ Please complete the following instructions before the start of the workshop. Tot
 4. Open the unzipped folder, and then open the folder named `ffmpeg-artschool-main`. You should see folders named `bash_scripts` and `powershell_scripts`.
 
 ## Download the sample files for the workshop
-1. Go the [sample data folder for the workshop](link to come)
-2. Click the name of the folder `ffmpeg-art-school-sampledata` and select Download from the drop-down menu.
+1. Go the [Sample Files for the workshop](https://drive.google.com/drive/folders/1zfI0DqqGpHhDPTpFqg7G4urSY1LFGKsP?usp=sharing)
+2. Click the name of the folder `sample_files` and select Download from the drop-down menu.
 3. Open the folder where the ZIP file was downloaded (probably your Downloads folder) in a new window and unzip the file.
-4. Open the unzipped folder, copy the folders named `sample_video_files` and `sample_audio_files`, and paste them into the `ffmpeg-artschool-main` folder.
+4. Open the unzipped folder, copy the folders named `sample_files`, and paste it into the `ffmpeg-artschool-main` folder.
 
 ## Install or update ffmpeg
 These instructions differ depending on what operating system you are using.
