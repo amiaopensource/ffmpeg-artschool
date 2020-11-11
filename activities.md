@@ -125,4 +125,16 @@ To us, this results in video that has a distinct modern art vibe; it's all color
 
 What kinds of results did you get, and did you dig them?
 
-## Activity 4: Pseudocolor, Showcqt
+## Activity 4: Tblend, Pseudocolor, Showcqt
+
+
+1. Find ```bloodmoon_a.mov``` and ```bloodmoon_b.mov``` in the Sample Videos folder
+2. Use tblend’s difference128 filter and hstack to compare these two similar videos and see if the bad frame/s jump out from behind the gray.
+```ffmpeg -i bloodmoon_a.mov -i bloodmoon_b.mov -filter_complex "[0:v:0]tblend=all_mode=difference128[a];[1:v:0]tblend=all_mode=difference128[b];[a][b]hstack[out]" -map [out] -f nut -c:v rawvideo - | ffplay -
+```
+3. Neato! Try out tblend.sh with the same experimental whimsy as the previous activity, playing around with various blend modes. Choose a mode and preview your result with ```bloodmoon_b.mov``` in the sample videos folder:
+```./tblend.sh -p /Users/genevievehavemeyerking/Desktop/activity4/bloodmoon_b.mov [mode]```
+
+5. Run again and ```-s``` if you like what you see.
+6. Blend your output file with ```bloodmoon_b.mov``` and select a mode to add another layer of fun, like so:
+```./blend.sh -s /Users/genevievehavemeyerking/Desktop/activity4/bloodmoon_1.mov /Users/genevievehavemeyerking/Desktop/activity4/bloodmoon_2.mov [mode]``` 
