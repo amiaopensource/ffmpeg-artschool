@@ -133,13 +133,18 @@ What kinds of results did you get, and did you dig them?
 ```
 ffmpeg -i bloodmoon_a.mov -i bloodmoon_b.mov -filter_complex "[0:v:0]tblend=all_mode=difference128[a];[1:v:0]tblend=all_mode=difference128[b];[a][b]hstack[out]" -map [out] -f nut -c:v rawvideo - | ffplay -
 ```
-3. Neato! Try out tblend.sh with the same experimental whimsy as the previous activity, playing around with various blend modes. Choose a mode and preview your result with ```bloodmoon_b.mov``` in the sample videos folder:
+3. Try out tblend.sh with the same experimental whimsy as the previous activity, playing around with various blend modes. Choose a mode and preview your result with ```bloodmoon_b.mov``` in the sample videos folder:
 ```
-./tblend.sh -p /Users/genevievehavemeyerking/Desktop/activity4/bloodmoon_b.mov [mode]
+./tblend.sh -p bloodmoon_b.mov xor
 ```
 
 5. Run again and ```-s``` if you like what you see.
-6. Blend your output file with ```bloodmoon_b.mov``` and select a mode to add another layer of fun, like so:
+6. Blend your output file back with ```bloodmoon_b.mov``` and try the ```vividlight``` mode to add another layer of fun, like so:
 ```
-./blend.sh -s /Users/genevievehavemeyerking/Desktop/activity4/bloodmoon_1.mov /Users/genevievehavemeyerking/Desktop/activity4/bloodmoon_2.mov [mode]
+./blend.sh -s bloodmoon_b_tblend.mov bloodmoon_b.mov vividlight
 ``` 
+7. Use this new combo file with either ```pseudocolor.sh``` or combine it with an audio file to change things up with ```audioviz.sh```!
+```
+./audioviz.sh -p jackhammer.mp3 bloodmoon_b_blend.mov
+```
+Neato!
