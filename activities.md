@@ -42,18 +42,18 @@ The next set of activities, while not necessarily the most exciting, serve as a 
 ### Normalize
 Most of the video files that we've provided have been normalized to ProRes/MOV, with a resolution of 640x480, which is easier for a CPU to handle than a large HD or 2K file. However, if you have your own sample files that you'd like to use, it's best to make sure they've been transcoded to ProRes and resized to SD before working with them.
 
-1. Let's start here, with 'normalizing' one of the abnormal sample files we've provided, `fonda.mkv,` a brief clip from Jane Fonda's 1982 classic exercise video.
+1. Let's start here, with 'normalizing' one of the abnormal sample files we've provided, `fonda.mp4,` a brief clip from Jane Fonda's 1982 classic exercise video.
 
 ```
-./bash_scripts/proreser.sh -s fonda.mkv 640x480
+./bash_scripts/proreser.sh -s fonda.mp4 640x480
 ```
 
 ```
-.\powershell_scripts\proreser.ps1 -s fonda.mkv 640x480
+.\powershell_scripts\proreser.ps1 -s fonda.mp4 640x480
 ```
 By default, `proreser` will convert your file to ProRes, and by adding the `-s` flag, we're telling the script to save to an output file. By adding `640x480` to the end of the command, we're telling the script to resize the file to 640 pixels by 480 pixels. `proreser` will also remove any audio tracks during this transformation, which may not be ideal for you, but will again help you avoid script fails down the road.
 
-Ta-daah! You've now got a new Quicktime file, `fonda_prores.mov` that should be living alongside the MKV original.
+Ta-daah! You've now got a new Quicktime file, `fonda_prores.mov` that should be living alongside the MP4 original.
 
 ### Trim
 You're loving your new Fonda ProRes file, but after watching it again, you've realized that you'd prefer a shorter, more targeted clip: the group performing jumping jacks (right around the 00:00:07 mark).
