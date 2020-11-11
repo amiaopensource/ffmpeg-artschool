@@ -136,7 +136,7 @@ For ( $i=1; $i -le $trailLength; $i++ ){
     $echoFeedback = "[wet]split[wet2Blend][wet2Feedback],[wet2Feedback]setpts=PTS+$ptsDelay/TB[wetFromFeedback];[wetFromFeedback]format=$formatMode[wetFromFeedback];[wetFromFeedback]format=$formatMode[wetFromFeedback];[wetFromFeedback][wet2Blend]$blendString[wet];" + $echoFeedback
 }
    
-$filter = "split[dry][toEcho];[toEcho]setpts=PTS+($echoRate/TB)[wet];$echoFeedback[wet]format=$formatMode[wet];[dry]format=$formatMode[dry];[wet][dry]$blendString[outRGB];[outRGB]format=$formatMode[v]"
+$filter = "split[dry][toEcho];[toEcho]setpts=PTS+($echoRate/TB)[wet];$echoFeedback[wet]format=$formatMode[wet];[dry]format=$formatMode[dry];[wet][dry]$blendString[outRGB];[outRGB]format=yuv422p10le[v]"
 
 
 # Run command
