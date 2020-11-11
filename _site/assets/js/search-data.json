@@ -73,7 +73,7 @@
   },"12": {
     "doc": "Getting Started",
     "title": "Download the sample files for the workshop",
-    "content": ". | Go the Sample Files for the workshop | Click the name of the folder sample_files and select Download from the drop-down menu. | Open the folder where the ZIP file was downloaded (probably your Downloads folder) in a new window and unzip the file. | Open the unzipped folder, copy the folders named sample_files, and paste it into the ffmpeg-artschool-main folder. | . ",
+    "content": ". | Go the Sample Files for the workshop | Click the name of the folder sample_files and select Download from the drop-down menu. | Open the folder where the ZIP file was downloaded (probably your Downloads folder) in a new window and unzip the file. | Open the unzipped folder, copy the folder named sample_files, and paste it into the ffmpeg-artschool-main folder. | . ",
     "url": "http://localhost:4000/#download-the-sample-files-for-the-workshop",
     "relUrl": "/#download-the-sample-files-for-the-workshop"
   },"13": {
