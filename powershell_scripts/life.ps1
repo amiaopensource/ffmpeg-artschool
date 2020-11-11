@@ -131,21 +131,18 @@ $life_string = "life=s=$($ffSize):mold=10:r=$($ffRate):ratio=0.$($ffRatio):death
 # Run command
 
 if ($p) {
-    $tempFile = New-TemporaryFile
-    ffmpeg.exe -f lavfi -i $life_string,format=yuv422p10le -c:v prores -profile:v 3 -t 10 $tempFile
-    ffplay.exe $tempFile
-    Remove-Item $tempFile
+    ffplay.exe -f lavfi -i $life_string
     
 Write-Host @"
 
 
 *******START FFPLAY COMMANDS*******
 
-ffmpeg.exe -f lavfi -i $($life_string),format=yuv422p10le -c:v prores -profile:v 3 -t 10 $tempFile
-ffplay $tempFile.FullName
-Remove-Item $tempFile
+ffplay -f lavfi -i $life_string
 
 ********END FFPLAY COMMANDS********
+Rate: $rate
+Ratio: $ratio
 
 
 "@
@@ -161,7 +158,8 @@ Write-Host @"
 ffmpeg.exe -f lavfi -i $($life_string),format=yuv422p10le -c:v prores -profile:v 3 -t 10 life.mov
 
 ********END FFMPEG COMMANDS********
-
+Rate: $rate
+Ratio: $ratio
 
 "@
 }
