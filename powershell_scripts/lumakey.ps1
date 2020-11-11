@@ -89,14 +89,14 @@ if (($h) -or ($PSBoundParameters.Values.Count -eq 0 -and $args.count -eq 0)){
 
 # Build filter string
 
-$filterComplex = "[0:v][1:v]scale2ref[v0][v1];[v1]lumakey=threshold=$($threshhold):tolerance=$($tolerance):softness=$($softness)[1v];[v0][1v]overlay,format=yuv422p10le[v]"
+$filter = "[0:v][1:v]scale2ref[v0][v1];[v1]lumakey=threshold=$($threshhold):tolerance=$($tolerance):softness=$($softness)[1v];[v0][1v]overlay,format=yuv422p10le[v]"
 
 
 # Run command
 
 if ($p) {
     $tempFile = New-TemporaryFile
-    ffmpeg.exe -hide_banner -stats -y -i $video -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" -f matroska $tempFile
+    ffmpeg.exe -hide_banner -stats -y -i $video1 -i $video2 -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" -f matroska $tempFile
     ffplay.exe $tempFile
     Remove-Item $tempFile
     
@@ -105,7 +105,7 @@ if ($p) {
 
 *******START FFPLAY COMMANDS*******
 
-ffmpeg.exe -hide_banner -stats -y -i $video -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -map `"[v]`" -f matroska $tempFile
+ffmpeg.exe -hide_banner -stats -y -i $video1 -i $video2 -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -map `"[v]`" -f matroska $tempFile
 ffplay $tempFile.FullName
 Remove-Item $tempFile
 
@@ -115,14 +115,14 @@ Remove-Item $tempFile
 "@
 }
 else {
-    ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" "$((Get-Item $video).Basename)_lumakey.mov"
+    ffmpeg.exe -hide_banner -i $video1 -i $video2 -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" "$((Get-Item $video1).Basename)_lumakey.mov"
 
     Write-Host @"
 
 
 *******START FFMPEG COMMANDS*******
 
-ffmpeg.exe -hide_banner -i $video -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -map `"[v]`" `"$((Get-Item $video).Basename)_lumakey.mov`"
+ffmpeg.exe -hide_banner -i $video1 -i $video2 -c:v prores -profile:v 3 -filter_complex `"$($filter)`" -map `"[v]`" `"$((Get-Item $video1).Basename)_lumakey.mov`"
 
 ********END FFMPEG COMMANDS********
 
