@@ -86,7 +86,7 @@ $filter = "[1:v]format=gbrp10le[v1];[0:v]format=gbrp10le[v0];[v1][v0]scale2ref[v
 
 if ($p) {
     $tempFile = New-TemporaryFile
-    ffmpeg.exe -hide_banner -stats -i $video1 -i $video2 -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" -f matroska $tempFile
+    ffmpeg.exe -hide_banner -stats -y -i $video1 -i $video2 -c:v prores -profile:v 3 -filter_complex $filter -map "[v]" -f matroska $tempFile
     ffplay.exe $tempFile
     Remove-Item $tempFile
     

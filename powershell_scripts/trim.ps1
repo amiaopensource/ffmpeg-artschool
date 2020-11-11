@@ -82,7 +82,7 @@ $trim = "ss $begin.000 -to $end.000"
 
 if ($p) {
     $tempFile = New-TemporaryFile
-    ffmpeg.exe -hide_banner -stats -i $video -ss $begin -to $end -f matroska $tempFile
+    ffmpeg.exe -hide_banner -stats -y -i $video -ss $begin -to $end -f matroska $tempFile
     ffplay.exe $tempFile
     Remove-Item $tempFile
     

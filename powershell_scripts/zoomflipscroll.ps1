@@ -66,7 +66,7 @@ $filter = "format=rgb24,crop=iw:1:0:$line,scale=iw:4:flags=neighbor,tile=layout=
 
 if ($p) {
     $tempFile = New-TemporaryFile
-    ffmpeg.exe -hide_banner -stats -i $video -c:v prores -profile:v 3 -vf $filter -f matroska $tempFile
+    ffmpeg.exe -hide_banner -stats -y -i $video -c:v prores -profile:v 3 -vf $filter -f matroska $tempFile
     ffplay.exe $tempFile
     Remove-Item $tempFile
   

@@ -73,7 +73,7 @@ $filter = "format=gbrp10le,tblend=all_mode=$($blendMode),format=yuv422p10le"
 
 if ($p) {
     $tempFile = New-TemporaryFile
-    ffmpeg.exe -hide_banner -stats -i $video -c:v prores -profile:v 3 -vf $filter -f matroska $tempFile
+    ffmpeg.exe -hide_banner -stats -y -i $video -c:v prores -profile:v 3 -vf $filter -f matroska $tempFile
     ffplay.exe $tempFile
     Remove-Item $tempFile
     
