@@ -20,7 +20,7 @@ Please complete the following instructions before the start of the workshop. Tot
 1. Go the [Sample Files for the workshop](https://drive.google.com/drive/folders/1zfI0DqqGpHhDPTpFqg7G4urSY1LFGKsP?usp=sharing)
 2. Click the name of the folder `sample_files` and select Download from the drop-down menu.
 3. Open the folder where the ZIP file was downloaded (probably your Downloads folder) in a new window and unzip the file.
-4. Open the unzipped folder, copy the folders named `sample_files`, and paste it into the `ffmpeg-artschool-main` folder.
+4. Open the unzipped folder, copy the folder named `sample_files`, and paste it into the `ffmpeg-artschool-main` folder.
 
 ## Install or update ffmpeg
 These instructions differ depending on what operating system you are using.
