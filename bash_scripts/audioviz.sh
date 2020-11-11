@@ -25,15 +25,16 @@ $(basename "${0}")
 EOF
 }
 
+inputFrameSizeX=$(ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 "${3}") #gets input file dimensions
 
 filterString="\
-color=0x808080:s=720x480,format=rgb24,loop=-1:size=2[base];\
-[0:a]showcqt=s=720x480:basefreq=73.41:endfreq=1567.98,format=rgb24,geq='p(X,363)',setsar=1,colorkey=black:similarity=0.1[vcqt];\
+color=0x808080:s=${inputFrameSizeX},format=rgb24,loop=-1:size=2[base];\
+[0:a]showcqt=s=${inputFrameSizeX}:basefreq=73.41:endfreq=1567.98,format=rgb24,geq='p(X,363)',setsar=1,colorkey=black:similarity=0.1[vcqt];\
 [base][vcqt]overlay,split[vcqt1][vcqt2];\
-[1:v]scale=720x480,format=rgb24,setsar=1[bgv];\
+[1:v]scale=${inputFrameSizeX},format=rgb24,setsar=1[bgv];\
 [bgv][vcqt1][vcqt2]displace=edge=blank,format=yuv420p10le[v]"
 
-filterStringDisplay="color=0x808080:s=720x480,format=rgb24,loop=-1:size=2[base];[0:a]showcqt=s=720x480:basefreq=73.41:endfreq=1567.98,format=rgb24,geq='p(X,363)',setsar=1,colorkey=black:similarity=0.1[vcqt];[base][vcqt]overlay,split[vcqt1][vcqt2];[1:v]scale=720x480,format=rgb24,setsar=1[bgv];[bgv][vcqt1][vcqt2]displace=edge=blank,format=yuv420p10le[v]"
+filterStringDisplay="color=0x808080:s=${inputFrameSizeX},format=rgb24,loop=-1:size=2[base];[0:a]showcqt=s=${inputFrameSizeX}:basefreq=73.41:endfreq=1567.98,format=rgb24,geq='p(X,363)',setsar=1,colorkey=black:similarity=0.1[vcqt];[base][vcqt]overlay,split[vcqt1][vcqt2];[1:v]scale=${inputFrameSizeX},format=rgb24,setsar=1[bgv];[bgv][vcqt1][vcqt2]displace=edge=blank,format=yuv420p10le[v]"
 
 
 while getopts "hps" OPT ; do
