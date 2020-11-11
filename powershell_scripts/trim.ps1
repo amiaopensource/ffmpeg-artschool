@@ -75,14 +75,14 @@ if (($h) -or ($PSBoundParameters.Values.Count -eq 0 -and $args.count -eq 0)){
 
 # Create trim string
 
-$trim = "-ss $begin -to $end"
+$trim = "ss $begin.000 -to $end.000"
 
 
 # Run command
 
 if ($p) {
     $tempFile = New-TemporaryFile
-    ffmpeg.exe -hide_banner -stats -i $video $trim -f matroska $tempFile
+    ffmpeg.exe -hide_banner -stats -i $video -ss $begin -to $end -f matroska $tempFile
     ffplay.exe $tempFile
     Remove-Item $tempFile
     
@@ -91,7 +91,7 @@ if ($p) {
 
 *******START FFPLAY COMMANDS*******
 
-ffmpeg.exe -hide_banner -stats -y -i $video $trim -f matroska $tempFile
+ffmpeg.exe -hide_banner -stats -y -i $video -ss $begin -to $end -f matroska $tempFile
 ffplay $tempFile.FullName
 Remove-Item $tempFile
 
@@ -101,14 +101,14 @@ Remove-Item $tempFile
 "@
 }
 else {
-    ffmpeg.exe -hide_banner -i $video $trim -c copy -map 0 "$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_trim.mov"
+    ffmpeg.exe -hide_banner -i $video -ss $begin -to $end -c copy -map 0 "$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_trim.mov"
 
     Write-Host @"
 
 
 *******START FFMPEG COMMANDS*******
 
-ffmpeg.exe -hide_banner -i $video $trim -c copy -map 0 `"$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_trim.mov`"
+ffmpeg.exe -hide_banner -i $video -ss $begin -to $end -c copy -map 0 `"$(Join-path (Get-Item $video).DirectoryName -ChildPath (Get-Item $video).BaseName)_trim.mov`"
 
 ********END FFMPEG COMMANDS********
 
