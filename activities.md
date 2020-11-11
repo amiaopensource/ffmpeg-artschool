@@ -143,7 +143,7 @@ ffmpeg -i bloodmoon_a.mov -i bloodmoon_b.mov -filter_complex "[0:v:0]tblend=all_
 ```
 ./blend.sh -s bloodmoon_b_tblend.mov bloodmoon_b.mov vividlight
 ``` 
-7. Use this new combo file with either ```pseudocolor.sh``` or combine it with an audio file to change things up with ```audioviz.sh```!
+7. Use this new combo file with either ```pseudocolor.sh``` or combine it with an audio file to change things up with ```audioviz.sh```!(note: audio will not play back with -p, only with -s)
 ```
 ./audioviz.sh -p jackhammer.mp3 bloodmoon_b_blend.mov
 ```
