@@ -8,6 +8,8 @@ nav_order: 5
 
 This document will describe how to run certain scripts for artistic effects!
 
+***Note***: The commands in these activities assume you are operating out of the root directory of your copy of the ffmpeg-art-school repo, which should be called `ffmpeg-artschool-main` (which contains `sample_audio_files` and `sample_video_files` directories), and also that you have moved the directory of additional `sample_files` that you downloaded into that root directory. 
+
 ## Activity 0: Testing your Installation with the Game of Life
 
 Before doing anything else, a good first activity (carried over from the Getting Started page) is to make sure you have FFmpeg installed properly. To do this, open a terminal or powershell window and `cd` into the `ffmpeg-artschool-main` directory (`cd` space drag-and-drop `ffmpeg-artschool-main` is a solid workable approach).
@@ -183,10 +185,10 @@ To us, this results in video that has a distinct modern art vibe; it's all color
 
 What kinds of results did you get, and did you dig them?
 
-## Activity 4: Tblend, Pseudocolor, Showcqt
+## Activity 4: Tblend | Pseudocolor | Showcqt + Displace
 
 
-1. Find ```bloodmoon_a.mov``` and ```bloodmoon_b.mov``` in the Sample Videos folder
+1. Find ```bloodmoon_a.mov``` and ```bloodmoon_b.mov``` in the `sample_files` folder.
 2. Use tblend’s difference128 filter and hstack to compare these two similar videos and see if the bad frame/s jump out from behind the gray.
 ```
 ffmpeg -i bloodmoon_a.mov -i bloodmoon_b.mov -filter_complex "[0:v:0]tblend=all_mode=difference128[a];[1:v:0]tblend=all_mode=difference128[b];[a][b]hstack[out]" -map [out] -f nut -c:v rawvideo - | ffplay -
