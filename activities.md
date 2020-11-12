@@ -219,12 +219,12 @@ ffplay ./video_files/bloodmoon_b_tblend_vividlight.mov -vf signalstats="out=brng
 ffplay ./audio_files/cage_harmonies_audioviz.mov
 ```
 
-Additionally, you can use your illegal art to play with ```pseudocolor.sh```
+7. Additionally, you can use your illegal art to play with ```pseudocolor.sh```
 ```
 ./bash_scripts/pseudocolor.sh -p ./video_files/bloodmoon_b_tblend_vividlight.mov
 ```
 
-You can make things more interesting by adjusting the `eq` or YUV thresholds in that script (I recommend making a copy of it first and working on your copy). Example:
+8. You can make things more interesting by adjusting the `eq` or YUV thresholds in that script (I recommend making a copy of it first and working on your copy). Example:
 ```
 filter_string="eq=brightness=0.1:saturation=5,pseudocolor='if(between(val,ymax*0.75,amax),lerp(ymin*10,ymax,(val-ymax)/(amax-ymax)),-2):if(between(val,ymax*0.75,amax),lerp(umax,umin*10,(val-ymax)/(amax-ymax)),-2):if(between(val,ymax*0.75,amax),lerp(vmin*5,vmax,(val-ymax)/(amax-ymax)),-2):-2'"
 ```
