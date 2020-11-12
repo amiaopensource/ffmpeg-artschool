@@ -96,7 +96,7 @@ With these three scripts working, you should be ready for all the colorful and c
 ### Chromakey
 The Chromakey effect is used to remove any pixel that is a specific color from a video and turn it transparent. Once the color has been turned transparent the video can be overlayed over another video file and the second file will appear "behind" the removed pixels. The bash script chromakey.sh takes care of the chromakey AND the overlay at once. Let's take it step by step.
 
-1. Find any file in the `video_files` directory that has `greenscreen_` in the name. We'll use `greenscreen_skulls` for the main file. You can use any other video file for the second. We'll use `Cat01.mov` for this example
+1. Find any file in the `video_files` directory that starts with `greenscreen_` of `green_`. We'll use `greenscreen_diamond_02.mov` for the main file. You can use any other video file for the second. We'll use `Cat01.mov` for this example
 2. We'll see what it looks like to overlay two files without Chromakey
 ```
 ffmpeg -i ./video_files/Cat01.mov -i ./video_files/greenscreen_diamond_02.mov -c:v prores -filter_complex '[0:v][1:v]overlay,format=yuv422p10le[v]' -map '[v]' -f matroska - | ffplay -
