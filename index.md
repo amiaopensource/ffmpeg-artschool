@@ -8,7 +8,9 @@ nav_order: 1
 
 <img src="{{ site.baseurl }}/images/rainbowjellies.gif">
 
-Please complete the following instructions before the start of the workshop. Total setup time is approximately 15 minutes.
+Please complete the following instructions before the start of the workshop. Total setup time is approximately 25 minutes.
+
+The setup instructions for Windows PCs have been [recorded as a video](https://www.youtube.com/watch?v=Lq8OLnaWqj8).
 
 ## Download the scripts for the workshop
 1. Go the [Github repository for the workshop](https://github.com/iamdamosuzuki/ffmpeg-artschool)
@@ -45,14 +47,13 @@ These instructions differ depending on what operating system you are using.
 * If the first line of output starts with `ffmpeg version 3` or lower, you will have to update your installation of ffmpeg. Continue to step 3
 * If the first line of output starts with `ffmpeg version 4`, you have the version of ffmpeg required for the workshop. Go to Testing Your Setup.
 3. We will use scoop to install or upgrade ffmpeg and install ported versions of common bash programs (coreutils). To check you have scoop installed, type `scoop` and press enter.
-	* If the output says `command not found`, you will have to install scoop. Copy the following command, paste it into your Powershell window, and run it. While this command runs, you may have to enter your password or respond `y` several times in order to grant permission for the installation to complete. Then, continue to step 4
+	* If the output says `command not found`, you will have to install scoop. Copy the following command, paste it into your Powershell window, and run it. Then, continue to step 4
 `iwr -useb get.scoop.sh | iex`
 		* If you get an error, you will need to grant permissions to run the installation script. Copy the following command, paste it into your Powershell window, and run it.
 `Set-ExecutionPolicy RemoteSigned -scope CurrentUser`
 	* Otherwise, continue to step 4.
 4. In the Powershell window, type `scoop install ffmpeg coreutils` and press enter.
 	* If ffmpeg is already installed, type `scoop update ffmpeg` and press enter.
-5.
 
 ## Test that everything is working
 ### Mac/Linux
@@ -63,6 +64,8 @@ These instructions differ depending on what operating system you are using.
 
 ### Windows
 1. In the terminal, change your working directory to the workshop folder. For example, if you downloaded and unzipped the github repository to your Downloads folder, you would use the following command `cd ~\Downloads\ffmpeg-artschool-main\ffmpeg-artschool-main\`
-2. Test a script
+2. Unblock the scripts to prevent Windows from blocking them for security reasons.
+`Unblock-File .\powershell_scripts\*` 
+3. Test a script
 `.\powershell_scripts\life.ps1 -p`
 	* If you see any errors, please email the workshop organizers.
