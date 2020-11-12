@@ -201,12 +201,10 @@ ffmpeg -i ./video_files/bloodmoon_a.mov -i ./video_files/bloodmoon_b.mov -filter
 ```
 ./bash_scripts/tblend.sh -s ./video_files/bloodmoon_b.mov vividlight
 ```
-
 4. For educational purposes, we'll check out just how illegal the video we made is, using signalstats brng option:
 ```
 ffplay ./video_files/bloodmoon_b_tblend_vividlight.mov -vf signalstats="out=brng:color=turquoise"
 ```
-
 5. Now let's use tblend to have fun with the output file, ```bloodmoon_b_tblend_vividlight.mov``` using xor mode:
 ```
 ./bash_scripts/tblend.sh -s ./video_files/bloodmoon_b_tblend_vividlight.mov xor
@@ -217,10 +215,16 @@ ffplay ./video_files/bloodmoon_b_tblend_vividlight.mov -vf signalstats="out=brng
 ./bash_scripts/audioviz.sh -s ./audio_files/cage_harmonies.mp3 ./video_files/bloodmoon_b_tblend_vividlight_tblend_xor.mov
 ```
   * Audioviz.sh outputs to the location of input 1 (so, wherever the audio file lives), let's play it!
+```
+ffplay ./audio_files/cage_harmonies_audioviz.mov
+```
 
-```ffplay ./audio_files/age_harmonies_audioviz.mov```
+Additionally, you can use your illegal art to play with ```pseudocolor.sh```
+```
+./bash_scripts/pseudocolor.sh -p ./video_files/bloodmoon_b_tblend_vividlight.mov
+```
 
-7. Additionally, you can use your illegal art to play with ```pseudocolor.sh```, and make things more interesting by adjusting the `eq` or YUV thresholds in that script (I reccommend making a copy of it first and working on your copy). Example:
+You can make things more interesting by adjusting the `eq` or YUV thresholds in that script (I recommend making a copy of it first and working on your copy). Example:
 ```
 filter_string="eq=brightness=0.1:saturation=5,pseudocolor='if(between(val,ymax*0.75,amax),lerp(ymin*10,ymax,(val-ymax)/(amax-ymax)),-2):if(between(val,ymax*0.75,amax),lerp(umax,umin*10,(val-ymax)/(amax-ymax)),-2):if(between(val,ymax*0.75,amax),lerp(vmin*5,vmax,(val-ymax)/(amax-ymax)),-2):-2'"
 ```
