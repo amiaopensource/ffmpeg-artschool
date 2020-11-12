@@ -104,11 +104,11 @@ ffmpeg -i ./video_files/Cat01.mov -i ./video_files/greenscreen_diamond_02.mov -c
 3. Well that wasn't very fun! All you'll see is the original greenscreen video. This is just to prove that you can't overlay files with out the chromakey filter.
 4. Now we'll see what it looks like to remove the green in the main file with with the following command
 ```
-ffmpeg -i ./video_files/greenscreen_diamond_02.mov -c:v prores -filter_complex 'chromakey=0x00FF00:0.4:0.1' -f matroska - | ffplay -
+ffmpeg -i ./video_files/greenscreen_diamond_02.mov -c:v prores -filter_complex 'chromakey=0x00FF00:0.25:0.1' -f matroska - | ffplay -
 ```
 5. You should see that the green has all been removed. The black that's leftover is a special black. It's not actually a black pixel, but an absence of any video data at all! Now see what it looks like when we perform the overlay after chromakeying with the following command:
 ```
-ffmpeg -i ./video_files/Cat01.mov -i ./video_files/greenscreen_diamond_02.mov -c:v prores -filter_complex '[1:v]chromakey=0x00FF00:0.4:0.1[1v];[0:v][1v]overlay,format=yuv422p10le[v]' -map '[v]' -f matroska - | ffplay -
+ffmpeg -i ./video_files/Cat01.mov -i ./video_files/greenscreen_diamond_02.mov -c:v prores -filter_complex '[1:v]chromakey=0x00FF00:0.25:0.1[1v];[0:v][1v]overlay,format=yuv422p10le[v]' -map '[v]' -f matroska - | ffplay -
 ```
 6. Congrats! You've now chromakeyed a file and overlayed over another file! The script `chromakey.sh` will do this for you automatically, with many extra options. It will also automatically resize the files so that their dimensions match.
 
