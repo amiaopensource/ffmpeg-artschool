@@ -51,11 +51,11 @@ Most of the video files that we've provided have been normalized to ProRes/MOV, 
 1. Let's start here, with 'normalizing' one of the abnormal sample files we've provided, `fonda.mp4,` a brief clip from Jane Fonda's 1982 classic exercise video.
 
 ```
-./bash_scripts/proreser.sh -s ./video_files/fonda.mp4 
+./bash_scripts/proreser.sh -s ./video_files/fonda.mp4
 ```
 
 ```
-.\powershell_scripts\proreser.ps1 -s .\video_files\fonda.mp4 
+.\powershell_scripts\proreser.ps1 -s .\video_files\fonda.mp4
 ```
 By default, `proreser` will convert your file to ProRes, and by adding the `-s` flag, we're telling the script to save to an output file. `proreser` will also remove any audio tracks during this transformation, which may not be ideal for you, but will again help you avoid script fails down the road.
 
@@ -119,26 +119,44 @@ This echo effect is based off [a classic tape echo effect](https://www.youtube.c
 ```
 ./bash_scripts/echo.sh -p ./video_files/retrodancers.mov
 ```
+```
+.\powershell_scripts\echo.sh -p .\video_files\retrodancers.mov
+```
 
 2. For the sake of clarity, this is the same as running this command, which shows all the default arguments used (0.2 second echo, Level 2 trails, Blend mode 1)
 ```
 ./bash_scripts/echo.sh -p ./video_files/retrodancers.mov 0.2 2 1
 ```
+```
+.\powershell_scripts\echo.sh -p .\video_files\retrodancers.mov 0.2 2 1
+```
 3. Now let's adjust the time of the echo. We can set it to a much shorter time with more trails for a more washy effect:
 ```
 ./bash_scripts/echo.sh -p ./video_files/retrodancers.mov 0.05 5 1
+```
+```
+.\powershell_scripts\echo.sh -p .\video_files\retrodancers.mov0.05 5 1
 ```
 4. The fun really starts when we try different blend modes. Let's do the same short delay time with heavy trails, but using the Pheonix blend mode, which is mode 3
 ```
 ./bash_scripts/echo.sh -p ./video_files/retrodancers.mov 0.05 5 3
 ```
+```
+.\powershell_scripts\echo.sh -p .\video_files\retrodancers.mov 0.05 5 3
+```
 5. We can make it even crazier with the XOR blend mode: 5
 ```
 ./bash_scripts/echo.sh -p ./video_files/retrodancers.mov 0.05 5 7
 ```
+```
+.\powershell_scripts\echo.sh -p .\video_files\retrodancers.mov 0.05 5 7
+```
 6. XOR mode is wild! But we can actually make it a bit more interesting by really slowing down the delay time and reducing the trails. Let's try that
 ```
 ./bash_scripts/echo.sh -p ./video_files/retrodancers.mov 0.5 3 7
+```
+```
+.\powershell_scripts\echo.sh -p .\video_files\retrodancers.mov 0.5 3 7
 ```
 7. Now you've seen some of what echo can do, try experimenting!
 
