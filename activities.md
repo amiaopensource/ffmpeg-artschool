@@ -1,4 +1,3 @@
-@@ -0,0 +1,214 @@
 ---
 title: Activities and Exercises
 layout: default
@@ -9,7 +8,7 @@ nav_order: 5
 
 This document will describe how to run certain scripts for artistic effects!
 
-***Note***: The commands in these activities assume you are operating out of the root directory of your copy of the ffmpeg-art-school repo, which should be called `ffmpeg-artschool-main` (which contains `sample_audio_files` and `sample_video_files` directories), and also that you have moved the directory of additional `sample_files` that you downloaded into that root directory. 
+***Note***: The commands in these activities assume you are operating out of the root directory of your copy of the ffmpeg-art-school repo, which should be called `ffmpeg-artschool-main` (which contains `sample_audio_files` and `sample_video_files` directories), and also that you have moved the directory of additional `sample_files` that you downloaded into that root directory.
 
 ## Activity 0: Testing your Installation with the Game of Life
 
@@ -79,7 +78,7 @@ No Art School experience would be complete without transforming your art into so
 1. Let's give this a try, making a better looking Fonda crew jumping jack GIF:
 
 ```
-./bash_scripts/gif.sh -s ./video_files_fonda_prores_trim.mov 1
+./bash_scripts/gif.sh -s ./video_files/fonda_prores_trim.mov 1
 ```
 
 ```
@@ -171,17 +170,17 @@ A play on the Line 21 closed caption extraction tool sccyou, zoom/flip/scroller 
 
 1. Let's start with the original intention for this code, visualizing the closed captions in Jumpin' Jack Flash. Note: it's confusing, but "line 21" captions typically live around lines 1 or 2 in a digital video (the "21" refers to an analog space):
 ```
-./zoomflipscroller.sh -p ./video_files/jumpinjackflash.mov 1
+./bash_scripts/zoomflipscroller.sh -p ./video_files/jumpinjackflash.mov 1
 ```
 It's fun to be able to see captions in this way, and it helps us understand how this digital information gets "read" and transformed into text, but it's also worth checking out what other lines of video look like this close up.
 2. So let's try the script one more time, on the same video, but let's let zoom/flip/scroller randomly choose a line for us:
 ```
-./zoomflipscroller.sh -p ./video_files/jumpinjackflash.mov
+./bash_scripts/zoomflipscroller.sh -p ./video_files/jumpinjackflash.mov
 ```
 To us, this results in video that has a distinct modern art vibe; it's all color and lines and weird squiggly shapes.
 3. But what might be even MORE FUN is to try it out on our bitplaned Jumpin' Jack Flash:
 ```
-./zoomflipscroller.sh -p ./video_files/jumpinjackflash_bitplane.mov
+./bash_scripts/zoomflipscroller.sh -p ./video_files/jumpinjackflash_bitplane.mov
 ```
 
 What kinds of results did you get, and did you dig them?
