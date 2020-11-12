@@ -213,7 +213,7 @@ What kinds of results did you get, and did you dig them?
 1. Find ```bloodmoon_a.mov``` and ```bloodmoon_b.mov``` in the ```video_files``` directory.
 2. Use tblend’s difference128 filter and hstack to compare these two similar videos and see if the bad frame/s jump out from behind the gray.
 ```
-ffmpeg -i ./video_files/bloodmoon_a.mov -i ./video_files/bloodmoon_b.mov -filter_complex "[0:v:0]tblend=all_mode=difference128[a];[1:v:0]tblend=all_mode=difference128[b];[a][b]hstack[out]" -map [out] -f nut -c:v rawvideo - | ffplay -
+ffmpeg -i ./video_files/bloodmoon_a.mov -i ./video_files/bloodmoon_b.mov -filter_complex "[0:v:0]tblend=all_mode=difference128[a];[1:v:0]tblend=all_mode=difference128[b];[a][b]hstack[out]" -map "[out]" -f nut -c:v rawvideo - | ffplay -
 ```
 3. Now lets make some illegal art. To try out tblend.sh, let's use vividlight mode and with ```bloodmoon_b.mov``` in the sample videos folder:
 ```
