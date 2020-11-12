@@ -51,13 +51,13 @@ Most of the video files that we've provided have been normalized to ProRes/MOV, 
 1. Let's start here, with 'normalizing' one of the abnormal sample files we've provided, `fonda.mp4,` a brief clip from Jane Fonda's 1982 classic exercise video.
 
 ```
-./bash_scripts/proreser.sh -s ./video_files/fonda.mp4 640x480
+./bash_scripts/proreser.sh -s ./video_files/fonda.mp4 
 ```
 
 ```
-.\powershell_scripts\proreser.ps1 -s .\video_files\fonda.mp4 640x480
+.\powershell_scripts\proreser.ps1 -s .\video_files\fonda.mp4 
 ```
-By default, `proreser` will convert your file to ProRes, and by adding the `-s` flag, we're telling the script to save to an output file. By adding `640x480` to the end of the command, we're telling the script to resize the file to 640 pixels by 480 pixels. `proreser` will also remove any audio tracks during this transformation, which may not be ideal for you, but will again help you avoid script fails down the road.
+By default, `proreser` will convert your file to ProRes, and by adding the `-s` flag, we're telling the script to save to an output file. `proreser` will also remove any audio tracks during this transformation, which may not be ideal for you, but will again help you avoid script fails down the road.
 
 Ta-daah! You've now got a new Quicktime file, `fonda_prores.mov` that should be living alongside the MP4 original.
 
