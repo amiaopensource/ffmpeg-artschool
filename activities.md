@@ -214,7 +214,7 @@ ffplay ./video_files/bloodmoon_b_tblend_vividlight.mov -vf signalstats="out=brng
 6. Change things up and use ```audioviz.sh``` with your new output file ```bloodmoon_b_tblend_vividlight_tblend_xor.mov```!(
   * **Note**: if copy/pasting, keep in mind that your final video might be named differently if you used other blend modes than those mentioned above).
 ```
-./bash_scripts/audioviz.sh -s ./audio_files/cage_harmonies.mp3 ./video_files/bloodmoon_b_tblend_xor_blend.mov
+./bash_scripts/audioviz.sh -s ./audio_files/cage_harmonies.mp3 ./video_files/bloodmoon_b_tblend_vividlight_tblend_xor.mov
 ```
   * Audioviz.sh outputs to the location of input 1 (so, wherever the audio file lives), let's play it!
 
