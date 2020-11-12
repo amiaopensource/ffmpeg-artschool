@@ -188,7 +188,7 @@ What kinds of results did you get, and did you dig them?
 ## Activity 4: Tblend | Pseudocolor | Showcqt + Displace
 
 
-1. Find ```bloodmoon_a.mov``` and ```bloodmoon_b.mov``` in the ```sample_files``` folder.
+1. Find ```bloodmoon_a.mov``` and ```bloodmoon_b.mov``` in the ```video_files``` directory.
 2. Use tblend’s difference128 filter and hstack to compare these two similar videos and see if the bad frame/s jump out from behind the gray.
 ```
 ffmpeg -i ./video_files/bloodmoon_a.mov -i ./video_files/bloodmoon_b.mov -filter_complex "[0:v:0]tblend=all_mode=difference128[a];[1:v:0]tblend=all_mode=difference128[b];[a][b]hstack[out]" -map [out] -f nut -c:v rawvideo - | ffplay -
