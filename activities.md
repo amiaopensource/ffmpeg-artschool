@@ -1,3 +1,4 @@
+@@ -0,0 +1,214 @@
 ---
 title: Activities and Exercises
 layout: default
@@ -188,23 +189,27 @@ What kinds of results did you get, and did you dig them?
 ## Activity 4: Tblend | Pseudocolor | Showcqt + Displace
 
 
-1. Find ```bloodmoon_a.mov``` and ```bloodmoon_b.mov``` in the `sample_files` folder.
+1. Find ```bloodmoon_a.mov``` and ```bloodmoon_b.mov``` in the ```sample_files``` folder.
 2. Use tblend’s difference128 filter and hstack to compare these two similar videos and see if the bad frame/s jump out from behind the gray.
 ```
-ffmpeg -i bloodmoon_a.mov -i bloodmoon_b.mov -filter_complex "[0:v:0]tblend=all_mode=difference128[a];[1:v:0]tblend=all_mode=difference128[b];[a][b]hstack[out]" -map [out] -f nut -c:v rawvideo - | ffplay -
+ffmpeg -i ./video_files/bloodmoon_a.mov -i ./video_files/bloodmoon_b.mov -filter_complex "[0:v:0]tblend=all_mode=difference128[a];[1:v:0]tblend=all_mode=difference128[b];[a][b]hstack[out]" -map [out] -f nut -c:v rawvideo - | ffplay -
 ```
 3. Try out tblend.sh with the same experimental whimsy as the previous activity, playing around with various blend modes. Choose a mode and preview your result with ```bloodmoon_b.mov``` in the sample videos folder:
 ```
-./tblend.sh -p bloodmoon_b.mov xor
+./bash_scripts/tblendsh -p ./video_files/bloodmoon_b.mov xor
 ```
 
-5. Run again and ```-s``` if you like what you see.
-6. Blend your output file back with ```bloodmoon_b.mov``` and try the ```vividlight``` mode to add another layer of fun, like so:
+5. Run again and ```-s``` if you like what you see, and then run the following first with ```-p```, then with ```-s```:
+
+6. Blend your output file, ```bloodmoon_b_tblend_xor.mov```, back with ```bloodmoon_b.mov``` and try ```vividlight``` mode to add another layer of fun, like so:
 ```
-./blend.sh -s bloodmoon_b_tblend.mov bloodmoon_b.mov vividlight
+./bash_scripts/blend.sh -s ./video_files/bloodmoon_b_tblend_xor.mov ./video_files/bloodmoon_b.mov vividlight
 ```
-7. Use this new combo file with either ```pseudocolor.sh``` or combine it with an audio file to change things up with ```audioviz.sh```!(note: audio will not play back with -p, only with -s)
+7. Use this new input file with ```pseudocolor.sh``` and play around by adjusting thresholds in that script, or combine it with an audio file to change things up with ```audioviz.sh```!(**Note**: if copy/pasting, keep in mind that your final video might be named differently if you used other blend modes than those mentioned above). We're going to use audioviz.sh below.
 ```
-./audioviz.sh -p jackhammer.mp3 bloodmoon_b_blend.mov
+./bash_scripts/audioviz.sh -s ./audio_files/cage_harmonies.mp3 ./video_files/bloodmoon_b_tblend_xor_blend.mov
 ```
-Neato!
+8. Audioviz.sh outputs to the location of input 1 (so, wherever the audio file lives), let's play it!
+```ffplay ./audio_files/age_harmonies_audioviz.mov```
+
+**Neato!**
