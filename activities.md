@@ -10,6 +10,10 @@ This document will describe how to run certain scripts for artistic effects!
 
 ***Note***: The commands in these activities assume you are operating out of the root directory of your copy of the ffmpeg-art-school repo, which should be called `ffmpeg-artschool-main` (which contains `sample_audio_files` and `sample_video_files` directories), and also that you have moved the directory of additional `sample_files` that you downloaded into that root directory.
 
+### Art School Gallery
+Please add works of FFmpeg art to the [Gallery](https://drive.google.com/drive/folders/1qATrOpNoNwELoHKTRHSl9reshhqXT-Vt?usp=sharing) folder so we can share them with the community! Include your first and last name in the filename if you wish to be credited, like so: ```glitchMasterpiece_JaneDoe.gif```
+
+
 ## Activity 0: Testing your Installation with the Game of Life
 
 Before doing anything else, a good first activity (carried over from the Getting Started page) is to make sure you have FFmpeg installed properly. To do this, open a terminal or powershell window and `cd` into the `ffmpeg-artschool-main` directory (`cd` space drag-and-drop `ffmpeg-artschool-main` is a solid workable approach).
