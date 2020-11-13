@@ -31,12 +31,10 @@ EOF
 
 qualityMode="${3:-0}"         # selects the plane mode. We've created templates that make cool patterns
 
-if [[ $qualityMode = 0 ]]
-then
+if [[ $qualityMode = 0 ]]; then
    palletteFilter="fps=10,scale=500:-1:flags=lanczos,palettegen=stats_mode=diff"
    gifFilter="[0:v]fps=10,scale=500:-1:flags=lanczos[v],[v][1:v]paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle"
-elif [[ $qualityMode = 1 ]]
-then
+elif [[ $qualityMode = 1 ]];  then
    palletteFilter="fps=10,scale=500:-1:flags=lanczos,palettegen"
    gifFilter="[0:v]fps=10,scale=500:-1:flags=lanczos[v],[v][1:v]paletteuse"
 else
@@ -46,19 +44,17 @@ fi
 
 palette=$(dirname "$2")/palette.png
 
-while getopts "hs" OPT ; do
+while getopts ":hs" OPT ; do
     case "${OPT}" in
-      h) _usage ; exit 0
-        ;;
-      s)
-         ffmpeg -hide_banner -i "${2}" -filter_complex $palletteFilter "${palette}"
+      h) _usage ; exit 0 ;;
+      s) ffmpeg -hide_banner -i "${2}" -filter_complex $palletteFilter "${palette}"
          ffmpeg -hide_banner -i "${2}" -i "${palette}" -filter_complex $gifFilter "${2%.*}.gif"
          rm "${palette}"
          printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
          printf "ffmpeg -hide_banner -i '${2}' -filter_complex $palletteFilter '${palette}' \n" >&2
          printf "ffmpeg -hide_banner -i '${2}' -i "${palette}" -filter_complex $gifFilter '${2%.*}.gif' \n" >&2
-         printf "\n********END FFMPEG COMMANDS********\n\n " >&2
+         printf "\n********END FFMPEG COMMANDS********\n\n" >&2
          ;;
-      *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
+      *) echo "Error: bad option -${OPTARG}" ; _usage ; exit 1 ;;
     esac
-  done
+done

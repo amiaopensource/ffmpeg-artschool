@@ -106,26 +106,23 @@ fi
 lifeString="life=s=$size:mold=10:r=$rate:ratio=0.$ratio:death_color=$deathColor:life_color=$lifeColor,scale=640:480:flags=16"
 
 
-while getopts "hps" OPT ; do
+while getopts ":hps" OPT ; do
     case "${OPT}" in
-      h) _usage ; exit 0
-        ;;
-      p)
-        ffplay -f lavfi ${lifeString}
-        printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
-        echo "Rate: "$rate
-        echo "Ratio: 0."$ratio
-        printf "ffplay -f lavfi ${lifeString}" >&2
-        printf "\n********END FFPLAY COMMANDS********\n\n " >&2
-        ;;
-      s)
-        ffmpeg -f lavfi -i ${lifeString},format=yuv422p10le -c:v prores -profile:v 3 -t 10 life.mov
-        printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
-        echo "Rate: "$rate
-        echo "Ratio: 0."$ratio
-        printf "ffmpeg -f lavfi -i ${lifeString},format=yuv422p10le -c:v prores -profile:v 3 -t 10 life.mov \n" >&2
-        printf "\n********END FFMPEG COMMANDS********\n\n " >&2
-        ;;
-      *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
+      h) _usage ; exit 0 ;;
+      p) ffplay -f lavfi ${lifeString}
+         printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
+         echo "Rate: "$rate
+         echo "Ratio: 0."$ratio
+         printf "ffplay -f lavfi ${lifeString}" >&2
+         printf "\n********END FFPLAY COMMANDS********\n\n" >&2
+         ;;
+      s) ffmpeg -f lavfi -i ${lifeString},format=yuv422p10le -c:v prores -profile:v 3 -t 10 life.mov
+         printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
+         echo "Rate: "$rate
+         echo "Ratio: 0."$ratio
+         printf "ffmpeg -f lavfi -i ${lifeString},format=yuv422p10le -c:v prores -profile:v 3 -t 10 life.mov \n" >&2
+         printf "\n********END FFMPEG COMMANDS********\n\n" >&2
+         ;;
+      *) echo "Error: bad option -${OPTARG}" ; _usage ; exit 1 ;;
     esac
-  done
+done

@@ -58,36 +58,28 @@ blendMode="${5:-1}"           # Echo Mode
 echofeedback=""
 ptsDelay="0"
 
-if [[ $blendMode = 1 ]]
-then
+if [[ $blendMode = 1 ]]; then
   blendString="blend=all_mode=normal:c0_opacity=.5:c1_opacity=.5"
   formatMode="yuv422p10le"
-elif [[ $blendMode = 2 ]]
-then
+elif [[ $blendMode = 2 ]]; then
   blendString="blend=all_mode=screen"
   formatMode="gbrp10le"
-elif [[ $blendMode = 3 ]]
-then
+elif [[ $blendMode = 3 ]]; then
   blendString="blend=all_mode=phoenix"
   formatMode="gbrp10le"
-elif [[ $blendMode = 4 ]]
-then
+elif [[ $blendMode = 4 ]]; then
   blendString="blend=all_mode=softlight"
   formatMode="gbrp10le"
-elif [[ $blendMode = 5 ]]
-then
+elif [[ $blendMode = 5 ]]; then
   blendString="blend=all_mode=average:c0_opacity=.5:c1_opacity=.5"
   formatMode="yuv422p10le"
-elif [[ $blendMode = 6 ]]
-then
+elif [[ $blendMode = 6 ]]; then
   blendString="blend=all_mode=heat:c0_opacity=.75:c1_opacity=.25"
   formatMode="yuv422p10le"
-elif [[ $blendMode = 7 ]]
-then
+elif [[ $blendMode = 7 ]]; then
   blendString="blend=all_mode=xor"
   formatMode="yuv422p10le"
-elif [[ $blendMode = 8 ]]
-then
+elif [[ $blendMode = 8 ]]; then
   blendString="blend=all_mode=difference"
   formatMode="gbrp10le"
 else
@@ -106,22 +98,19 @@ for (( i=1;i<${trails};i++ ))
 echofilter="split[dry][toEcho];[toEcho]setpts=PTS+($echoRate/TB)[wet];${echofeedback}[wet]format=${formatMode}[wet];[dry]format=${formatMode}[dry];[wet][dry]$blendString[outRGB];[outRGB]format=yuv422p10le[out]"
 
 
-while getopts "hps" OPT ; do
+while getopts ":hps" OPT ; do
     case "${OPT}" in
-      h) _usage ; exit 0
-        ;;
-      p)
-         ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -filter_complex $echofilter -map '[out]' -f matroska - | ffplay -
+      h) _usage ; exit 0 ;;
+      p) ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -filter_complex $echofilter -map '[out]' -f matroska - | ffplay -
          printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
          printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -filter_complex \"$echofilter\" -map '[out]' -f matroska - | ffplay - \n" >&2
-         printf "********END FFPLAY COMMANDS********\n\n " >&2
+         printf "********END FFPLAY COMMANDS********\n\n" >&2
          ;;
-      s)
-         ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -filter_complex $echofilter -map '[out]' "${2%.*}_echo.mov"
+      s) ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -filter_complex $echofilter -map '[out]' "${2%.*}_echo.mov"
          printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
          printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -filter_complex \"$echofilter\" -map '[out]' '${2%.*}_echo.mov' \n" >&2
-         printf "********END FFMPEG COMMANDS********\n\n " >&2
+         printf "********END FFMPEG COMMANDS********\n\n" >&2
          ;;
-      *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
+      *) echo "Error: bad option -${OPTARG}" ; _usage ; exit 1 ;;
     esac
-  done
+done

@@ -35,10 +35,10 @@ $(basename "${0}")
 EOF
 }
 
-  user_luma="${3:-0}"    # luma - default vaue is 0
-  user_black="${4:-0}"    # black - default vaue is 0
-  user_chroma="${5:-0}"    # chroma - default vaue is 0
-  user_hue="${6:-0}"    # hue - default vaue is 0
+user_luma="${3:-0}"    # luma - default vaue is 0
+user_black="${4:-0}"   # black - default vaue is 0
+user_chroma="${5:-0}"  # chroma - default vaue is 0
+user_hue="${6:-0}"     # hue - default vaue is 0
 
 
 # This part scales the luma input into what lutyuv expects.
@@ -127,22 +127,19 @@ fi
 filter_complex="lutyuv=y=(val+${black})*${luma}:u=val:v=val,hue=h=${hue}:s=${chroma}"
 filter_complex_display="'lutyuv=y=(val+${black})*${luma}:u=val:v=val,hue=h=${hue}:s=${chroma}'"
 
-while getopts "hps" OPT ; do
+while getopts ":hps" OPT ; do
     case "${OPT}" in
-      h) _usage ; exit 0
-        ;;
-      p)
-         ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -filter_complex $filter_complex -f matroska - | ffplay -
+      h) _usage ; exit 0 ;;
+      p) ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -filter_complex $filter_complex -f matroska - | ffplay -
          printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
          printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -filter_complex $filter_complex_display -f matroska - | ffplay - \n" >&2
-         printf "********END FFPLAY COMMANDS********\n\n " >&2
+         printf "********END FFPLAY COMMANDS********\n\n" >&2
          ;;
-      s)
-         ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -filter_complex $filter_complex "${2%.*}_procamp.mov"
+      s) ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -filter_complex $filter_complex "${2%.*}_procamp.mov"
          printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
          printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -filter_complex $filter_complex_display '${2%.*}_procamp.mov' \n" >&2
-         printf "********END FFMPEG COMMANDS********\n\n " >&2
+         printf "********END FFMPEG COMMANDS********\n\n" >&2
          ;;
-      *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
+      *) echo "Error: bad option -${OPTARG}" ; _usage ; exit 1 ;;
     esac
-  done
+done

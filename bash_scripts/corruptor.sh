@@ -32,25 +32,22 @@ corruption="${3:-0.1}"    # Corruption Ammount [default: 0.1].
 keepTemp="${4:-0}"    # Whether to keep the temp file, boolean [default: 0]
 
 
-while getopts "hps" OPT ; do
+while getopts ":hps" OPT ; do
     case "${OPT}" in
-      h) _usage ; exit 0
-        ;;
-      p)
-         ffmpeg -hide_banner -i "${2}" -c copy -bsf noise=$corruption -f matroska - | ffplay -
+      h) _usage ; exit 0 ;;
+      p) ffmpeg -hide_banner -i "${2}" -c copy -bsf noise=$corruption -f matroska - | ffplay -
          printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
          printf "ffmpeg -hide_banner -i '$2' -c copy -bsf noise=$corruption -f matroska - | ffplay - \n" >&2
-         printf "********END FFPLAY COMMANDS********\n\n " >&2
+         printf "********END FFPLAY COMMANDS********\n\n" >&2
          ;;
-      s)
-         ffmpeg -hide_banner -i "${2}" -c copy -bsf noise=$corruption -y "${2%.*}_corruptor_temp.mov" && ffmpeg -i "${2%.*}_corruptor_temp.mov" -c:v prores -profile:v 3 -y "${2%.*}_corruptor.mov"
+      s) ffmpeg -hide_banner -i "${2}" -c copy -bsf noise=$corruption -y "${2%.*}_corruptor_temp.mov" && ffmpeg -i "${2%.*}_corruptor_temp.mov" -c:v prores -profile:v 3 -y "${2%.*}_corruptor.mov"
          printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
          printf "ffmpeg -hide_banner -i '$2' -c copy -bsf noise=$corruption -y '${2%.*}_corruptor_temp.mov' && ffmpeg -i '${2%.*}_corruptor_temp.mov' -c:v prores -profile:v 3 -y '${2%.*}_corruptor.mov' \n" >&2
-         printf "********END FFMPEG COMMANDS********\n\n " >&2
+         printf "********END FFMPEG COMMANDS********\n\n" >&2
          ;;
-      *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
+      *) echo "Error: bad option -${OPTARG}" ; _usage ; exit 1 ;;
     esac
-  done
+done
 
 if [[ "$keepTemp" != 1 ]]; then
    rm "${2%.*}_corruptor_temp.mov"

@@ -153,22 +153,17 @@ fi
   # Build filter string
 
 
-while getopts "hps" OPT ; do
+while getopts "ps" OPT ; do
     case "${OPT}" in
-      h) _usage ; exit 0
-        ;;
-      p)
-      ffmpeg -hide_banner ${inputStringSave} -c:v prores -profile:v 3 -filter_complex "${filterString}" -map [out] -f matroska - | ffplay -
-      printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
-      printf "ffmpeg -hide_banner ${inputStringPlay}  -c:v prores -profile:v 3 -filter_complex '${filterString}' -map [out] -f matroska - | ffplay - \n" >&2
-      printf "********END FFPLAY COMMANDS********\n\n " >&2
-        ;;
-      s)
-      ffmpeg -hide_banner ${inputStringSave} -c:v prores -profile:v 3 -filter_complex "${filterString}" -map [out] "${2%.*}_xstack_$outDim.mov"
-      printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
-      printf "ffmpeg -hide_banner ${inputStringPlay}  -c:v prores -profile:v 3 -filter_complex '${filterString}' -map [out] '${2%.*}_xstack_$outDim.mov' \n" >&2
-      printf "********END FFMPEG COMMANDS********\n\n " >&2
-        ;;
-      *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
+      p) ffmpeg -hide_banner ${inputStringSave} -c:v prores -profile:v 3 -filter_complex "${filterString}" -map [out] -f matroska - | ffplay -
+         printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
+         printf "ffmpeg -hide_banner ${inputStringPlay}  -c:v prores -profile:v 3 -filter_complex '${filterString}' -map [out] -f matroska - | ffplay - \n" >&2
+         printf "********END FFPLAY COMMANDS********\n\n " >&2
+         ;;
+      s) ffmpeg -hide_banner ${inputStringSave} -c:v prores -profile:v 3 -filter_complex "${filterString}" -map [out] "${2%.*}_xstack_$outDim.mov"
+         printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
+         printf "ffmpeg -hide_banner ${inputStringPlay}  -c:v prores -profile:v 3 -filter_complex '${filterString}' -map [out] '${2%.*}_xstack_$outDim.mov' \n" >&2
+         printf "********END FFMPEG COMMANDS********\n\n " >&2
+         ;;
     esac
-  done
+done
