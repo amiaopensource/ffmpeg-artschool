@@ -36,34 +36,28 @@ $(basename "${0}")
 EOF
 }
 
-function filter_complex()
-{
+filter_complex(){
+  local blendMode="${1:-addition128}"    # Default blend mode is addition128
 
-local blendMode="${1:-addition128}"    # Default blend mode is addition128
+  filter_string="[1:v]format=gbrp10le[v1];[0:v]format=gbrp10le[v0];[v1][v0]scale2ref[v1][v0];[v0][v1]blend=all_mode='$blendMode',format=yuv422p10le [v]"
 
-filter_string="[1:v]format=gbrp10le[v1];[0:v]format=gbrp10le[v0];[v1][v0]scale2ref[v1][v0];[v0][v1]blend=all_mode='$blendMode',format=yuv422p10le [v]"
-
-   # Return full filter string, with necessary prefix and suffix filterchains
-   printf '%s%s%s' $filter_string
-
+  # Return full filter string, with necessary prefix and suffix filterchains
+  printf '%s%s%s' $filter_string
 }
 
-while getopts "hps" OPT ; do
+while getopts ":hps" OPT ; do
     case "${OPT}" in
-      h) _usage ; exit 0
-        ;;
-      p)
-      ffmpeg -hide_banner -i "$3" -i "$2" -c:v prores -filter_complex "$(filter_complex "${@:4}")" -map '[v]' -f matroska - | ffplay -
-      printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
-      printf "ffmpeg -hide_banner -stats -i '$3' -i '$2' -c:v prores -filter_complex '$(filter_complex ${@:4})' -map '[v]' -f matroska - | ffplay - \n" >&2
-      printf "********END FFPLAY COMMANDS********\n\n " >&2
-        ;;
-      s)
-        ffmpeg -hide_banner -i "$3" -i "$2" -c:v prores -profile:v 3 -filter_complex "$(filter_complex "${@:4}")" -map '[v]' "${2%.*}_blend.mov"
-        printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
-        printf "ffmpeg -hide_banner -i '$3' -i '$2' -c:v prores -filter_complex '$(filter_complex ${@:4})' -map '[v]' ${2%.*}_blend.mov \n" >&2
-        printf "********END FFMPEG COMMANDS********\n\n " >&2
-        ;;
-      *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
+      h) _usage ; exit 0 ;;
+      p) ffmpeg -hide_banner -i "$3" -i "$2" -c:v prores -filter_complex "$(filter_complex "${@:4}")" -map '[v]' -f matroska - | ffplay -
+         printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
+         printf "ffmpeg -hide_banner -stats -i '$3' -i '$2' -c:v prores -filter_complex '$(filter_complex ${@:4})' -map '[v]' -f matroska - | ffplay - \n" >&2
+        printf "********END FFPLAY COMMANDS********\n\n" >&2
+         ;;
+      s) ffmpeg -hide_banner -i "$3" -i "$2" -c:v prores -profile:v 3 -filter_complex "$(filter_complex "${@:4}")" -map '[v]' "${2%.*}_blend.mov"
+         printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
+         printf "ffmpeg -hide_banner -i '$3' -i '$2' -c:v prores -filter_complex '$(filter_complex ${@:4})' -map '[v]' ${2%.*}_blend.mov \n" >&2
+         printf "********END FFMPEG COMMANDS********\n\n" >&2
+         ;;
+      *) echo "Error: bad option -${OPTARG}" ; _usage ; exit 1 ;;
     esac
-  done
+done

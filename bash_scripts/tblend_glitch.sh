@@ -43,22 +43,19 @@ elif [[ "$mode" == 4 ]]; then
   vf="scale=-2:720,tblend=all_mode=difference128,tblend=all_mode=average,tblend=all_mode=difference128,tblend=all_mode=average,tblend=all_mode=difference128,spp=4:10,tblend=all_mode=average,tblend=all_mode=difference128,tblend=all_mode=average,tblend=all_mode=difference128,tblend=all_mode=average,tblend=all_mode=difference128,spp=4:10,tblend=all_mode=average,tblend=all_mode=difference128,tblend=all_mode=average,tblend=all_mode=difference128,tblend=all_mode=average,tblend=all_mode=difference128,spp=4:10,tblend=all_mode=average,tblend=all_mode=difference128,tblend=all_mode=average,tblend=all_mode=difference128,tblend=all_mode=average,tblend=all_mode=difference128"
 fi
 
-while getopts "hps" OPT ; do
+while getopts ":hps" OPT ; do
     case "${OPT}" in
-      h) _usage ; exit 0
-        ;;
-      p)
-         ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -vf $vf -f matroska - | ffplay -
+      h) _usage ; exit 0 ;;
+      p) ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -vf $vf -f matroska - | ffplay -
          printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
          printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -vf $vf -f matroska - | ffplay - \n" >&2
-         printf "********END FFPLAY COMMANDS********\n\n " >&2
+         printf "********END FFPLAY COMMANDS********\n\n" >&2
          ;;
-      s)
-         ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -vf $vf "${2%.*}_tblend_glitch.mov"
+      s) ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -vf $vf "${2%.*}_tblend_glitch.mov"
          printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
          printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -vf $vf '${2%.*}_tblend_glitch.mov' \n" >&2
-         printf "********END FFMPEG COMMANDS********\n\n " >&2
+         printf "********END FFMPEG COMMANDS********\n\n" >&2
          ;;
-      *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
+      *) echo "Error: bad option -${OPTARG}" ; _usage ; exit 1 ;;
     esac
-  done
+done

@@ -58,26 +58,20 @@ function rainbowFilter()
    local colorBlend="${3:-0.1}"  # Colorkey blending level
    local filtergraph=""          # Used to store for-loop generated filterchains
                                  # Sets the state of the extractplanes filter
-   if [[ $1 =~ ^[0-9A-F]{6}$ ]]
-   then
+
+   if [[ $1 =~ ^[0-9A-F]{6}$ ]]; then
      key=$1
- elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "blue" ]]
-   then
+   elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "blue" ]]; then
      key="0000FF"
- elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "green" ]]
-   then
+   elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "green" ]]; then
      key="00FF00"
- elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "red" ]]
-   then
+   elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "red" ]]; then
      key="FF0000"
- elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "purple" ]]
-   then
+   elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "purple" ]]; then
      key="0000FF"
- elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "orange" ]]
-   then
+   elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "orange" ]]; then
      key="ff9900"
- elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "yellow" ]]
-   then
+   elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "yellow" ]]; then
      key="FFFF00"
    fi
 
@@ -111,22 +105,19 @@ function rainbowFilter()
    ${filtergraph}[bottom][original]overlay,format=yuv422p10le"
 }
 
-while getopts "hps" OPT ; do
+while getopts ":hps" OPT ; do
     case "${OPT}" in
-      h) _usage ; exit 0
-        ;;
-      p)
-         ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -vf "$(rainbowFilter "${@:3}")" -f nut - | ffplay -
+      h) _usage ; exit 0 ;;
+      p) ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -vf "$(rainbowFilter "${@:3}")" -f nut - | ffplay -
          printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
          printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -vf \"$(rainbowFilter "${@:3}")\" -f nut - | ffplay - \n" >&2
-         printf "********END FFPLAY COMMANDS********\n\n " >&2
+         printf "********END FFPLAY COMMANDS********\n\n" >&2
          ;;
-      s)
-         ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -vf "$(rainbowFilter "${@:3}")" "${2%.*}_rainbowTrails.mov"
+      s) ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -vf "$(rainbowFilter "${@:3}")" "${2%.*}_rainbowTrails.mov"
          printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
          printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -vf \"$(rainbowFilter "${@:3}")\" '${2%.*}_rainbowTrails.mov' \n" >&2
-         printf "********END FFMPEG COMMANDS********\n\n " >&2
+         printf "********END FFMPEG COMMANDS********\n\n" >&2
          ;;
-      *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
+      *) echo "Error: bad option -${OPTARG}" ; _usage ; exit 1 ;;
     esac
-  done
+done

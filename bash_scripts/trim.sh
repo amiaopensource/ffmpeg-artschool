@@ -29,19 +29,19 @@ $(basename "${0}")
 EOF
 }
 
-while getopts "ps" OPT ; do
+while getopts ":hps" OPT ; do
     case "${OPT}" in
-      p)
-         ffplay -hide_banner -i "${2} "-ss $3 -t $4
+      h) _usage ; exit 0 ;;
+      p) ffplay -hide_banner -i "${2} "-ss $3 -t $4
          printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
          printf "ffplay -hide_banner -i "$2" -ss $3 -t $4 \n" >&2
-         printf "********END FFPLAY COMMANDS********\n\n " >&2
-        ;;
-      s)
-         ffmpeg -hide_banner -i "${2}" -ss $3 -to $4 -c copy -map 0 "${2%.*}_trim.mov"
+         printf "********END FFPLAY COMMANDS********\n\n" >&2
+         ;;
+      s) ffmpeg -hide_banner -i "${2}" -ss $3 -to $4 -c copy -map 0 "${2%.*}_trim.mov"
          printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
          printf "ffmpeg -i '$2' -ss $3 -to $4 -c copy -map 0 '${2%.*}_trim.mov' \n" >&2
-         printf "********END FFMPEG COMMANDS********\n\n " >&2
-        ;;
+         printf "********END FFMPEG COMMANDS********\n\n" >&2
+         ;;
+      *) echo "Error: bad option -${OPTARG}" ; _usage ; exit 1 ;;
     esac
-  done
+done

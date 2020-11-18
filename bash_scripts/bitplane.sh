@@ -41,28 +41,25 @@ filter_string="format=yuv420p10le|yuv422p10le|yuv444p10le|yuv440p10le,lutyuv=y=i
 
 
 
-while getopts "hps" OPT ; do
+while getopts ":hps" OPT ; do
     case "${OPT}" in
-      h) _usage ; exit 0
-        ;;
-      p)
-        ffplay "${2}" -vf $filter_string
-        printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
-        echo "Y:" $Y
-        echo "U:" $U
-        echo "V:" $V
-        printf "ffplay '$2' -vf '$filter_string'" >&2
-        printf "\n********END FFPLAY COMMANDS********\n\n " >&2
-        ;;
-      s)
-        ffmpeg -hide_banner -i "${2}"  -c:v prores -profile:v 3 -an -vf $filter_string "${2%.*}_bitplane.mov"
-        printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
-        echo "Y:" $Y
-        echo "U:" $U
-        echo "V:" $V
-        printf "ffmpeg -hide_banner -i '$2'  -c:v prores -profile:v 3 -filter_complex '$filter_string' '${2%.*}_bitplane.mov'" >&2
-        printf "\n********END FFMPEG COMMANDS********\n\n " >&2
-        ;;
-      *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
+      h) _usage ; exit 0 ;;
+      p) ffplay "${2}" -vf $filter_string
+         printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
+         echo "Y:" $Y
+         echo "U:" $U
+         echo "V:" $V
+         printf "ffplay '$2' -vf '$filter_string'" >&2
+         printf "\n********END FFPLAY COMMANDS********\n\n" >&2
+         ;;
+      s) ffmpeg -hide_banner -i "${2}"  -c:v prores -profile:v 3 -an -vf $filter_string "${2%.*}_bitplane.mov"
+         printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
+         echo "Y:" $Y
+         echo "U:" $U
+         echo "V:" $V
+         printf "ffmpeg -hide_banner -i '$2'  -c:v prores -profile:v 3 -filter_complex '$filter_string' '${2%.*}_bitplane.mov'" >&2
+         printf "\n********END FFMPEG COMMANDS********\n\n" >&2
+         ;;
+      *) echo "Error: bad option -${OPTARG}" ; _usage ; exit 1 ;;
     esac
-  done
+done

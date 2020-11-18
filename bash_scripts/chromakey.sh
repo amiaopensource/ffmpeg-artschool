@@ -24,60 +24,49 @@ $(basename "${0}")
 EOF
 }
 
-function filter_complex()
-{
-  local key="${1:-00FF00}"    # Colorkey colour - default vaue is 0000FF or green
+filter_complex(){
+  local key="${1:-00FF00}"      # Colorkey colour - default vaue is 0000FF or green
   local colorSim="${2:-0.2}"    # Colorkey similarity level - default value is 0.2
   local colorBlend="${3:-0.1}"  # Colorkey blending level - default value is 0.1
 
-   # Update color variable according to user input
-   # This makes the matching case insensitive
-  if [[ $1 =~ ^[0-9A-F]{6}$ ]]
-  then
+  # Update color variable according to user input
+  # This makes the matching case insensitive
+  if [[ $1 =~ ^[0-9A-F]{6}$ ]]; then
     key=$1
-elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "blue" ]]
-  then
+  elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "blue" ]]; then
     key="0000FF"
-elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "green" ]]
-  then
+  elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "green" ]]; then
     key="00FF00"
-elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "red" ]]
-  then
+  elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "red" ]]; then
     key="FF0000"
-elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "purple" ]]
-  then
+  elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "purple" ]]; then
     key="0000FF"
-elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "orange" ]]
-  then
+  elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "orange" ]]; then
     key="ff9900"
-elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "yellow" ]]
-  then
+  elif [[ $(tr "[:upper:]" "[:lower:]" <<<"$1")  = "yellow" ]]; then
     key="FFFF00"
   fi
 
   # Build filter string
-filterString="[1:v][0:v]scale2ref[v1][v0];[v1]chromakey=0x$key:$colorSim:$colorBlend[1v];[v0][1v]overlay,format=yuv422p10le[v]"
+  filterString="[1:v][0:v]scale2ref[v1][v0];[v1]chromakey=0x$key:$colorSim:$colorBlend[1v];[v0][1v]overlay,format=yuv422p10le[v]"
 
   # Return full filter string, with necessary prefix and suffix filterchains
   printf '%s%s%s' $filterString
 }
 
-while getopts "hps" OPT ; do
+while getopts ":hps" OPT ; do
     case "${OPT}" in
-      h) _usage ; exit 0
-        ;;
-      p)
-      ffmpeg -hide_banner -i "${3}" -i "${2}" -c:v prores -profile:v 3 -filter_complex "$(filter_complex "${@:4}")" -map '[v]' -f matroska - | ffplay -
-      printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
-      printf "ffmpeg -hide_banner -i '$3' -i '$2' -c:v prores -filter_complex '$(filter_complex ${@:4})' -map '[v]' -f matroska - | ffplay - \n" >&2
-      printf "********END FFPLAY COMMANDS********\n\n " >&2
-        ;;
-      s)
-      ffmpeg -hide_banner -i "${3}" -i "${2}" -c:v prores -profile:v 3 -filter_complex "$(filter_complex "${@:4}")" -map '[v]' "${2%.*}_chromakey.mov"
-      printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
-      printf "ffmpeg -hide_banner -i '$3' -i '$2' -c:v prores -filter_complex '$(filter_complex ${@:4})' -map '[v]'  '${2%.*}_chromakey.mov' \n" >&2
-      printf "********END FFMPEG COMMANDS********\n\n " >&2
-        ;;
-      *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
+      h) _usage ; exit 0 ;;
+      p) ffmpeg -hide_banner -i "${3}" -i "${2}" -c:v prores -profile:v 3 -filter_complex "$(filter_complex "${@:4}")" -map '[v]' -f matroska - | ffplay -
+         printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
+         printf "ffmpeg -hide_banner -i '$3' -i '$2' -c:v prores -filter_complex '$(filter_complex ${@:4})' -map '[v]' -f matroska - | ffplay - \n" >&2
+         printf "********END FFPLAY COMMANDS********\n\n" >&2
+         ;;
+      s) ffmpeg -hide_banner -i "${3}" -i "${2}" -c:v prores -profile:v 3 -filter_complex "$(filter_complex "${@:4}")" -map '[v]' "${2%.*}_chromakey.mov"
+         printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
+         printf "ffmpeg -hide_banner -i '$3' -i '$2' -c:v prores -filter_complex '$(filter_complex ${@:4})' -map '[v]'  '${2%.*}_chromakey.mov' \n" >&2
+         printf "********END FFMPEG COMMANDS********\n\n" >&2
+         ;;
+      *) echo "Error: bad option -${OPTARG}" ; _usage ; exit 1 ;;
     esac
-  done
+done

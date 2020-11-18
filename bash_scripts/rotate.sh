@@ -55,22 +55,19 @@ EOF
 
 # Alter/replace FFmpeg command to desired specification
 
-while getopts "hps" OPT ; do
+while getopts ":hps" OPT ; do
     case "${OPT}" in
-      h) _usage ; exit 0
-        ;;
-      p)
-         ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -filter_complex $vf -f matroska - | ffplay -
+      h) _usage ; exit 0 ;;
+      p) ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -filter_complex $vf -f matroska - | ffplay -
          printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
          printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -filter_complex $vf -f matroska - | ffplay - \n" >&2
-         printf "********END FFPLAY COMMANDS********\n\n " >&2
+         printf "********END FFPLAY COMMANDS********\n\n" >&2
          ;;
-      s)
-         ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -filter_complex $vf "${2%.*}_rotate.mov"
+      s) ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -filter_complex $vf "${2%.*}_rotate.mov"
          printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
          printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -filter_complex $vf '${2%.*}_rotate.mov' \n" >&2
-         printf "********END FFMPEG COMMANDS********\n\n " >&2
+         printf "********END FFMPEG COMMANDS********\n\n" >&2
          ;;
-      *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
+      *) echo "Error: bad option -${OPTARG}" ; _usage ; exit 1 ;;
     esac
-  done
+done

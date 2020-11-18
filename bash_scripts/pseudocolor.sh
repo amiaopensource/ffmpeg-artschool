@@ -29,25 +29,22 @@ filter_string="eq=brightness=0.40:saturation=8,pseudocolor='if(between(val,ymax,
 filter_string_display="\"eq=brightness=0.40:saturation=8,pseudocolor='if(between(val,ymax,amax),lerp(ymin,ymax,(val-ymax)/(amax-ymax)),-1):if(between(val,ymax,amax),lerp(umax,umin,(val-ymax)/(amax-ymax)),-1):if(between(val,ymax,amax),lerp(vmin,vmax,(val-ymax)/(amax-ymax)),-1):-1'\""
 
 
-while getopts "hps" OPT ; do
+while getopts ":hps" OPT ; do
     case "${OPT}" in
-      h) _usage ; exit 0
-        ;;
-      p)
-         ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -filter_complex $filter_string -f matroska - | ffplay -
+      h) _usage ; exit 0 ;;
+      p) ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -filter_complex $filter_string -f matroska - | ffplay -
          printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
          printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -filter_complex $filter_string_display -f matroska - | ffplay - \n" >&2
-         printf "********END FFPLAY COMMANDS********\n\n " >&2
+         printf "********END FFPLAY COMMANDS********\n\n" >&2
          ;;
-      s)
-         ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -filter_complex $filter_string "${2%.*}_psuedocolor.mov"
+      s) ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -filter_complex $filter_string "${2%.*}_psuedocolor.mov"
          printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
          printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -filter_complex $filter_string_display '${2%.*}_psuedocolor.mov' \n" >&2
-         printf "********END FFMPEG COMMANDS********\n\n " >&2
+         printf "********END FFMPEG COMMANDS********\n\n" >&2
          ;;
-      *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
+      *) echo "Error: bad option -${OPTARG}" ; _usage ; exit 1 ;;
     esac
-  done
+done
 
 
 # gen's original code below the line here

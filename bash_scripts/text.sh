@@ -142,22 +142,19 @@ fi
 lavfiInput="color=size=640x480:duration=10:rate=25:color=$bgrColor"
 vf="drawtext=fontfile=/path/to/helvitca.ttf:fontsize=$textSize:fontcolor=$textColor:$posString:$textFilter"
 
-while getopts "hps" OPT ; do
+while getopts ":hps" OPT ; do
     case "${OPT}" in
-      h) _usage ; exit 0
-        ;;
-      p)
-         ffplay -hide_banner -f lavfi -i "${lavfiInput}" -vf "${vf}"
+      h) _usage ; exit 0 ;;
+      p) ffplay -hide_banner -f lavfi -i "${lavfiInput}" -vf "${vf}"
          printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
          printf "ffplay -hide_banner -f lavfi -i "${lavfiInput}" -vf \"${vf}\" \n" >&2
-         printf "********END FFPLAY COMMANDS********\n\n " >&2
+         printf "********END FFPLAY COMMANDS********\n\n" >&2
          ;;
-      s)
-         ffmpeg -hide_banner -f lavfi -i "${lavfiInput}" -vf "${vf}" -c:v prores -profile:v 3 'text.mov'
+      s) ffmpeg -hide_banner -f lavfi -i "${lavfiInput}" -vf "${vf}" -c:v prores -profile:v 3 'text.mov'
          printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
          printf "ffmpeg -hide_banner -f lavfi -i "${lavfiInput}" -vf \"${vf}\" -c:v prores -profile:v 3 'text.mov' \n" >&2
-         printf "********END FFMPEG COMMANDS********\n\n " >&2
+         printf "********END FFMPEG COMMANDS********\n\n" >&2
          ;;
-      *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
+      *) echo "Error: bad option -${OPTARG}" ; _usage ; exit 1 ;;
     esac
-  done
+done

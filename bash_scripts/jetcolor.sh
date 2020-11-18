@@ -41,25 +41,22 @@ filter_string="format=gbrp10le,eq=brightness=0.40:saturation=8,pseudocolor='if(b
 filter_string_display="\"format=gbrp10le,eq=brightness=0.40:saturation=8,pseudocolor='if(between(val,0,85),lerp(45,159,(val-0)/(85-0)),if(between(val,85,170),lerp(159,177,(val-85)/(170-85)),if(between(val,170,255),lerp(177,70,(val-170)/(255-170))))):if(between(val,0,85),lerp(205,132,(val-0)/(85-0)),if(between(val,85,170),lerp(132,59,(val-85)/(170-85)),if(between(val,170,255),lerp(59,100,(val-170)/(255-170))))):if(between(val,0,85),lerp(110,59,(val-0)/(85-0)),if(between(val,85,170),lerp(59,127,(val-85)/(170-85)),if(between(val,170,255),lerp(127,202,(val-170)/(255-170))))):i=$modeSelect',format=yuv422p10le\""
 
 
-while getopts "hps" OPT ; do
+while getopts ":hps" OPT ; do
     case "${OPT}" in
-      h) _usage ; exit 0
-        ;;
-      p)
-         ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -filter_complex $filter_string -f matroska - | ffplay -
+      h) _usage ; exit 0 ;;
+      p) ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -filter_complex $filter_string -f matroska - | ffplay -
          printf "\n\n*******START FFPLAY COMMANDS*******\n" >&2
          printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -filter_complex $filter_string_display -f matroska - | ffplay - \n" >&2
-         printf "********END FFPLAY COMMANDS********\n\n " >&2
+         printf "********END FFPLAY COMMANDS********\n\n" >&2
          ;;
-      s)
-         ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -filter_complex $filter_string "${2%.*}_jetcolor.mov"
+      s) ffmpeg -hide_banner -i "${2}" -c:v prores -profile:v 3 -filter_complex $filter_string "${2%.*}_jetcolor.mov"
          printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
          printf "ffmpeg -hide_banner -i '$2' -c:v prores -profile:v 3 -filter_complex $filter_string_display '${2%.*}_jetcolor.mov' \n" >&2
-         printf "********END FFMPEG COMMANDS********\n\n " >&2
+         printf "********END FFMPEG COMMANDS********\n\n" >&2
          ;;
-      *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
+      *) echo "Error: bad option -${OPTARG}" ; _usage ; exit 1 ;;
     esac
-  done
+done
 
 
 # gen's original code below the line here

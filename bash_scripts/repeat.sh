@@ -43,26 +43,22 @@ else
 fi
 
 
-for i in $( seq 1 $repeats )
-do
-  if [[ $i = 1 ]]
-  then
+for i in $( seq 1 $repeats ); do
+  if [[ $i = 1 ]]; then
     echo file \'$filepath\' > /tmp/catlist.txt
   else
     echo file \'$filepath\' >> /tmp/catlist.txt
   fi
 done
 
-while getopts "hs" OPT ; do
+while getopts ":hs" OPT ; do
     case "${OPT}" in
-      h) _usage ; exit 0
-        ;;
-      s)
-         ffmpeg -hide_banner -f concat -safe 0 -i /tmp/catlist.txt -c copy  "${2%.*}_looped_x${repeats}.${extension}"
+      h) _usage ; exit 0 ;;
+      s) ffmpeg -hide_banner -f concat -safe 0 -i /tmp/catlist.txt -c copy  "${2%.*}_looped_x${repeats}.${extension}"
          printf "\n\n*******START FFMPEG COMMANDS*******\n" >&2
          printf "ffmpeg -hide_banner -f concat -safe 0 -i /tmp/catlist.txt -c copy '${2%.*}_looped_x${repeats}.${extension}' \n" >&2
-         printf "********END FFMPEG COMMANDS********\n\n " >&2
+         printf "********END FFMPEG COMMANDS********\n\n" >&2
          ;;
-      *) echo "bad option -${OPTARG}" ; _usage ; exit 1 ;
+      *) echo "Error: bad option -${OPTARG}" ; _usage ; exit 1 ;;
     esac
-  done
+done
